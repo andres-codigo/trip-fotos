@@ -1,5 +1,11 @@
 <template>
-	<div :data-active="active" @dragenter.prevent="setActive" @dragover.prevent="setActive" @dragleave.prevent="setInactive" @drop.prevent="onDrop">
+	<div
+		:data-active="active"
+		@dragenter.prevent="setActive"
+		@dragover.prevent="setActive"
+		@dragleave.prevent="setInactive"
+		@drop.prevent="onDrop"
+	>
 		<slot :dropZoneActive="active"></slot>
 	</div>
 </template>
