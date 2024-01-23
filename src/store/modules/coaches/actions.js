@@ -7,7 +7,6 @@ export default {
 			description: data.desc,
 			hourlyRate: data.rate,
 			areas: data.areas,
-			files: data.files,
 		}
 
 		const token = context.rootGetters.token
@@ -56,7 +55,6 @@ export default {
 				description: responseData[key].description,
 				hourlyRate: responseData[key].hourlyRate,
 				areas: responseData[key].areas,
-				files: responseData[key].files,
 			}
 			coaches.push(coach)
 		}

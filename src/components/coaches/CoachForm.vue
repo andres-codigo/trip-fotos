@@ -74,19 +74,13 @@
 			</div>
 			<p v-if="!areas.isValid">At least one expertise must be selected.</p>
 		</div>
-		<AddFile @updated-files-list="updateFilesList" ref="child" />
 		<p v-if="!formIsValid">Please fix the above errors and submit again.</p>
 		<base-button>Register</base-button>
 	</form>
 </template>
 
 <script>
-import AddFile from '../file-uploader/AddFile.vue'
-
 export default {
-	components: {
-		AddFile,
-	},
 	emits: ['save-data'],
 	data() {
 		return {
@@ -109,9 +103,6 @@ export default {
 			areas: {
 				val: [],
 				isValid: true,
-			},
-			files: {
-				val: [],
 			},
 			formIsValid: true,
 		}
@@ -143,9 +134,6 @@ export default {
 				this.formIsValid = false
 			}
 		},
-		updateFilesList() {
-			this.files.val = this.$refs.child.files
-		},
 		submitForm() {
 			this.validateForm()
 
@@ -159,7 +147,6 @@ export default {
 				desc: this.description.val,
 				rate: this.rate.val,
 				areas: this.areas.val,
-				files: this.files.val,
 			}
 
 			this.$emit('save-data', formData)

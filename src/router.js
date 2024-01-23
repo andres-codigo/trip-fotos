@@ -1,13 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Coaches
+// import CoachDetail from './pages/coaches/CoachDetail.vue'
 import CoachesList from './pages/coaches/CoachesList.vue'
+// import CoachRegistration from './pages/coaches/CoachRegistration.vue'
+
+// Requests
+// import ContactCoach from './pages/requests/ContactCoach.vue'
+// import RequestsReceived from './pages/requests/RequestsReceived.vue'
 
 // Misc
 import NotFound from './pages/NotFound.vue'
 
 // Auth
-
+// import UserAuth from './pages/auth/UserAuth.vue'
 import store from './store/index.js'
 
 const CoachDetail = () => import('./pages/coaches/CoachDetail.vue')
