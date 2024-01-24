@@ -57,7 +57,7 @@ function onInputChange(e) {
 // Uploader
 import createUploader from '../../compositions/file-uploader'
 const { uploadFiles } = createUploader(
-	'https://vue-http-demo-68287-default-rtdb.firebaseio.com'
+	'https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/'
 )
 
 defineExpose({
