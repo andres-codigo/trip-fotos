@@ -63,15 +63,9 @@ export default {
 			isLoading: false,
 			error: null,
 			activeFilters: {
-				frontend: {
-					isActive: true,
-				},
-				backend: {
-					isActive: true,
-				},
-				career: {
-					isActive: true,
-				},
+				frontend: true,
+				backend: true,
+				career: true,
 			},
 		}
 	},
@@ -85,22 +79,13 @@ export default {
 		filteredCoaches() {
 			const coaches = this.$store.getters['coaches/coaches']
 			return coaches.filter((coach) => {
-				if (
-					this.activeFilters.frontend.isActive &&
-					coach.areas.includes('frontend')
-				) {
+				if (this.activeFilters.frontend && coach.areas.includes('frontend')) {
 					return true
 				}
-				if (
-					this.activeFilters.backend.isActive &&
-					coach.areas.includes('backend')
-				) {
+				if (this.activeFilters.backend && coach.areas.includes('backend')) {
 					return true
 				}
-				if (
-					this.activeFilters.career.isActive &&
-					coach.areas.includes('career')
-				) {
+				if (this.activeFilters.career && coach.areas.includes('career')) {
 					return true
 				}
 				return false
