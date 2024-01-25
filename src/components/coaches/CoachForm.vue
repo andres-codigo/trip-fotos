@@ -201,53 +201,122 @@ export default {
 	margin: 0.5rem 0;
 
 	label {
-		font-weight: bold;
 		display: block;
+		font-weight: bold;
 		margin-bottom: 0.5rem;
-	}
-
-	input[type='checkbox'] + label {
-		font-weight: normal;
-		display: inline;
-		margin: 0 0 0 0.5rem;
 	}
 
 	input,
 	textarea {
+		border: 1px solid $form-field-border;
 		display: block;
-		width: 100%;
-		border: 1px solid #ccc;
 		font: inherit;
+		width: 100%;
 		&:focus {
-			background-color: #f0e6fd;
+			background-color: $form-field-background-color-focus;
+			border-color: $form-field-border-focus;
 			outline: none;
-			border-color: #3d008d;
 		}
 	}
 
+	textarea {
+		height: 150px;
+		resize: none;
+	}
+
 	input[type='checkbox'] {
-		display: inline;
-		width: auto;
-		border: none;
-		&:focus {
-			outline: #3d008d solid 1px;
+		opacity: 0;
+		position: absolute;
+
+		// Text
+		& + label {
+			cursor: pointer;
+			display: inline-block;
+			font-weight: normal;
+			line-height: $checkbox-size;
+			padding-left: $checkbox-size + 10;
+			position: relative;
+			@include user-select(none);
+
+			// Checkbox
+			&:before {
+				background: transparent;
+				border-radius: 4px;
+				box-shadow: inset 0 0 0 1px $checkbox-border;
+				content: '';
+				display: block;
+				height: $checkbox-size;
+				left: 0;
+				position: absolute;
+				top: 0;
+				width: $checkbox-size;
+
+				transition: 200ms ease-in-out all;
+			}
+
+			// Tick
+			&:after {
+				border-bottom: 1px solid transparent;
+				border-right: 1px solid transparent;
+				content: '';
+				display: block;
+				height: 7px;
+				left: 8px;
+				position: absolute;
+				top: 5px;
+				transform: rotate(45deg);
+				width: 3px;
+
+				transition: 200ms ease-in-out all;
+			}
+		}
+
+		// Hover
+		& + label:hover {
+			color: #333;
+		}
+
+		// Focus
+		& + label:focus {
+			outline: none;
+		}
+
+		// Checked
+		&:checked {
+			& + label {
+				&:before {
+					background: $checkbox-selected;
+					box-shadow: none;
+				}
+				&:after {
+					border-color: white;
+				}
+			}
 		}
 	}
 
 	h3 {
-		margin: 0.5rem 0;
 		font-size: 1rem;
+		margin: 0.5rem 0;
 	}
 	&.invalid {
 		// label,
 		p {
-			color: red;
-			margin-top: 0;
+			color: $form-field-invalid;
+			margin-top: 0.25rem;
 		}
 
 		input,
 		textarea {
-			border: 1px solid red;
+			border: 1px solid $form-field-invalid;
+		}
+
+		input[type='checkbox'] {
+			& + label {
+				&:before {
+					box-shadow: inset 0 0 0 1px $form-field-invalid;
+				}
+			}
 		}
 	}
 }
