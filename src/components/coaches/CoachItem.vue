@@ -52,6 +52,7 @@ li {
 		margin: 0.5rem 0;
 	}
 }
+
 div {
 	margin: 0.5rem 0;
 }
