@@ -30,7 +30,7 @@ const router = createRouter({
 			component: CoachDetail,
 			props: true,
 			children: [
-				{ path: 'contact', component: ContactCoach }, // /coaches/c1/contact
+				{ path: 'contact', name: 'contact-coach', component: ContactCoach }, // /coaches/c1/contact
 			],
 		},
 		{

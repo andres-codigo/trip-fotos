@@ -1,3 +1,5 @@
+CoachesList
+
 <template>
 	<div>
 		<base-dialog
@@ -20,16 +22,16 @@
 						>Refresh</base-button
 					>
 					<base-button link to="/auth?redirect=register" v-if="!isLoggedIn"
-						>Login to Register as Coach</base-button
+						>Login to register as a coach</base-button
 					>
 					<base-button
 						v-if="isLoggedIn && !isCoach && !isLoading"
 						link
 						to="/register"
-						>Register as Coach</base-button
+						>Register as a Coach</base-button
 					>
 				</div>
-				<div v-if="isLoading">
+				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
 				<ul v-else-if="hasCoaches">
@@ -63,9 +65,15 @@ export default {
 			isLoading: false,
 			error: null,
 			activeFilters: {
-				frontend: true,
-				backend: true,
-				career: true,
+				frontend: {
+					isActive: true,
+				},
+				backend: {
+					isActive: true,
+				},
+				career: {
+					isActive: true,
+				},
 			},
 		}
 	},
@@ -79,13 +87,22 @@ export default {
 		filteredCoaches() {
 			const coaches = this.$store.getters['coaches/coaches']
 			return coaches.filter((coach) => {
-				if (this.activeFilters.frontend && coach.areas.includes('frontend')) {
+				if (
+					this.activeFilters.frontend.isActive &&
+					coach.areas.includes('frontend')
+				) {
 					return true
 				}
-				if (this.activeFilters.backend && coach.areas.includes('backend')) {
+				if (
+					this.activeFilters.backend.isActive &&
+					coach.areas.includes('backend')
+				) {
 					return true
 				}
-				if (this.activeFilters.career && coach.areas.includes('career')) {
+				if (
+					this.activeFilters.career.isActive &&
+					coach.areas.includes('career')
+				) {
 					return true
 				}
 				return false
@@ -121,14 +138,17 @@ export default {
 </script>
 
 <style scoped>
+.controls {
+	display: flex;
+	justify-content: space-between;
+}
+
 ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-
-.controls {
-	display: flex;
-	justify-content: space-between;
+.spinner-container {
+	margin: 5rem 0;
 }
 </style>
