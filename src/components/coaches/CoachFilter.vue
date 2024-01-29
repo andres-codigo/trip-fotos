@@ -9,7 +9,7 @@ CoachFilter
 			:key="key"
 		>
 			<input type="checkbox" :id="key" checked @change="setFilter" />
-			<label :for="key" class="sentenceCase">{{ key }}</label>
+			<label :for="key">{{ key }}</label>
 		</span>
 	</base-card>
 </template>
@@ -62,8 +62,12 @@ h2 {
 	}
 
 	label {
+		display: inline-block;
 		margin-left: 0.25rem;
 		text-transform: capitalize;
+		width: 4rem;
+
+		@include user-select(none);
 	}
 
 	&.active label {
