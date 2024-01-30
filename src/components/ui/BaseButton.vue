@@ -37,8 +37,8 @@ export default {
 <style scoped lang="scss">
 button,
 a {
-	background-color: #3a0061;
-	border: 1px solid #3a0061;
+	background-color: $color-ripe-plum;
+	border: 1px solid $color-ripe-plum;
 	border-radius: 30px;
 	color: $color-white;
 	cursor: pointer;
@@ -50,42 +50,42 @@ a {
 
 	&:hover,
 	&:active {
-		background-color: #640c9f;
-		border-color: #640c9f;
+		background-color: $color-ripe-eggplant;
+		border-color: $color-ripe-eggplant;
 	}
-}
 
-.flat {
-	background-color: transparent;
-	color: #3a0061;
-	border: none;
+	&.flat {
+		background-color: transparent;
+		color: $color-ripe-plum;
+		border: none;
 
-	&:hover,
-	&:active {
-		background-color: #edd2ff;
+		&:hover,
+		&:active {
+			background-color: $color-blue-chalk;
+		}
 	}
-}
 
-.outline,
-.disabled {
-	border-color: #640c9f;
-	color: #640c9f;
-}
-.outline {
-	background-color: transparent;
-
-	&:hover,
-	&:active {
-		background-color: #edd2ff;
+	&.outline,
+	&.disabled {
+		border-color: $color-ripe-eggplant;
+		color: $color-ripe-eggplant;
 	}
-}
-.disabled {
-	background-color: #ccc;
-	cursor: default;
+	&.outline {
+		background-color: transparent;
 
-	&:hover,
-	&:active {
-		background-color: #ccc;
+		&:hover,
+		&:active {
+			background-color: $color-blue-chalk;
+		}
+	}
+	&.disabled {
+		background-color: $color-silver;
+		cursor: default;
+
+		&:hover,
+		&:active {
+			background-color: $color-silver;
+		}
 	}
 }
 </style>
