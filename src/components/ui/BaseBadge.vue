@@ -17,9 +17,9 @@ export default {
 
 <style scoped lang="scss">
 .badge {
-	background-color: #ccc;
+	background-color: $color-silver;
 	border-radius: 30px;
-	color: #252525;
+	color: $color-mine-shaft;
 	display: inline-block;
 	margin-right: 0.5rem;
 	padding: 0.5rem 1.5rem;
@@ -32,15 +32,15 @@ export default {
 	}
 
 	&.frontend {
-		background-color: #3d008d;
+		background-color: $color-pigment-indigo;
 	}
 
 	&.backend {
-		background-color: #71008d;
+		background-color: $color-purple;
 	}
 
 	&.career {
-		background-color: #8d006e;
+		background-color: $color-fresh-eggplant;
 	}
 }
 </style>

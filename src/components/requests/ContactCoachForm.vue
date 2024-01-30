@@ -50,7 +50,10 @@ export default {
 	},
 	methods: {
 		clearValidity(input) {
-			if (this[input].val === '' || !this[input].val.includes('@')) {
+			if (
+				this[input].val === '' ||
+				(this[input].type === 'email' && !this[input].val.includes('@'))
+			) {
 				this[input].isValid = false
 			} else {
 				this[input].isValid = true
