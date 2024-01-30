@@ -50,7 +50,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .backdrop {
 	position: fixed;
 	top: 0;
@@ -73,12 +73,12 @@ dialog {
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
-	background-color: white;
+	background-color: $color-white;
 }
 
 header {
 	background-color: #3a0061;
-	color: white;
+	color: $color-white;
 	width: 100%;
 	padding: 1rem;
 }

@@ -208,13 +208,13 @@ export default {
 
 	input,
 	textarea {
-		border: 1px solid $form-field-border;
+		border: 1px solid $color-silver;
 		display: block;
 		font: inherit;
 		width: 100%;
 		&:focus {
-			background-color: $form-field-background-color-focus;
-			border-color: $form-field-border-focus;
+			background-color: $color-selago;
+			border-color: $color-pigment-indigo;
 			outline: none;
 		}
 	}
@@ -233,8 +233,8 @@ export default {
 			cursor: pointer;
 			display: inline-block;
 			font-weight: normal;
-			line-height: $checkbox-size;
-			padding-left: $checkbox-size + 10;
+			line-height: $checkbox-size-20px;
+			padding-left: $checkbox-size-20px + 10;
 			position: relative;
 			@include user-select(none);
 
@@ -242,14 +242,14 @@ export default {
 			&:before {
 				background: transparent;
 				border-radius: 4px;
-				box-shadow: inset 0 0 0 1px $checkbox-border;
+				box-shadow: inset 0 0 0 1px $color-alto;
 				content: '';
 				display: block;
-				height: $checkbox-size;
+				height: $checkbox-size-20px;
 				left: 0;
 				position: absolute;
 				top: 0;
-				width: $checkbox-size;
+				width: $checkbox-size-20px;
 
 				transition: 200ms ease-in-out all;
 			}
@@ -273,7 +273,7 @@ export default {
 
 		// Hover
 		& + label:hover {
-			color: #333;
+			color: $color-mine-shaft;
 		}
 
 		// Focus
@@ -285,11 +285,11 @@ export default {
 		&:checked {
 			& + label {
 				&:before {
-					background: $checkbox-selected;
+					background: $color-ripe-plum;
 					box-shadow: none;
 				}
 				&:after {
-					border-color: white;
+					border-color: $color-white;
 				}
 			}
 		}
@@ -302,19 +302,19 @@ export default {
 	&.invalid {
 		// label,
 		p {
-			color: $form-field-invalid;
+			color: $color-red;
 			margin-top: 0.25rem;
 		}
 
 		input,
 		textarea {
-			border: 1px solid $form-field-invalid;
+			border: 1px solid $color-red;
 		}
 
 		input[type='checkbox'] {
 			& + label {
 				&:before {
-					box-shadow: inset 0 0 0 1px $form-field-invalid;
+					box-shadow: inset 0 0 0 1px $color-red;
 				}
 			}
 		}

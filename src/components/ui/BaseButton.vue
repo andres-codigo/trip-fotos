@@ -34,56 +34,58 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 button,
 a {
-	text-decoration: none;
-	padding: 0.75rem 1.5rem;
-	font: inherit;
 	background-color: #3a0061;
 	border: 1px solid #3a0061;
-	color: white;
-	cursor: pointer;
 	border-radius: 30px;
-	margin-right: 0.5rem;
+	color: $color-white;
+	cursor: pointer;
 	display: inline-block;
-}
+	font: inherit;
+	padding: 0.75rem 1.5rem;
+	margin-right: 0.5rem;
+	text-decoration: none;
 
-a:hover,
-a:active,
-button:hover,
-button:active {
-	background-color: #270041;
-	border-color: #270041;
+	&:hover,
+	&:active {
+		background-color: #640c9f;
+		border-color: #640c9f;
+	}
 }
 
 .flat {
 	background-color: transparent;
 	color: #3a0061;
 	border: none;
+
+	&:hover,
+	&:active {
+		background-color: #edd2ff;
+	}
 }
 
 .outline,
 .disabled {
-	border-color: #270041;
-	color: #270041;
+	border-color: #640c9f;
+	color: #640c9f;
 }
 .outline {
 	background-color: transparent;
+
+	&:hover,
+	&:active {
+		background-color: #edd2ff;
+	}
 }
 .disabled {
 	background-color: #ccc;
 	cursor: default;
-}
 
-.flat:hover,
-.flat:active,
-.outline:hover,
-.outline:active {
-	background-color: #edd2ff;
-}
-.disabled:hover,
-.disabled:active {
-	background-color: #ccc;
+	&:hover,
+	&:active {
+		background-color: #ccc;
+	}
 }
 </style>
