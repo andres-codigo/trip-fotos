@@ -41,65 +41,67 @@ export default {
 <style scoped lang="scss">
 header {
 	align-items: center;
-	background-color: #3d008d;
+	background-color: $color-pigment-indigo;
 	display: flex;
 	height: 5rem;
 	justify-content: center;
 	width: 100%;
 
-	a {
-		border: 1px solid transparent;
-		color: #f391e3;
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		text-decoration: none;
-
-		&:hover {
-			color: #fff;
-		}
-	}
-}
-a.router-link-active {
-	border: 1px solid #fff;
-	color: #fff;
-	&:hover {
-		border: 1px solid #f391e3;
-		color: #f391e3;
-	}
-}
-
-h1 {
-	margin: 0;
-
-	a {
-		color: $color-white;
-		margin: 0;
-
-		&:hover,
-		&:active,
-		&.router-link-active {
-			border-color: transparent;
-		}
-	}
-}
-
-header nav {
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-	margin: auto;
-	width: 90%;
-
-	ul {
+	nav {
 		align-items: center;
 		display: flex;
-		justify-content: center;
-		list-style: none;
-		margin: 0;
-		padding: 0;
+		justify-content: space-between;
+		margin: auto;
+		width: 90%;
 
-		li {
-			margin: 0 0.5rem;
+		h1 {
+			margin: 0;
+
+			a {
+				color: $color-white;
+				text-decoration: none;
+				margin: 0;
+
+				&:hover,
+				&:active,
+				&.router-link-active {
+					border-color: transparent;
+				}
+			}
+		}
+
+		ul {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			li {
+				margin: 0 0.5rem;
+
+				a {
+					border: 1px solid transparent;
+					color: $color-lavender-magenta;
+					display: inline-block;
+					padding: 0.75rem 1.5rem;
+					text-decoration: none;
+
+					&:hover {
+						color: $color-white;
+					}
+
+					&.router-link-active {
+						border: 1px solid $color-white;
+						color: $color-white;
+						&:hover {
+							border: 1px solid $color-lavender-magenta;
+							color: $color-lavender-magenta;
+						}
+					}
+				}
+			}
 		}
 	}
 }
