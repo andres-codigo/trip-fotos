@@ -8,9 +8,7 @@
 				v-model.trim="email.val"
 				@blur="clearValidity('email')"
 			/>
-			<p :class="{ invalid: !email.isValid }" v-if="!email.isValid">
-				Please enter a valid email address.
-			</p>
+			<p v-if="!email.isValid">Please enter a valid email address.</p>
 		</div>
 		<div :class="['form-control', { invalid: !message.isValid }]">
 			<label for="message">{{ message.label }}</label>
@@ -94,41 +92,16 @@ form {
 	.form-control {
 		margin: 0.5rem 0;
 
-		label {
-			font-weight: bold;
-			display: block;
-			margin-bottom: 0.5rem;
-		}
-
-		input,
-		textarea {
-			border: 1px solid $color-silver;
-			display: block;
-			font: inherit;
-			padding: 0.15rem;
-			width: 100%;
-
-			&:focus {
-				background-color: $color-selago;
-				border-color: $color-pigment-indigo;
-				outline: none;
-			}
-		}
-
-		textarea {
-			height: 150px;
-			resize: none;
-		}
+		@include input-textarea;
 
 		&.invalid {
 			p {
-				color: $color-red;
-				margin-top: 0.25rem;
+				@include error-message;
 			}
 
 			input,
 			textarea {
-				border: 1px solid $color-red;
+				@include invalid-border;
 			}
 		}
 	}

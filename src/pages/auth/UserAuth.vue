@@ -8,18 +8,26 @@
 		</base-dialog>
 		<base-card>
 			<form @submit.prevent="submitForm">
-				<div class="form-control">
-					<label for="email">E-Mail</label>
-					<input type="email" id="email" v-model.trim="email" />
+				<div :class="['form-control', { invalid: !email.isValid }]">
+					<label for="email">{{ email.label }}</label>
+					<input
+						:type="email.type"
+						id="email"
+						v-model.trim="email.value"
+						@blur="clearValidity('email')"
+					/>
+					<p v-if="!email.isValid">{{ email.message }}</p>
 				</div>
-				<div class="form-control">
-					<label for="password">Password</label>
-					<input type="password" id="password" v-model.trim="password" />
+				<div :class="['form-control', { invalid: !password.isValid }]">
+					<label for="password">{{ password.label }}</label>
+					<input
+						:type="password.type"
+						id="password"
+						v-model.trim="password.value"
+						@blur="clearValidity('password')"
+					/>
+					<p v-if="!password.isValid">{{ password.message }}</p>
 				</div>
-				<p :class="{ invalid: !formIsValid }" v-if="!formIsValid">
-					Please enter a valid email and password (must be at least 6 characters
-					long).
-				</p>
 				<base-button>{{ submitButtonCaption }}</base-button>
 				<base-button type="button" mode="flat" @click="switchAuthMode">{{
 					switchModeButtonCaption
@@ -33,8 +41,22 @@
 export default {
 	data() {
 		return {
-			email: '',
-			password: '',
+			test: '',
+			email: {
+				label: 'E-Mail',
+				type: 'email',
+				value: '',
+				isValid: true,
+				message: '',
+			},
+			password: {
+				label: 'Password',
+				type: 'password',
+				value: '',
+				isValid: true,
+				message: '',
+			},
+			message: [],
 			formIsValid: true,
 			mode: 'login',
 			isLoading: false,
@@ -57,23 +79,70 @@ export default {
 			}
 		},
 	},
+	watch: {
+		'email.value'(value) {
+			this.email.value = value
+			this.validateEmail(value)
+		},
+		'password.value'(value) {
+			this.password.value = value
+			this.validatePassword(value)
+		},
+	},
 	methods: {
-		async submitForm() {
-			this.formIsValid = true
-			if (
-				this.email === '' ||
-				!this.email.includes('@') ||
-				this.password.length < 6
-			) {
+		validateEmail(value) {
+			if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+				this.email.isValid = true
+				this.formIsValid = true
+				this.email.message = ''
+			} else {
+				this.email.isValid = false
 				this.formIsValid = false
+				this.email.message = 'Please enter a valid email address.'
+			}
+		},
+		validatePassword(value) {
+			let difference = 8 - value.length
+			if (value.length < 8) {
+				this.password.isValid = false
+				this.formIsValid = false
+				this.password.message =
+					'Must be 8 characters! ' + difference + ' characters left'
+			} else {
+				this.password.isValid = true
+				this.formIsValid = true
+				this.password.message = ''
+			}
+		},
+		clearValidity(input) {
+			if (input === 'email') {
+				this.validateEmail(this.email.value)
+			} else {
+				this.validatePassword(this.password.value)
+			}
+		},
+		validateForm() {
+			this.formIsValid = true
+
+			if (this.email.value === '') {
+				this.validateEmail(this.email.value)
+			}
+			if (this.password.value === '') {
+				this.validatePassword(this.password.value)
+			}
+		},
+		async submitForm() {
+			this.validateForm()
+
+			if (!this.formIsValid) {
 				return
 			}
 
 			this.isLoading = true
 
 			const actionPayload = {
-				email: this.email,
-				password: this.password,
+				email: this.email.value,
+				password: this.password.value,
 			}
 
 			try {
@@ -112,31 +181,16 @@ form {
 	.form-control {
 		margin: 0.5rem 0;
 
-		label {
-			font-weight: bold;
-			margin-bottom: 0.5rem;
-			display: block;
-		}
+		@include input;
 
-		input {
-			display: block;
-			width: 100%;
-			font: inherit;
-			border: 1px solid $color-silver;
-			padding: 0.15rem;
-
-			&:focus {
-				border-color: $color-ripe-plum;
-				background-color: $color-magnolia;
-				outline: none;
-			}
-		}
-	}
-
-	p {
 		&.invalid {
-			color: $color-red;
-			margin-top: 0.25rem;
+			p {
+				@include error-message;
+			}
+
+			input {
+				@include invalid-border;
+			}
 		}
 	}
 }

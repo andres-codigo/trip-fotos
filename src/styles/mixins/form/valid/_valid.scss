@@ -1,0 +1,116 @@
+@mixin label() {
+	label {
+		display: block;
+		font-weight: bold;
+		margin-bottom: 0.5rem;
+	}
+}
+
+@mixin default-styles() {
+	border: 1px solid $color-silver;
+	display: block;
+	font: inherit;
+	padding: 0.15rem;
+	width: 100%;
+
+	&:focus {
+		border-color: $color-pigment-indigo;
+		background-color: $color-selago;
+		outline: none;
+	}
+}
+
+@mixin input() {
+	@include label();
+
+	input {
+		@include default-styles();
+	}
+}
+
+@mixin input-textarea() {
+	@include label();
+
+	input,
+	textarea {
+		@include default-styles();
+	}
+
+	textarea {
+		height: 150px;
+		resize: none;
+	}
+}
+
+@mixin checkbox() {
+	input[type='checkbox'] {
+		opacity: 0;
+		position: absolute;
+
+		// Text
+		& + label {
+			cursor: pointer;
+			display: inline-block;
+			font-weight: normal;
+			line-height: $checkbox-size-20px;
+			padding-left: $checkbox-size-20px + 10;
+			position: relative;
+			@include user-select(none);
+
+			// Checkbox
+			&:before {
+				background: transparent;
+				border-radius: 4px;
+				box-shadow: inset 0 0 0 1px $color-alto;
+				content: '';
+				display: block;
+				height: $checkbox-size-20px;
+				left: 0;
+				position: absolute;
+				top: 0;
+				width: $checkbox-size-20px;
+
+				transition: 200ms ease-in-out all;
+			}
+
+			// Tick
+			&:after {
+				border-bottom: 1px solid transparent;
+				border-right: 1px solid transparent;
+				content: '';
+				display: block;
+				height: 7px;
+				left: 8px;
+				position: absolute;
+				top: 5px;
+				transform: rotate(45deg);
+				width: 3px;
+
+				transition: 200ms ease-in-out all;
+			}
+		}
+
+		// Hover
+		& + label:hover {
+			color: $color-mine-shaft;
+		}
+
+		// Focus
+		& + label:focus {
+			outline: none;
+		}
+
+		// Checked
+		&:checked {
+			& + label {
+				&:before {
+					background: $color-ripe-plum;
+					box-shadow: none;
+				}
+				&:after {
+					border-color: $color-white;
+				}
+			}
+		}
+	}
+}
