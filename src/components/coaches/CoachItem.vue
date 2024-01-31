@@ -38,7 +38,7 @@ export default {
 
 <style scoped lang="scss">
 li {
-	border: 1px solid #424242;
+	border: 1px solid $color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
 	padding: 1rem;

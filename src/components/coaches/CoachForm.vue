@@ -69,7 +69,9 @@ CoachForm
 			</div>
 		</div>
 		<AddFile @updated-files-list="updateFilesList" ref="child" />
-		<p v-if="!formIsValid">Please fix the above errors and submit again.</p>
+		<p :class="{ invalid: !formIsValid }" v-if="!formIsValid">
+			Please fix the above errors and submit again.
+		</p>
 		<base-button>Register</base-button>
 	</form>
 </template>
@@ -150,6 +152,7 @@ export default {
 		},
 		validateForm() {
 			this.formIsValid = true
+
 			if (this.fields.firstName.val === '') {
 				this.fields.firstName.isValid = false
 				this.formIsValid = false
@@ -197,125 +200,136 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.form-control {
-	margin: 0.5rem 0;
+.card {
+	form {
+		.form-control {
+			margin: 0.5rem 0;
 
-	label {
-		display: block;
-		font-weight: bold;
-		margin-bottom: 0.5rem;
-	}
-
-	input,
-	textarea {
-		border: 1px solid $form-field-border;
-		display: block;
-		font: inherit;
-		width: 100%;
-		&:focus {
-			background-color: $form-field-background-color-focus;
-			border-color: $form-field-border-focus;
-			outline: none;
-		}
-	}
-
-	textarea {
-		height: 150px;
-		resize: none;
-	}
-
-	input[type='checkbox'] {
-		opacity: 0;
-		position: absolute;
-
-		// Text
-		& + label {
-			cursor: pointer;
-			display: inline-block;
-			font-weight: normal;
-			line-height: $checkbox-size;
-			padding-left: $checkbox-size + 10;
-			position: relative;
-			@include user-select(none);
-
-			// Checkbox
-			&:before {
-				background: transparent;
-				border-radius: 4px;
-				box-shadow: inset 0 0 0 1px $checkbox-border;
-				content: '';
+			label {
 				display: block;
-				height: $checkbox-size;
-				left: 0;
-				position: absolute;
-				top: 0;
-				width: $checkbox-size;
-
-				transition: 200ms ease-in-out all;
+				font-weight: bold;
+				margin-bottom: 0.5rem;
 			}
 
-			// Tick
-			&:after {
-				border-bottom: 1px solid transparent;
-				border-right: 1px solid transparent;
-				content: '';
+			input,
+			textarea {
+				border: 1px solid $color-silver;
 				display: block;
-				height: 7px;
-				left: 8px;
-				position: absolute;
-				top: 5px;
-				transform: rotate(45deg);
-				width: 3px;
-
-				transition: 200ms ease-in-out all;
-			}
-		}
-
-		// Hover
-		& + label:hover {
-			color: #333;
-		}
-
-		// Focus
-		& + label:focus {
-			outline: none;
-		}
-
-		// Checked
-		&:checked {
-			& + label {
-				&:before {
-					background: $checkbox-selected;
-					box-shadow: none;
-				}
-				&:after {
-					border-color: white;
+				font: inherit;
+				width: 100%;
+				&:focus {
+					background-color: $color-selago;
+					border-color: $color-pigment-indigo;
+					outline: none;
 				}
 			}
-		}
-	}
 
-	h3 {
-		font-size: 1rem;
-		margin: 0.5rem 0;
-	}
-	&.invalid {
-		// label,
+			textarea {
+				height: 150px;
+				resize: none;
+			}
+
+			input[type='checkbox'] {
+				opacity: 0;
+				position: absolute;
+
+				// Text
+				& + label {
+					cursor: pointer;
+					display: inline-block;
+					font-weight: normal;
+					line-height: $checkbox-size-20px;
+					padding-left: $checkbox-size-20px + 10;
+					position: relative;
+					@include user-select(none);
+
+					// Checkbox
+					&:before {
+						background: transparent;
+						border-radius: 4px;
+						box-shadow: inset 0 0 0 1px $color-alto;
+						content: '';
+						display: block;
+						height: $checkbox-size-20px;
+						left: 0;
+						position: absolute;
+						top: 0;
+						width: $checkbox-size-20px;
+
+						transition: 200ms ease-in-out all;
+					}
+
+					// Tick
+					&:after {
+						border-bottom: 1px solid transparent;
+						border-right: 1px solid transparent;
+						content: '';
+						display: block;
+						height: 7px;
+						left: 8px;
+						position: absolute;
+						top: 5px;
+						transform: rotate(45deg);
+						width: 3px;
+
+						transition: 200ms ease-in-out all;
+					}
+				}
+
+				// Hover
+				& + label:hover {
+					color: $color-mine-shaft;
+				}
+
+				// Focus
+				& + label:focus {
+					outline: none;
+				}
+
+				// Checked
+				&:checked {
+					& + label {
+						&:before {
+							background: $color-ripe-plum;
+							box-shadow: none;
+						}
+						&:after {
+							border-color: $color-white;
+						}
+					}
+				}
+			}
+
+			h3 {
+				font-size: 1rem;
+				margin: 0.5rem 0;
+			}
+			&.invalid {
+				// label,
+				p {
+					color: $color-red;
+					margin-top: 0.25rem;
+				}
+
+				input,
+				textarea {
+					border: 1px solid $color-red;
+				}
+
+				input[type='checkbox'] {
+					& + label {
+						&:before {
+							box-shadow: inset 0 0 0 1px $color-red;
+						}
+					}
+				}
+			}
+		}
+
 		p {
-			color: $form-field-invalid;
-			margin-top: 0.25rem;
-		}
-
-		input,
-		textarea {
-			border: 1px solid $form-field-invalid;
-		}
-
-		input[type='checkbox'] {
-			& + label {
-				&:before {
-					box-shadow: inset 0 0 0 1px $form-field-invalid;
-				}
+			&.invalid {
+				color: $color-red;
+				margin-top: 0.25rem;
 			}
 		}
 	}

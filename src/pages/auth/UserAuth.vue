@@ -16,7 +16,7 @@
 					<label for="password">Password</label>
 					<input type="password" id="password" v-model.trim="password" />
 				</div>
-				<p v-if="!formIsValid">
+				<p :class="{ invalid: !formIsValid }" v-if="!formIsValid">
 					Please enter a valid email and password (must be at least 6 characters
 					long).
 				</p>
@@ -104,35 +104,40 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 form {
 	margin: 1rem;
 	padding: 1rem;
-}
 
-.form-control {
-	margin: 0.5rem 0;
-}
+	.form-control {
+		margin: 0.5rem 0;
 
-label {
-	font-weight: bold;
-	margin-bottom: 0.5rem;
-	display: block;
-}
+		label {
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+			display: block;
+		}
 
-input,
-textarea {
-	display: block;
-	width: 100%;
-	font: inherit;
-	border: 1px solid #ccc;
-	padding: 0.15rem;
-}
+		input {
+			display: block;
+			width: 100%;
+			font: inherit;
+			border: 1px solid $color-silver;
+			padding: 0.15rem;
 
-input:focus,
-textarea:focus {
-	border-color: #3d008d;
-	background-color: #faf6ff;
-	outline: none;
+			&:focus {
+				border-color: $color-ripe-plum;
+				background-color: $color-magnolia;
+				outline: none;
+			}
+		}
+	}
+
+	p {
+		&.invalid {
+			color: $color-red;
+			margin-top: 0.25rem;
+		}
+	}
 }
 </style>

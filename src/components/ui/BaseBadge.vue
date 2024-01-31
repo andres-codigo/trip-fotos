@@ -15,28 +15,32 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .badge {
-	background-color: #ccc;
-	color: #252525;
+	background-color: $color-silver;
 	border-radius: 30px;
-	padding: 0.5rem 1.5rem;
+	color: $color-mine-shaft;
 	display: inline-block;
 	margin-right: 0.5rem;
-}
+	padding: 0.5rem 1.5rem;
+	@include user-select(none);
 
-.frontend {
-	background-color: #3d008d;
-	color: white;
-}
+	&.frontend,
+	&.backend,
+	&.career {
+		color: $color-white;
+	}
 
-.backend {
-	background-color: #71008d;
-	color: white;
-}
+	&.frontend {
+		background-color: $color-pigment-indigo;
+	}
 
-.career {
-	background-color: #8d006e;
-	color: white;
+	&.backend {
+		background-color: $color-purple;
+	}
+
+	&.career {
+		background-color: $color-fresh-eggplant;
+	}
 }
 </style>

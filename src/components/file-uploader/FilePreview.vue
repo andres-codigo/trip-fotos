@@ -32,75 +32,75 @@ defineEmits(['remove'])
 
 <style scoped lang="scss">
 .file-preview {
-	width: 20%;
-	margin: 1rem 2.5%;
-	position: relative;
 	aspect-ratio: 1/1;
+	margin: 1rem 2.5%;
 	overflow: hidden;
+	position: relative;
+	width: 20%;
 
 	img {
-		width: 100%;
-		height: 100%;
 		display: block;
+		height: 100%;
 		object-fit: cover;
+		width: 100%;
 	}
 
 	.close-icon,
 	.status-indicator {
-		--size: 20px;
-		position: absolute;
-		line-height: var(--size);
-		height: var(--size);
-		border-radius: var(--size);
-		box-shadow: 0 0 5px currentColor;
-		right: 0.25rem;
+		--size: $checkbox-size-20px;
 		appearance: none;
 		border: 0;
+		border-radius: var(--size);
+		box-shadow: 0 0 5px currentColor;
+		height: var(--size);
+		line-height: var(--size);
 		padding: 0;
+		position: absolute;
+		right: 0.25rem;
 	}
 
 	.close-icon {
-		width: var(--size);
-		font-size: var(--size);
-		background: #933;
-		color: #fff;
-		top: 0.25rem;
+		background: $color-el-salva;
+		color: $color-white;
 		cursor: pointer;
+		font-size: var(--size);
+		top: 0.25rem;
+		width: var(--size);
 	}
 
 	.status-indicator {
-		font-size: calc(0.75 * var(--size));
 		bottom: 0.25rem;
+		font-size: calc(0.75 * var(--size));
 		padding: 0 10px;
 	}
 
 	.loading-indicator {
 		animation: pulse 1.5s linear 0s infinite;
-		color: #000;
+		color: $color-black;
 	}
 
 	.success-indicator {
-		background: #6c6;
-		color: #040;
+		background: $color-mantis;
+		color: $color-japanese-laurel;
 	}
 
 	.failure-indicator {
-		background: #933;
-		color: #fff;
+		background: $color-el-salva;
+		color: $color-white;
 	}
 }
 
 @keyframes pulse {
 	0% {
-		background: #fff;
+		background: $color-white;
 	}
 
 	50% {
-		background: #ddd;
+		background: $color-alto;
 	}
 
 	100% {
-		background: #fff;
+		background: $color-white;
 	}
 }
 </style>
