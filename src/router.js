@@ -1,14 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// Coaches
-import CoachesList from './pages/coaches/CoachesList.vue'
-
-// Misc
 import NotFound from './pages/NotFound.vue'
 
-// Auth
-
 import store from './store/index.js'
+
+const CoachesList = () => import('./pages/coaches/CoachesList.vue')
 
 const CoachDetail = () => import('./pages/coaches/CoachDetail.vue')
 
