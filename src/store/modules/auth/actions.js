@@ -45,6 +45,7 @@ export default {
 		const expirationDate = new Date().getTime() + expiresIn
 
 		localStorage.setItem('token', responseData.idToken)
+		localStorage.setItem('userName', responseData.displayName)
 		localStorage.setItem('userId', responseData.localId)
 		localStorage.setItem('tokenExpiration', expirationDate)
 
@@ -54,11 +55,13 @@ export default {
 
 		context.commit('setUser', {
 			token: responseData.idToken,
+			userName: responseData.displayName,
 			userId: responseData.localId,
 		})
 	},
 	tryLogin(context) {
 		const token = localStorage.getItem('token')
+		const userName = localStorage.getItem('userName')
 		const userId = localStorage.getItem('userId')
 		const tokenExpiration = localStorage.getItem('tokenExpiration')
 
@@ -75,12 +78,14 @@ export default {
 		if (token && userId) {
 			context.commit('setUser', {
 				token: token,
+				userName: userName,
 				userId: userId,
 			})
 		}
 	},
 	logout(context) {
 		localStorage.removeItem('token')
+		localStorage.removeItem('userName')
 		localStorage.removeItem('userId')
 		localStorage.removeItem('tokenExpiration')
 
@@ -88,6 +93,7 @@ export default {
 
 		context.commit('setUser', {
 			token: null,
+			userName: null,
 			userId: null,
 		})
 	},

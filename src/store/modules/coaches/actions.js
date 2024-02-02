@@ -1,4 +1,30 @@
 export default {
+	async coachName(context, data) {
+		const coachData = {
+			firstName: data.first,
+			lastName: data.last,
+		}
+
+		const token = context.rootGetters.token
+
+		const coachName = coachData.firstName + ' ' + coachData.lastName
+
+		const updateProfile = await fetch(
+			'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAWj0EzBooyl5xKqQcizA7xyxvjMJgPMHY',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					idToken: token,
+					displayName: coachName,
+				}),
+			}
+		)
+
+		const updateResponse = await updateProfile.json()
+
+		localStorage.setItem('userName', updateResponse.displayName)
+		context.commit('setCoachName', updateResponse.displayName)
+	},
 	async registerCoach(context, data) {
 		const userId = context.rootGetters.userId
 		const coachData = {
@@ -21,10 +47,11 @@ export default {
 			}
 		)
 
-		// const responseData = await response.json();
+		const responseData = await response.json()
 
 		if (!response.ok) {
-			// error ...
+			const error = new Error(responseData.message || 'Failed to load coaches.')
+			throw error
 		}
 
 		context.commit('registerCoach', {
@@ -32,6 +59,7 @@ export default {
 			id: userId,
 		})
 	},
+
 	async loadCoaches(context, payload) {
 		if (!payload.forceRefresh && !context.getters.shouldUpdate) {
 			return
