@@ -21,9 +21,6 @@ CoachesList
 						:disabled="!hasCoaches ? true : false"
 						>Refresh</base-button
 					>
-					<base-button link to="/auth?redirect=register" v-if="!isLoggedIn"
-						>Login to register as a coach</base-button
-					>
 					<base-button
 						v-if="isLoggedIn && !isCoach && !isLoading"
 						link
