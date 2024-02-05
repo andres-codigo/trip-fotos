@@ -44,8 +44,15 @@ export default {
 		// const expiresIn = 5000
 		const expirationDate = new Date().getTime() + expiresIn
 
+		let displayName = ''
+		if (mode === 'signup') {
+			displayName
+		} else {
+			displayName = responseData.displayName
+		}
+
 		localStorage.setItem('token', responseData.idToken)
-		localStorage.setItem('userName', responseData.displayName)
+		localStorage.setItem('userName', displayName)
 		localStorage.setItem('userId', responseData.localId)
 		localStorage.setItem('tokenExpiration', expirationDate)
 
@@ -55,7 +62,7 @@ export default {
 
 		context.commit('setUser', {
 			token: responseData.idToken,
-			userName: responseData.displayName,
+			userName: displayName,
 			userId: responseData.localId,
 		})
 	},

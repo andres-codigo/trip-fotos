@@ -56,7 +56,7 @@ export default {
 		setCoachName() {
 			let localStorageCoachName = localStorage.getItem('userName')
 
-			if (localStorageCoachName !== 'undefined') {
+			if (localStorageCoachName && localStorageCoachName.length > 0) {
 				this.coachName = localStorageCoachName
 
 				this.$watch(
