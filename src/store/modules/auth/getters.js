@@ -1,9 +1,12 @@
 export default {
+	userId(state) {
+		return state.userId
+	},
 	userName(state) {
 		return state.userName
 	},
-	userId(state) {
-		return state.userId
+	userEmail(state) {
+		return state.userEmail
 	},
 	token(state) {
 		return state.token

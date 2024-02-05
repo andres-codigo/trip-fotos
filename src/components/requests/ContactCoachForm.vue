@@ -4,6 +4,7 @@
 			<label for="email">{{ email.label }}</label>
 			<input
 				:type="email.type"
+				:disabled="isLoggedIn && this.email.val && this.email.val.length > 0"
 				id="email"
 				v-model.trim="email.val"
 				@blur="clearValidity('email')"
@@ -46,7 +47,24 @@ export default {
 			formIsValid: true,
 		}
 	},
+	computed: {
+		isLoggedIn() {
+			return this.$store.getters.isAuthenticated
+		},
+	},
+	created() {
+		if (this.isLoggedIn) {
+			this.setUserEmail()
+		}
+	},
 	methods: {
+		setUserEmail() {
+			let userEmail = this.$store.getters.userEmail
+
+			if (userEmail && userEmail.length > 0) {
+				this.email.val = userEmail
+			}
+		},
 		clearValidity(input) {
 			if (
 				this[input].val === '' ||

@@ -52,8 +52,9 @@ export default {
 		}
 
 		localStorage.setItem('token', responseData.idToken)
-		localStorage.setItem('userName', displayName)
 		localStorage.setItem('userId', responseData.localId)
+		localStorage.setItem('userName', displayName)
+		localStorage.setItem('userEmail', responseData.email)
 		localStorage.setItem('tokenExpiration', expirationDate)
 
 		timer = setTimeout(function () {
@@ -62,14 +63,16 @@ export default {
 
 		context.commit('setUser', {
 			token: responseData.idToken,
-			userName: displayName,
 			userId: responseData.localId,
+			userName: displayName,
+			userEmail: responseData.email,
 		})
 	},
 	tryLogin(context) {
 		const token = localStorage.getItem('token')
-		const userName = localStorage.getItem('userName')
 		const userId = localStorage.getItem('userId')
+		const userName = localStorage.getItem('userName')
+		const userEmail = localStorage.getItem('userEmail')
 		const tokenExpiration = localStorage.getItem('tokenExpiration')
 
 		const expiresIn = +tokenExpiration - new Date().getTime()
@@ -85,23 +88,26 @@ export default {
 		if (token && userId) {
 			context.commit('setUser', {
 				token: token,
-				userName: userName,
 				userId: userId,
+				userName: userName,
+				userEmail: userEmail,
 			})
 		}
 	},
 	logout(context) {
 		localStorage.removeItem('token')
-		localStorage.removeItem('userName')
 		localStorage.removeItem('userId')
+		localStorage.removeItem('userName')
+		localStorage.removeItem('userEmail')
 		localStorage.removeItem('tokenExpiration')
 
 		clearTimeout(timer)
 
 		context.commit('setUser', {
 			token: null,
-			userName: null,
 			userId: null,
+			userName: null,
+			userEmail: null,
 		})
 	},
 	autoLogout(context) {
