@@ -1,5 +1,9 @@
 <template>
-	<li>
+	<li
+		:class="{
+			isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+		}"
+	>
 		<h3>{{ fullName }}</h3>
 		<h4>${{ rate }}/hour</h4>
 		<div>
@@ -11,7 +15,11 @@
 			></base-badge>
 		</div>
 		<div class="actions">
-			<base-button mode="outline" link :to="coachContactLink"
+			<base-button
+				v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
+				mode="outline"
+				link
+				:to="coachContactLink"
 				>Contact</base-button
 			>
 			<base-button link :to="coachDetailsLink">Details</base-button>
@@ -20,6 +28,8 @@
 </template>
 
 <script>
+import { isLoggedInUser } from '../../utils/globalFunctions'
+
 export default {
 	props: ['id', 'firstName', 'lastName', 'rate', 'areas'],
 	computed: {
@@ -32,6 +42,9 @@ export default {
 		coachDetailsLink() {
 			return this.$route.path + '/' + this.id // /coaches/c1
 		},
+	},
+	methods: {
+		isLoggedInUser,
 	},
 }
 </script>

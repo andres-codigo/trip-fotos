@@ -1,12 +1,16 @@
 <template>
 	<div>
 		<section>
-			<base-card>
+			<base-card
+				:class="{
+					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+				}"
+			>
 				<h2>{{ fullName }}</h2>
 				<h3>${{ rate }}/hour</h3>
 			</base-card>
 		</section>
-		<section>
+		<section v-if="!isLoggedInUser(this.id, this.$store.getters.userId)">
 			<base-card>
 				<header>
 					<h2>Interested? Reach out now!</h2>
@@ -35,6 +39,8 @@
 </template>
 
 <script>
+import { isLoggedInUser } from '../../utils/globalFunctions'
+
 export default {
 	props: ['id'],
 	data() {
@@ -63,6 +69,9 @@ export default {
 		this.selectedCoach = this.$store.getters['coaches/coaches'].find(
 			(coach) => coach.id === this.id
 		)
+	},
+	methods: {
+		isLoggedInUser,
 	},
 }
 </script>
