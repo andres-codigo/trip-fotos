@@ -15,6 +15,19 @@
 				</div>
 			</base-card>
 		</section>
+		<section :class="{ isLoading: isLoading }">
+			<base-card>
+				<div>
+					<base-badge
+						v-for="area in this.selectedCoach.areas"
+						:key="area"
+						:type="area"
+						:title="area"
+					></base-badge>
+					<p>{{ this.selectedCoach.description }}</p>
+				</div>
+			</base-card>
+		</section>
 		<section
 			:class="{ isLoading: isLoading }"
 			v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
@@ -30,19 +43,6 @@
 					>
 				</header>
 				<router-view></router-view>
-			</base-card>
-		</section>
-		<section :class="{ isLoading: isLoading }">
-			<base-card>
-				<div>
-					<base-badge
-						v-for="area in this.selectedCoach.areas"
-						:key="area"
-						:type="area"
-						:title="area"
-					></base-badge>
-					<p>{{ this.selectedCoach.description }}</p>
-				</div>
 			</base-card>
 		</section>
 	</div>
