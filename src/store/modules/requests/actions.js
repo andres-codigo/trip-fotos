@@ -1,6 +1,7 @@
 export default {
 	async contactCoach(context, payload) {
 		const newRequest = {
+			userName: payload.name,
 			userEmail: payload.email,
 			message: payload.message,
 		}
@@ -46,6 +47,7 @@ export default {
 			const request = {
 				id: key,
 				coachId: coachId,
+				userName: responseData[key].userName,
 				userEmail: responseData[key].userEmail,
 				message: responseData[key].message,
 			}

@@ -3,6 +3,9 @@ export default {
 		state.coaches.push(payload)
 	},
 	setCoachName(state, payload) {
+		state.coachName = payload
+	},
+	setCoach(state, payload) {
 		state.coach = payload
 	},
 	setCoaches(state, payload) {

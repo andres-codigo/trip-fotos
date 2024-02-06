@@ -8,7 +8,8 @@ export default {
 		return {
 			lastFetch: null,
 			coaches: [],
-			coach: '',
+			coach: {},
+			coachName: '',
 		}
 	},
 	mutations,

@@ -1,10 +1,21 @@
 <template>
 	<form @submit.prevent="submitForm">
+		<div :class="['form-control', { invalid: !name.isValid }]">
+			<label for="name">{{ name.label }}</label>
+			<input
+				:type="name.type"
+				:disabled="this.disableField('name', this.$store.getters.userName)"
+				id="name"
+				v-model.trim="name.val"
+				@blur="clearValidity('name')"
+			/>
+			<p v-if="!name.isValid">Please enter your name.</p>
+		</div>
 		<div :class="['form-control', { invalid: !email.isValid }]">
 			<label for="email">{{ email.label }}</label>
 			<input
 				:type="email.type"
-				:disabled="isLoggedIn && this.email.val && this.email.val.length > 0"
+				:disabled="this.disableField('email', this.$store.getters.userEmail)"
 				id="email"
 				v-model.trim="email.val"
 				@blur="clearValidity('email')"
@@ -32,8 +43,14 @@
 export default {
 	data() {
 		return {
+			name: {
+				label: 'Name',
+				type: 'text',
+				val: '',
+				isValid: true,
+			},
 			email: {
-				label: 'Your E-Mail',
+				label: 'E-mail',
 				type: 'email',
 				val: '',
 				isValid: true,
@@ -51,19 +68,42 @@ export default {
 		isLoggedIn() {
 			return this.$store.getters.isAuthenticated
 		},
+		userName() {
+			return this.$store.getters.userName
+		},
+		userEmail() {
+			return this.$store.getters.userEmail
+		},
 	},
 	created() {
 		if (this.isLoggedIn) {
-			this.setUserEmail()
+			this.setUser()
 		}
 	},
 	methods: {
-		setUserEmail() {
+		setUser() {
+			let userName = this.$store.getters.userName
 			let userEmail = this.$store.getters.userEmail
+
+			if (userName && userName.length > 0) {
+				this.name.val = userName
+			}
 
 			if (userEmail && userEmail.length > 0) {
 				this.email.val = userEmail
 			}
+		},
+		disableField(input, getter) {
+			if (this.isLoggedIn) {
+				if (
+					this[input].val &&
+					this[input].val.length > 0 &&
+					this[input].val === getter
+				) {
+					return true
+				}
+			}
+			return false
 		},
 		clearValidity(input) {
 			if (
@@ -78,6 +118,10 @@ export default {
 		validateForm() {
 			this.formIsValid = true
 
+			if (this.name.val === '') {
+				this.name.isValid = false
+				this.formIsValid = false
+			}
 			if (this.email.val === '') {
 				this.email.isValid = false
 				this.formIsValid = false
@@ -95,6 +139,7 @@ export default {
 			}
 
 			this.$store.dispatch('requests/contactCoach', {
+				name: this.name.val,
 				email: this.email.val,
 				message: this.message.val,
 				coachId: this.$route.params.id,

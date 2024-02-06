@@ -60,6 +60,26 @@ export default {
 		})
 	},
 
+	async loadCoach(context, data) {
+		const coachId = data.coachId
+
+		const response = await fetch(
+			`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${coachId}.json`
+		)
+
+		const responseData = await response.json()
+
+		if (!response.ok) {
+			const error = new Error(responseData.message || 'Failed to load coaches.')
+			throw error
+		}
+
+		context.commit('setCoach', {
+			...responseData,
+			id: coachId,
+		})
+	},
+
 	async loadCoaches(context, payload) {
 		if (!payload.forceRefresh && !context.getters.shouldUpdate) {
 			return
