@@ -1,12 +1,16 @@
 <template>
+	<div v-if="isLoading" class="spinner-container">
+		<base-spinner></base-spinner>
+	</div>
 	<li
+		v-else
 		:class="{
 			isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
 		}"
 	>
 		<h3>{{ fullName }}</h3>
 		<h4>${{ rate }}/hour</h4>
-		<div>
+		<div class="badges">
 			<base-badge
 				v-for="area in areas"
 				:key="area"
@@ -23,6 +27,18 @@
 				>Contact</base-button
 			>
 			<base-button link :to="coachDetailsLink">Details</base-button>
+			<!--
+				TODO: 	Added to ease deletion of items during development
+						Look to incorporate into working flow dependent on
+						extension of sign-up.
+			-->
+			<base-button
+				v-if="this.$store.getters.userName === 'Bob Dylan'"
+				@click="this.deleteCoach()"
+				mode="outline"
+				class="actions delete"
+				>Delete</base-button
+			>
 		</div>
 	</li>
 </template>
@@ -32,6 +48,11 @@ import { isLoggedInUser } from '../../utils/globalFunctions'
 
 export default {
 	props: ['id', 'firstName', 'lastName', 'rate', 'areas'],
+	data() {
+		return {
+			isLoading: false,
+		}
+	},
 	computed: {
 		fullName() {
 			return this.firstName + ' ' + this.lastName
@@ -45,6 +66,23 @@ export default {
 	},
 	methods: {
 		isLoggedInUser,
+		async deleteCoach() {
+			this.isLoading = true
+			try {
+				const deleteCoach = this.$store.dispatch('coaches/deleteCoach', {
+					coachId: this.id,
+				})
+
+				const loadCoaches = this.$store.dispatch('coaches/loadCoaches', {
+					forceRefresh: true,
+				})
+
+				await Promise.all([deleteCoach, loadCoaches])
+			} catch (error) {
+				this.error = error.message || 'Something went wrong!'
+			}
+			this.isLoading = false
+		},
 	},
 }
 </script>
@@ -64,14 +102,27 @@ li {
 	h4 {
 		margin: 0.5rem 0;
 	}
+
+	.badges {
+		padding: 1.25rem 0;
+	}
+
+	.actions {
+		display: flex;
+		justify-content: flex-end;
+		&.delete {
+			background-color: $color-white;
+			@include error-text;
+			@include invalid-border;
+			&:hover {
+				background-color: $color-mojo;
+				color: $color-white;
+			}
+		}
+	}
 }
 
 div {
 	margin: 0.5rem 0;
-}
-
-.actions {
-	display: flex;
-	justify-content: flex-end;
 }
 </style>

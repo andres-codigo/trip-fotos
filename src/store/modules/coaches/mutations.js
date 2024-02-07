@@ -2,11 +2,14 @@ export default {
 	registerCoach(state, payload) {
 		state.coaches.push(payload)
 	},
-	setCoachName(state, payload) {
-		state.coachName = payload
-	},
 	setCoach(state, payload) {
 		state.coach = payload
+	},
+	deleteCoach(state, payload) {
+		state.coach = payload
+	},
+	setCoachName(state, payload) {
+		state.coachName = payload
 	},
 	setCoaches(state, payload) {
 		state.coaches = payload

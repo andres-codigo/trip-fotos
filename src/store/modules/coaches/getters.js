@@ -1,12 +1,12 @@
 export default {
-	coaches(state) {
-		return state.coaches
-	},
 	coach(state) {
 		return state.coach
 	},
 	coachName(state) {
 		return state.coachName
+	},
+	coaches(state) {
+		return state.coaches
 	},
 	hasCoaches(state) {
 		return state.coaches && state.coaches.length > 0
