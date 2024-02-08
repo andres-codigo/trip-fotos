@@ -1,29 +1,31 @@
+import { APIConstants } from '../../../constants/api'
+import { APIErrorMessageConstants } from '../../../constants/api-messages'
+
 let timer
 
 export default {
 	async login(context, payload) {
 		return context.dispatch('auth', {
 			...payload,
-			mode: 'login',
+			mode: APIConstants.API_AUTH_LOGIN_MODE,
 		})
 	},
 	async signup(context, payload) {
 		return context.dispatch('auth', {
 			...payload,
-			mode: 'signup',
+			mode: APIConstants.API_AUTH_SIGNUP_MODE,
 		})
 	},
 	async auth(context, payload) {
 		const mode = payload.mode
 		let url =
-			'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAWj0EzBooyl5xKqQcizA7xyxvjMJgPMHY'
+			APIConstants.API_URL + 'signInWithPassword?key=' + APIConstants.API_KEY
 
-		if (mode === 'signup') {
-			url =
-				'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAWj0EzBooyl5xKqQcizA7xyxvjMJgPMHY'
+		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
+			url = APIConstants.API_URL + 'signUp?key=' + APIConstants.API_KEY
 		}
 		const response = await fetch(url, {
-			method: 'POST',
+			method: APIConstants.POST,
 			body: JSON.stringify({
 				email: payload.email,
 				password: payload.password,
@@ -34,18 +36,45 @@ export default {
 		const responseData = await response.json()
 
 		if (!response.ok) {
+			let errorMessage = ''
+
+			if (
+				responseData.error.message ===
+				APIErrorMessageConstants.LOGIN_EMAIL_EXISTS_TYPE
+			) {
+				errorMessage = APIErrorMessageConstants.LOGIN_EMAIL_EXISTS_MESSAGE
+			} else if (
+				responseData.error.message ===
+				APIErrorMessageConstants.LOGIN_OPERATION_NOT_ALLOWED_TYPE
+			) {
+				errorMessage =
+					APIErrorMessageConstants.LOGIN_OPERATION_NOT_ALLOWED_MESSAGE
+			} else if (
+				responseData.error.message ===
+				APIErrorMessageConstants.LOGIN_TOO_MANY_ATTEMPTS_TYPE
+			) {
+				errorMessage = APIErrorMessageConstants.LOGIN_TOO_MANY_ATTEMPTS_MESSAGE
+			}
 			const error = new Error(
-				responseData.message || 'Failed to authenticate. Check your login data.'
+				errorMessage || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
 			)
 			throw error
 		}
 
 		const expiresIn = +responseData.expiresIn * 1000
-		// const expiresIn = 5000
 		const expirationDate = new Date().getTime() + expiresIn
+
+		let displayName = ''
+		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
+			displayName
+		} else {
+			displayName = responseData.displayName
+		}
 
 		localStorage.setItem('token', responseData.idToken)
 		localStorage.setItem('userId', responseData.localId)
+		localStorage.setItem('userName', displayName)
+		localStorage.setItem('userEmail', responseData.email)
 		localStorage.setItem('tokenExpiration', expirationDate)
 
 		timer = setTimeout(function () {
@@ -55,11 +84,15 @@ export default {
 		context.commit('setUser', {
 			token: responseData.idToken,
 			userId: responseData.localId,
+			userName: displayName,
+			userEmail: responseData.email,
 		})
 	},
 	tryLogin(context) {
 		const token = localStorage.getItem('token')
 		const userId = localStorage.getItem('userId')
+		const userName = localStorage.getItem('userName')
+		const userEmail = localStorage.getItem('userEmail')
 		const tokenExpiration = localStorage.getItem('tokenExpiration')
 
 		const expiresIn = +tokenExpiration - new Date().getTime()
@@ -76,12 +109,16 @@ export default {
 			context.commit('setUser', {
 				token: token,
 				userId: userId,
+				userName: userName,
+				userEmail: userEmail,
 			})
 		}
 	},
 	logout(context) {
 		localStorage.removeItem('token')
 		localStorage.removeItem('userId')
+		localStorage.removeItem('userName')
+		localStorage.removeItem('userEmail')
 		localStorage.removeItem('tokenExpiration')
 
 		clearTimeout(timer)
@@ -89,6 +126,8 @@ export default {
 		context.commit('setUser', {
 			token: null,
 			userId: null,
+			userName: null,
+			userEmail: null,
 		})
 	},
 	autoLogout(context) {

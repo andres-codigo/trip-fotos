@@ -1,12 +1,37 @@
 <template>
 	<div>
 		<section>
-			<base-card>
-				<h2>{{ fullName }}</h2>
-				<h3>${{ rate }}/hour</h3>
+			<base-card
+				:class="{
+					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+				}"
+			>
+				<div v-if="isLoading" class="spinner-container">
+					<base-spinner></base-spinner>
+				</div>
+				<div v-else>
+					<h2>{{ fullName }}</h2>
+					<h3>${{ this.selectedCoach.hourlyRate }}/hour</h3>
+				</div>
 			</base-card>
 		</section>
-		<section>
+		<section :class="{ isLoading: isLoading }">
+			<base-card>
+				<div>
+					<base-badge
+						v-for="area in this.selectedCoach.areas"
+						:key="area"
+						:type="area"
+						:title="area"
+					></base-badge>
+					<p>{{ this.selectedCoach.description }}</p>
+				</div>
+			</base-card>
+		</section>
+		<section
+			:class="{ isLoading: isLoading }"
+			v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
+		>
 			<base-card>
 				<header>
 					<h2>Interested? Reach out now!</h2>
@@ -20,49 +45,59 @@
 				<router-view></router-view>
 			</base-card>
 		</section>
-		<section>
-			<base-card>
-				<base-badge
-					v-for="area in areas"
-					:key="area"
-					:type="area"
-					:title="area"
-				></base-badge>
-				<p>{{ description }}</p>
-			</base-card>
-		</section>
 	</div>
 </template>
 
 <script>
+import { isLoggedInUser } from '../../utils/globalFunctions'
+
 export default {
 	props: ['id'],
 	data() {
 		return {
-			selectedCoach: null,
+			isLoading: false,
+			selectedCoach: {},
+			error: '',
 		}
 	},
 	computed: {
 		fullName() {
 			return this.selectedCoach.firstName + ' ' + this.selectedCoach.lastName
 		},
-		areas() {
-			return this.selectedCoach.areas
-		},
-		rate() {
-			return this.selectedCoach.hourlyRate
-		},
-		description() {
-			return this.selectedCoach.description
-		},
 		contactLink() {
 			return this.$route.path + '/contact'
 		},
+		coach() {
+			return this.$store.getters['coaches/coach']
+		},
+	},
+	watch: {
+		coach(details) {
+			this.selectedCoach = details
+		},
 	},
 	created() {
-		this.selectedCoach = this.$store.getters['coaches/coaches'].find(
-			(coach) => coach.id === this.id
-		)
+		this.loadCoach()
+	},
+	methods: {
+		isLoggedInUser,
+		async loadCoach() {
+			this.isLoading = true
+			try {
+				await this.$store.dispatch('coaches/loadCoach', {
+					coachId: this.id,
+				})
+			} catch (error) {
+				this.error = error.message || 'Something went wrong!'
+			}
+			this.isLoading = false
+		},
 	},
 }
 </script>
+
+<style scoped>
+.isLoading {
+	display: none;
+}
+</style>

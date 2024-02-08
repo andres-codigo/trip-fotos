@@ -15,7 +15,7 @@
 					<router-link to="/auth">Login</router-link>
 				</li>
 				<li v-if="isLoggedIn">
-					<base-button @click="logout">Logout</base-button>
+					<base-button @click="logout">Logout {{ coachName }}</base-button>
 				</li>
 			</ul>
 		</nav>
@@ -24,13 +24,52 @@
 
 <script>
 export default {
+	data() {
+		return {
+			coachName: '',
+		}
+	},
 	computed: {
 		isLoggedIn() {
 			return this.$store.getters.isAuthenticated
 		},
+		usersName() {
+			return this.$store.getters['coaches/coachName']
+		},
+	},
+	watch: {
+		usersName(name) {
+			this.coachName = name
+		},
+	},
+	created() {
+		if (this.isLoggedIn) {
+			this.setCoachName()
+		}
+	},
+	beforeUpdate() {
+		if (this.isLoggedIn) {
+			this.setCoachName()
+		}
 	},
 	methods: {
+		setCoachName() {
+			let localStorageCoachName = localStorage.getItem('userName')
+
+			if (localStorageCoachName && localStorageCoachName.length > 0) {
+				this.coachName = localStorageCoachName
+
+				this.$watch(
+					() => localStorage.getItem('userName'),
+					(newValue) => {
+						this.coachName = newValue
+					}
+				)
+			}
+		},
 		logout() {
+			this.coachName = ''
+
 			this.$store.dispatch('logout')
 			this.$router.replace('/coaches')
 		},

@@ -1,0 +1,22 @@
+@mixin error-text() {
+	color: $color-mojo;
+}
+
+@mixin error-message() {
+	@include error-text();
+	margin-top: 0.25rem;
+}
+
+@mixin invalid-border() {
+	border: 1px solid $color-mojo;
+}
+
+@mixin invalid-checkbox() {
+	input[type='checkbox'] {
+		& + label {
+			&::before {
+				box-shadow: inset 0 0 0 1px $color-red;
+			}
+		}
+	}
+}

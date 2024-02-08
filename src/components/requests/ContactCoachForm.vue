@@ -1,16 +1,26 @@
 <template>
 	<form @submit.prevent="submitForm">
+		<div :class="['form-control', { invalid: !name.isValid }]">
+			<label for="name">{{ name.label }}</label>
+			<input
+				:type="name.type"
+				:disabled="this.disableField('name', this.$store.getters.userName)"
+				id="name"
+				v-model.trim="name.val"
+				@blur="clearValidity('name')"
+			/>
+			<p v-if="!name.isValid">Please enter your name.</p>
+		</div>
 		<div :class="['form-control', { invalid: !email.isValid }]">
 			<label for="email">{{ email.label }}</label>
 			<input
 				:type="email.type"
+				:disabled="this.disableField('email', this.$store.getters.userEmail)"
 				id="email"
 				v-model.trim="email.val"
 				@blur="clearValidity('email')"
 			/>
-			<p :class="{ invalid: !email.isValid }" v-if="!email.isValid">
-				Please enter a valid email address.
-			</p>
+			<p v-if="!email.isValid">Please enter a valid email address.</p>
 		</div>
 		<div :class="['form-control', { invalid: !message.isValid }]">
 			<label for="message">{{ message.label }}</label>
@@ -33,8 +43,14 @@
 export default {
 	data() {
 		return {
+			name: {
+				label: 'Name',
+				type: 'text',
+				val: '',
+				isValid: true,
+			},
 			email: {
-				label: 'Your E-Mail',
+				label: 'E-Mail',
 				type: 'email',
 				val: '',
 				isValid: true,
@@ -48,7 +64,47 @@ export default {
 			formIsValid: true,
 		}
 	},
+	computed: {
+		isLoggedIn() {
+			return this.$store.getters.isAuthenticated
+		},
+		userName() {
+			return this.$store.getters.userName
+		},
+		userEmail() {
+			return this.$store.getters.userEmail
+		},
+	},
+	created() {
+		if (this.isLoggedIn) {
+			this.setUser()
+		}
+	},
 	methods: {
+		setUser() {
+			let userName = this.$store.getters.userName
+			let userEmail = this.$store.getters.userEmail
+
+			if (userName && userName.length > 0) {
+				this.name.val = userName
+			}
+
+			if (userEmail && userEmail.length > 0) {
+				this.email.val = userEmail
+			}
+		},
+		disableField(input, getter) {
+			if (this.isLoggedIn) {
+				if (
+					this[input].val &&
+					this[input].val.length > 0 &&
+					this[input].val === getter
+				) {
+					return true
+				}
+			}
+			return false
+		},
 		clearValidity(input) {
 			if (
 				this[input].val === '' ||
@@ -62,6 +118,10 @@ export default {
 		validateForm() {
 			this.formIsValid = true
 
+			if (this.name.val === '') {
+				this.name.isValid = false
+				this.formIsValid = false
+			}
 			if (this.email.val === '') {
 				this.email.isValid = false
 				this.formIsValid = false
@@ -79,6 +139,7 @@ export default {
 			}
 
 			this.$store.dispatch('requests/contactCoach', {
+				name: this.name.val,
 				email: this.email.val,
 				message: this.message.val,
 				coachId: this.$route.params.id,
@@ -94,41 +155,16 @@ form {
 	.form-control {
 		margin: 0.5rem 0;
 
-		label {
-			font-weight: bold;
-			display: block;
-			margin-bottom: 0.5rem;
-		}
-
-		input,
-		textarea {
-			border: 1px solid $color-silver;
-			display: block;
-			font: inherit;
-			padding: 0.15rem;
-			width: 100%;
-
-			&:focus {
-				background-color: $color-selago;
-				border-color: $color-pigment-indigo;
-				outline: none;
-			}
-		}
-
-		textarea {
-			height: 150px;
-			resize: none;
-		}
+		@include input-textarea;
 
 		&.invalid {
 			p {
-				color: $color-red;
-				margin-top: 0.25rem;
+				@include error-message;
 			}
 
 			input,
 			textarea {
-				border: 1px solid $color-red;
+				@include invalid-border;
 			}
 		}
 	}

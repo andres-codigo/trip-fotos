@@ -17,6 +17,7 @@
 					<request-item
 						v-for="req in receivedRequests"
 						:key="req.id"
+						:name="req.userName"
 						:email="req.userEmail"
 						:message="req.message"
 					></request-item>
@@ -82,5 +83,6 @@ ul {
 
 h3 {
 	text-align: center;
+	font-weight: 100;
 }
 </style>

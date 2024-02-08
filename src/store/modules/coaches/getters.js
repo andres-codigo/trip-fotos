@@ -1,4 +1,10 @@
 export default {
+	coach(state) {
+		return state.coach
+	},
+	coachName(state) {
+		return state.coachName
+	},
 	coaches(state) {
 		return state.coaches
 	},

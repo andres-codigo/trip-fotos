@@ -19,10 +19,8 @@ CoachesList
 						:mode="!hasCoaches ? 'disabled' : 'outline'"
 						@click="loadCoaches(true)"
 						:disabled="!hasCoaches ? true : false"
+						:class="{ hide: !hasCoaches }"
 						>Refresh</base-button
-					>
-					<base-button link to="/auth?redirect=register" v-if="!isLoggedIn"
-						>Login to register as a coach</base-button
 					>
 					<base-button
 						v-if="isLoggedIn && !isCoach && !isLoading"
@@ -41,6 +39,7 @@ CoachesList
 						:id="coach.id"
 						:first-name="coach.firstName"
 						:last-name="coach.lastName"
+						:description="coach.description"
 						:rate="coach.hourlyRate"
 						:areas="coach.areas"
 					></coach-item>
@@ -137,18 +136,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .controls {
 	display: flex;
 	justify-content: space-between;
+	.hide {
+		display: none;
+	}
+}
+
+.spinner-container {
+	margin: 5rem 0;
 }
 
 ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-}
-.spinner-container {
-	margin: 5rem 0;
 }
 </style>
