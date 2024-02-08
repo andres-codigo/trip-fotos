@@ -66,22 +66,32 @@ export default {
 	},
 	methods: {
 		isLoggedInUser,
+		delayLoading(ms) {
+			return new Promise((resolve) => setTimeout(resolve, ms))
+		},
 		async deleteCoach() {
 			this.isLoading = true
-			try {
-				const deleteCoach = this.$store.dispatch('coaches/deleteCoach', {
+			const numberOfSeconds = 2000
+
+			const deleteCoach = Promise.resolve(
+				this.$store.dispatch('coaches/deleteCoach', {
 					coachId: this.id,
 				})
+			)
 
-				const loadCoaches = this.$store.dispatch('coaches/loadCoaches', {
+			const loadCoaches = this.delayLoading(numberOfSeconds).then(
+				this.$store.dispatch('coaches/loadCoaches', {
 					forceRefresh: true,
 				})
+			)
 
-				await Promise.all([deleteCoach, loadCoaches])
-			} catch (error) {
-				this.error = error.message || 'Something went wrong!'
-			}
-			this.isLoading = false
+			await Promise.all([deleteCoach, loadCoaches])
+				.then(() => {
+					this.isLoading = false
+				})
+				.catch((error) => {
+					this.error = error.message || 'Something went wrong!'
+				})
 		},
 	},
 }

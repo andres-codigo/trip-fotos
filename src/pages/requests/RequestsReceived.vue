@@ -82,5 +82,6 @@ ul {
 
 h3 {
 	text-align: center;
+	font-weight: 100;
 }
 </style>
