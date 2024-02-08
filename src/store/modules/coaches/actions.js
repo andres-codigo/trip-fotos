@@ -1,10 +1,5 @@
-const firebaseConfig = {
-	apiUrl: process.env.VUE_APP_API_URL,
-	apiKey: process.env.VUE_APP_API_KEY,
-	databaseUrl: process.env.VUE_APP_DATABASE_URL,
-}
-
-import { FETCH_ERROR_MESSAGE } from '../../consts'
+import { APIConstants } from '../../../constants/api'
+import { APIErrorMessageConstants } from '../../../constants/api-messages'
 
 export default {
 	async registerCoach(context, data) {
@@ -22,15 +17,15 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				firebaseConfig.databaseUrl + `/coaches/${userId}.json?auth=` + token,
+				APIConstants.BASE_URL + `/coaches/${userId}.json?auth=` + token,
 				{
-					method: 'PUT',
+					method: APIConstants.PUT,
 					body: JSON.stringify(coachData),
 				}
 			)
 
 			if (!response.ok) {
-				throw new Error('Failed to load register coach.')
+				throw new Error(APIErrorMessageConstants.REGISTER_COACH)
 			}
 
 			context.commit('registerCoach', {
@@ -38,7 +33,7 @@ export default {
 				id: userId,
 			})
 		} catch (error) {
-			console.error(FETCH_ERROR_MESSAGE, error)
+			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -54,9 +49,9 @@ export default {
 			const coachName = coachData.firstName + ' ' + coachData.lastName
 
 			const response = await fetch(
-				firebaseConfig.apiUrl + 'update?key=' + firebaseConfig.apiKey,
+				APIConstants.API_URL + 'update?key=' + APIConstants.API_KEY,
 				{
-					method: 'POST',
+					method: APIConstants.POST,
 					body: JSON.stringify({
 						idToken: token,
 						displayName: coachName,
@@ -65,7 +60,7 @@ export default {
 			)
 
 			if (!response.ok) {
-				throw new Error('Failed to load coach name.')
+				throw new Error(APIErrorMessageConstants.LOAD_COACH_NAME)
 			}
 
 			const updateResponse = await response.json()
@@ -73,7 +68,7 @@ export default {
 			localStorage.setItem('userName', updateResponse.displayName)
 			context.commit('setCoachName', updateResponse.displayName)
 		} catch (error) {
-			console.error(FETCH_ERROR_MESSAGE, error)
+			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -82,9 +77,9 @@ export default {
 			const coachId = data.coachId
 
 			const response = await fetch(
-				firebaseConfig.databaseUrl + `/coaches/${coachId}.json`,
+				APIConstants.BASE_URL + `/coaches/${coachId}.json`,
 				{
-					method: 'GET',
+					method: APIConstants.GET,
 					headers: {
 						'Content-Type': 'application/json',
 					},
@@ -92,7 +87,7 @@ export default {
 			)
 
 			if (!response.ok) {
-				throw new Error('Failed to load coach.')
+				throw new Error(APIErrorMessageConstants.LOAD_COACH)
 			}
 
 			const responseData = await response.json()
@@ -102,7 +97,7 @@ export default {
 				id: coachId,
 			})
 		} catch (error) {
-			console.error(FETCH_ERROR_MESSAGE, error)
+			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -113,9 +108,9 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				firebaseConfig.databaseUrl + `/coaches/${coachId}.json?auth=` + token,
+				APIConstants.BASE_URL + `/coaches/${coachId}.json?auth=` + token,
 				{
-					method: 'DELETE',
+					method: APIConstants.DELETE,
 					headers: {
 						'Content-Type': 'application/json',
 					},
@@ -123,7 +118,7 @@ export default {
 			)
 
 			if (!response.ok) {
-				throw new Error('Failed to delete coach.')
+				throw new Error(APIErrorMessageConstants.DELETE_COACH)
 			}
 
 			const responseData = await response.json()
@@ -133,7 +128,7 @@ export default {
 				id: coachId,
 			})
 		} catch (error) {
-			console.error(FETCH_ERROR_MESSAGE, error)
+			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -142,18 +137,15 @@ export default {
 			if (!payload.forceRefresh && !context.getters.shouldUpdate) {
 				return
 			}
-			const response = await fetch(
-				firebaseConfig.databaseUrl + `/coaches.json`,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			)
+			const response = await fetch(APIConstants.BASE_URL + `/coaches.json`, {
+				method: APIConstants.GET,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
 
 			if (!response.ok) {
-				throw new Error('Failed to load coaches.')
+				throw new Error(APIErrorMessageConstants.LOAD_COACHES)
 			}
 
 			const responseData = await response.json()
@@ -176,7 +168,7 @@ export default {
 			context.commit('setCoaches', coaches)
 			context.commit('setFetchTimestamp')
 		} catch (error) {
-			console.error(FETCH_ERROR_MESSAGE, error)
+			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 }

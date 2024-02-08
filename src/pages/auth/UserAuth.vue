@@ -38,6 +38,9 @@
 </template>
 
 <script>
+import { APIConstants } from '../../constants/api'
+import { APIErrorMessageConstants } from '../../constants/api-messages'
+
 export default {
 	data() {
 		return {
@@ -58,21 +61,21 @@ export default {
 			},
 			message: [],
 			formIsValid: true,
-			mode: 'login',
+			mode: APIConstants.API_AUTH_LOGIN_MODE,
 			isLoading: false,
 			error: null,
 		}
 	},
 	computed: {
 		submitButtonCaption() {
-			if (this.mode === 'login') {
+			if (this.mode === APIConstants.API_AUTH_LOGIN_MODE) {
 				return 'Login'
 			} else {
 				return 'Sign-up'
 			}
 		},
 		switchModeButtonCaption() {
-			if (this.mode === 'login') {
+			if (this.mode === APIConstants.API_AUTH_LOGIN_MODE) {
 				return 'Sign-up'
 			} else {
 				return 'Login'
@@ -146,24 +149,31 @@ export default {
 			}
 
 			try {
-				if (this.mode === 'login') {
-					await this.$store.dispatch('login', actionPayload)
+				if (this.mode === APIConstants.API_AUTH_LOGIN_MODE) {
+					await this.$store.dispatch(
+						APIConstants.API_AUTH_LOGIN_MODE,
+						actionPayload
+					)
 				} else {
-					await this.$store.dispatch('signup', actionPayload)
+					await this.$store.dispatch(
+						APIConstants.API_AUTH_SIGNUP_MODE,
+						actionPayload
+					)
 				}
 				const redirectUrl = '/' + (this.$route.query.redirect || 'coaches')
 				this.$router.replace(redirectUrl)
 			} catch (err) {
-				this.error = err.message || 'Failed to authenticate, try later.'
+				this.error =
+					err.message || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
 			}
 
 			this.isLoading = false
 		},
 		switchAuthMode() {
-			if (this.mode === 'login') {
+			if (this.mode === APIConstants.API_AUTH_LOGIN_MODE) {
 				this.mode = 'signup'
 			} else {
-				this.mode = 'login'
+				this.mode = APIConstants.API_AUTH_LOGIN_MODE
 			}
 		},
 		handleError() {

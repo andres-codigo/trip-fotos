@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { StoreMessagesConstants } from '../../constants/store-messages'
 import { isLoggedInUser } from '../../utils/globalFunctions'
 
 export default {
@@ -90,7 +91,7 @@ export default {
 					this.isLoading = false
 				})
 				.catch((error) => {
-					this.error = error.message || 'Something went wrong!'
+					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
 		},
 	},

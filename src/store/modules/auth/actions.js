@@ -1,7 +1,5 @@
-const firebaseConfig = {
-	apiUrl: process.env.VUE_APP_API_URL,
-	apiKey: process.env.VUE_APP_API_KEY,
-}
+import { APIConstants } from '../../../constants/api'
+import { APIErrorMessageConstants } from '../../../constants/api-messages'
 
 let timer
 
@@ -9,25 +7,25 @@ export default {
 	async login(context, payload) {
 		return context.dispatch('auth', {
 			...payload,
-			mode: 'login',
+			mode: APIConstants.API_AUTH_LOGIN_MODE,
 		})
 	},
 	async signup(context, payload) {
 		return context.dispatch('auth', {
 			...payload,
-			mode: 'signup',
+			mode: APIConstants.API_AUTH_SIGNUP_MODE,
 		})
 	},
 	async auth(context, payload) {
 		const mode = payload.mode
 		let url =
-			firebaseConfig.apiUrl + 'signInWithPassword?key=' + firebaseConfig.apiKey
+			APIConstants.API_URL + 'signInWithPassword?key=' + APIConstants.API_KEY
 
-		if (mode === 'signup') {
-			url = firebaseConfig.apiUrl + 'signUp?key=' + firebaseConfig.apiKey
+		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
+			url = APIConstants.API_URL + 'signUp?key=' + APIConstants.API_KEY
 		}
 		const response = await fetch(url, {
-			method: 'POST',
+			method: APIConstants.POST,
 			body: JSON.stringify({
 				email: payload.email,
 				password: payload.password,
@@ -38,18 +36,36 @@ export default {
 		const responseData = await response.json()
 
 		if (!response.ok) {
+			let errorMessage = ''
+
+			if (
+				responseData.error.message ===
+				APIErrorMessageConstants.LOGIN_EMAIL_EXISTS_TYPE
+			) {
+				errorMessage = APIErrorMessageConstants.LOGIN_EMAIL_EXISTS_MESSAGE
+			} else if (
+				responseData.error.message ===
+				APIErrorMessageConstants.LOGIN_OPERATION_NOT_ALLOWED_TYPE
+			) {
+				errorMessage =
+					APIErrorMessageConstants.LOGIN_OPERATION_NOT_ALLOWED_MESSAGE
+			} else if (
+				responseData.error.message ===
+				APIErrorMessageConstants.LOGIN_TOO_MANY_ATTEMPTS_TYPE
+			) {
+				errorMessage = APIErrorMessageConstants.LOGIN_TOO_MANY_ATTEMPTS_MESSAGE
+			}
 			const error = new Error(
-				responseData.message || 'Failed to authenticate. Check your login data.'
+				errorMessage || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
 			)
 			throw error
 		}
 
 		const expiresIn = +responseData.expiresIn * 1000
-		// const expiresIn = 5000
 		const expirationDate = new Date().getTime() + expiresIn
 
 		let displayName = ''
-		if (mode === 'signup') {
+		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
 			displayName
 		} else {
 			displayName = responseData.displayName
