@@ -50,7 +50,7 @@ export default {
 				isValid: true,
 			},
 			email: {
-				label: 'E-mail',
+				label: 'E-Mail',
 				type: 'email',
 				val: '',
 				isValid: true,

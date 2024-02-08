@@ -19,6 +19,7 @@ CoachesList
 						:mode="!hasCoaches ? 'disabled' : 'outline'"
 						@click="loadCoaches(true)"
 						:disabled="!hasCoaches ? true : false"
+						:class="{ hide: !hasCoaches }"
 						>Refresh</base-button
 					>
 					<base-button
@@ -134,18 +135,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .controls {
 	display: flex;
 	justify-content: space-between;
+	.hide {
+		display: none;
+	}
+}
+
+.spinner-container {
+	margin: 5rem 0;
 }
 
 ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-}
-.spinner-container {
-	margin: 5rem 0;
 }
 </style>

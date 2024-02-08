@@ -1,3 +1,8 @@
+const firebaseConfig = {
+	apiUrl: process.env.VUE_APP_API_URL,
+	apiKey: process.env.VUE_APP_API_KEY,
+}
+
 let timer
 
 export default {
@@ -16,11 +21,10 @@ export default {
 	async auth(context, payload) {
 		const mode = payload.mode
 		let url =
-			'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAWj0EzBooyl5xKqQcizA7xyxvjMJgPMHY'
+			firebaseConfig.apiUrl + 'signInWithPassword?key=' + firebaseConfig.apiKey
 
 		if (mode === 'signup') {
-			url =
-				'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAWj0EzBooyl5xKqQcizA7xyxvjMJgPMHY'
+			url = firebaseConfig.apiUrl + 'signUp?key=' + firebaseConfig.apiKey
 		}
 		const response = await fetch(url, {
 			method: 'POST',

@@ -58,7 +58,7 @@
 			@include user-select(none);
 
 			// Checkbox
-			&:before {
+			&::before {
 				background: transparent;
 				border-radius: 4px;
 				box-shadow: inset 0 0 0 1px $color-alto;
@@ -74,7 +74,7 @@
 			}
 
 			// Tick
-			&:after {
+			&::after {
 				border-bottom: 1px solid transparent;
 				border-right: 1px solid transparent;
 				content: '';
@@ -88,26 +88,33 @@
 
 				transition: 200ms ease-in-out all;
 			}
+
+			// Hover
+			&:hover {
+				color: $color-mine-shaft;
+			}
 		}
 
-		// Hover
-		& + label:hover {
-			color: $color-mine-shaft;
-		}
-
-		// Focus
-		& + label:focus {
-			outline: none;
+		&:focus {
+			& + label {
+				color: $color-mine-shaft;
+				&::before {
+					background-color: $color-selago;
+					box-shadow: inset 0 0 0 1px $color-pigment-indigo;
+					outline: none;
+					transition: 200ms ease-in-out all;
+				}
+			}
 		}
 
 		// Checked
 		&:checked {
 			& + label {
-				&:before {
+				&::before {
 					background: $color-ripe-plum;
 					box-shadow: none;
 				}
-				&:after {
+				&::after {
 					border-color: $color-white;
 				}
 			}

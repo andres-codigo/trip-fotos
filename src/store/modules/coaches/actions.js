@@ -1,3 +1,11 @@
+const firebaseConfig = {
+	apiUrl: process.env.VUE_APP_API_URL,
+	apiKey: process.env.VUE_APP_API_KEY,
+	databaseUrl: process.env.VUE_APP_DATABASE_URL,
+}
+
+import { FETCH_ERROR_MESSAGE } from '../../consts'
+
 export default {
 	async registerCoach(context, data) {
 		try {
@@ -14,8 +22,7 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${userId}.json?auth=` +
-					token,
+				firebaseConfig.databaseUrl + `/coaches/${userId}.json?auth=` + token,
 				{
 					method: 'PUT',
 					body: JSON.stringify(coachData),
@@ -31,10 +38,7 @@ export default {
 				id: userId,
 			})
 		} catch (error) {
-			console.error(
-				'There has been a problem with your fetch operation:',
-				error
-			)
+			console.error(FETCH_ERROR_MESSAGE, error)
 		}
 	},
 
@@ -50,7 +54,7 @@ export default {
 			const coachName = coachData.firstName + ' ' + coachData.lastName
 
 			const response = await fetch(
-				'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAWj0EzBooyl5xKqQcizA7xyxvjMJgPMHY',
+				firebaseConfig.apiUrl + 'update?key=' + firebaseConfig.apiKey,
 				{
 					method: 'POST',
 					body: JSON.stringify({
@@ -69,10 +73,7 @@ export default {
 			localStorage.setItem('userName', updateResponse.displayName)
 			context.commit('setCoachName', updateResponse.displayName)
 		} catch (error) {
-			console.error(
-				'There has been a problem with your fetch operation:',
-				error
-			)
+			console.error(FETCH_ERROR_MESSAGE, error)
 		}
 	},
 
@@ -81,7 +82,7 @@ export default {
 			const coachId = data.coachId
 
 			const response = await fetch(
-				`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${coachId}.json`,
+				firebaseConfig.databaseUrl + `/coaches/${coachId}.json`,
 				{
 					method: 'GET',
 					headers: {
@@ -101,10 +102,7 @@ export default {
 				id: coachId,
 			})
 		} catch (error) {
-			console.error(
-				'There has been a problem with your fetch operation:',
-				error
-			)
+			console.error(FETCH_ERROR_MESSAGE, error)
 		}
 	},
 
@@ -115,8 +113,7 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${coachId}.json?auth=` +
-					token,
+				firebaseConfig.databaseUrl + `/coaches/${coachId}.json?auth=` + token,
 				{
 					method: 'DELETE',
 					headers: {
@@ -136,10 +133,7 @@ export default {
 				id: coachId,
 			})
 		} catch (error) {
-			console.error(
-				'There has been a problem with your fetch operation:',
-				error
-			)
+			console.error(FETCH_ERROR_MESSAGE, error)
 		}
 	},
 
@@ -149,7 +143,7 @@ export default {
 				return
 			}
 			const response = await fetch(
-				`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`,
+				firebaseConfig.databaseUrl + `/coaches.json`,
 				{
 					method: 'GET',
 					headers: {
@@ -182,10 +176,7 @@ export default {
 			context.commit('setCoaches', coaches)
 			context.commit('setFetchTimestamp')
 		} catch (error) {
-			console.error(
-				'There has been a problem with your fetch operation:',
-				error
-			)
+			console.error(FETCH_ERROR_MESSAGE, error)
 		}
 	},
 }

@@ -30,7 +30,7 @@
 			animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 			transform-origin: 40px 40px;
 
-			&:after {
+			&::after {
 				content: ' ';
 				display: block;
 				position: absolute;

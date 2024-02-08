@@ -68,14 +68,14 @@ export default {
 			if (this.mode === 'login') {
 				return 'Login'
 			} else {
-				return 'Signup'
+				return 'Sign-up'
 			}
 		},
 		switchModeButtonCaption() {
 			if (this.mode === 'login') {
-				return 'Signup instead'
+				return 'Sign-up'
 			} else {
-				return 'Login instead'
+				return 'Login'
 			}
 		},
 	},
