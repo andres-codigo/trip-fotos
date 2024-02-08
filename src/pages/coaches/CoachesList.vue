@@ -39,6 +39,7 @@ CoachesList
 						:id="coach.id"
 						:first-name="coach.firstName"
 						:last-name="coach.lastName"
+						:description="coach.description"
 						:rate="coach.hourlyRate"
 						:areas="coach.areas"
 					></coach-item>

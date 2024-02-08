@@ -1,15 +1,27 @@
 <template>
 	<li>
-		<div>
-			<a :href="emailLink">{{ email }}</a>
+		<div class="from">
+			<h4>From</h4>
+			<p>
+				{{ name }}
+			</p>
 		</div>
-		<p>{{ message }}</p>
+		<div class="email">
+			<h4>Email</h4>
+			<p>
+				<a :href="emailLink">{{ email }}</a>
+			</p>
+		</div>
+		<div>
+			<h4>Message:</h4>
+			<p>{{ message }}</p>
+		</div>
 	</li>
 </template>
 
 <script>
 export default {
-	props: ['email', 'message'],
+	props: ['name', 'email', 'message'],
 	computed: {
 		emailLink() {
 			return 'mailto:' + this.email
@@ -24,6 +36,14 @@ li {
 	border: 1px solid $color-silver;
 	padding: 1rem;
 
+	.from,
+	.email {
+		margin-bottom: 0.75rem;
+	}
+	h4 {
+		margin: 0.25rem 0;
+	}
+
 	a {
 		color: $color-pigment-indigo;
 		text-decoration: none;
@@ -36,7 +56,7 @@ li {
 	}
 
 	p {
-		margin: 0.5rem 0 0 0;
+		margin: 0 0 0.25rem 0;
 	}
 }
 </style>

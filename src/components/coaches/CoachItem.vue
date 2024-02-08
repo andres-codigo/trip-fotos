@@ -9,7 +9,10 @@
 		}"
 	>
 		<h3>{{ fullName }}</h3>
-		<h4>${{ rate }}/hour</h4>
+		<h4>
+			<em>{{ shortenedDescription }}</em>
+		</h4>
+		<h4><strong>Rate:</strong> ${{ rate }}/hour</h4>
 		<div class="badges">
 			<base-badge
 				v-for="area in areas"
@@ -48,7 +51,7 @@ import { StoreMessagesConstants } from '../../constants/store-messages'
 import { isLoggedInUser } from '../../utils/globalFunctions'
 
 export default {
-	props: ['id', 'firstName', 'lastName', 'rate', 'areas'],
+	props: ['id', 'firstName', 'lastName', 'description', 'rate', 'areas'],
 	data() {
 		return {
 			isLoading: false,
@@ -57,6 +60,9 @@ export default {
 	computed: {
 		fullName() {
 			return this.firstName + ' ' + this.lastName
+		},
+		shortenedDescription() {
+			return this.description.substr(0, 250) + '...'
 		},
 		coachContactLink() {
 			return this.$route.path + '/' + this.id + '/contact' // /coaches/c1/contact
@@ -115,7 +121,7 @@ li {
 	}
 
 	.badges {
-		padding: 1.25rem 0;
+		padding: 0.25rem 0 1.25rem 0;
 	}
 
 	.actions {
