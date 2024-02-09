@@ -24,14 +24,14 @@ export default {
 				}
 			)
 
-			if (!response.ok) {
+			if (response.ok) {
+				context.commit('registerCoach', {
+					...coachData,
+					id: userId,
+				})
+			} else {
 				throw new Error(APIErrorMessageConstants.REGISTER_COACH)
 			}
-
-			context.commit('registerCoach', {
-				...coachData,
-				id: userId,
-			})
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}

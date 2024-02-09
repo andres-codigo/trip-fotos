@@ -47,7 +47,7 @@ defineEmits(['remove'])
 
 	.close-icon,
 	.status-indicator {
-		--size: $checkbox-size-20px;
+		--size: 20px;
 		appearance: none;
 		border: 0;
 		border-radius: var(--size);

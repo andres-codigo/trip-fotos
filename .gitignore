@@ -1,10 +1,21 @@
-# Logs
+# logs
 logs
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# os files
+.DS_Store
 
 # dependency directories
+# build and set-up files
 node_modules
+dist
+
+# Editor directories and files
+.vscode/*
 
 # optional npm cache directory
 .npm
@@ -14,8 +25,5 @@ node_modules
 
 # dotenv environment variable files
 .env
-.env.local
-.env.\*.local
-
-# Editor directories and files
-.vscode
+.env.test
+*.local

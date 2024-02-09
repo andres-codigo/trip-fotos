@@ -9,9 +9,7 @@
 		}"
 	>
 		<h3>{{ fullName }}</h3>
-		<h4>
-			<em>{{ shortenedDescription }}</em>
-		</h4>
+		<p>{{ shortenedDescription }}</p>
 		<h4><strong>Rate:</strong> ${{ rate }}/hour</h4>
 		<div class="badges">
 			<base-badge
@@ -62,7 +60,12 @@ export default {
 			return this.firstName + ' ' + this.lastName
 		},
 		shortenedDescription() {
-			return this.description.substr(0, 250) + '...'
+			let description = this.description.substr(0, 250)
+
+			if (description && description.length === 250) {
+				return description + '...'
+			}
+			return description
 		},
 		coachContactLink() {
 			return this.$route.path + '/' + this.id + '/contact' // /coaches/c1/contact
@@ -110,6 +113,10 @@ li {
 	border-radius: 12px;
 	margin: 1rem 0;
 	padding: 1rem;
+
+	p {
+		font-style: italic;
+	}
 
 	h3 {
 		font-size: 1.5rem;

@@ -67,7 +67,6 @@ defineExpose({
 		border: 1px dashed $color-silver;
 		margin: 0 auto;
 		margin-bottom: 15px;
-		padding: 50px;
 		max-width: 800px;
 		transition: 0.2s ease;
 		width: 100%;
@@ -77,11 +76,13 @@ defineExpose({
 
 		&:hover {
 			background-color: $color-alto;
+			border: 1px dashed $color-pigment-indigo;
 		}
 
 		label {
 			cursor: pointer;
 			display: block;
+			padding: 3rem;
 
 			span {
 				display: block;
@@ -101,9 +102,12 @@ defineExpose({
 			}
 		}
 		.image-list {
+			background-color: $color-azure;
+			border: 1px solid $color-white;
 			display: flex;
 			flex-wrap: wrap;
 			list-style: none;
+			margin: 10px;
 			padding: 0;
 		}
 	}

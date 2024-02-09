@@ -40,20 +40,20 @@ export default {
 
 			if (
 				responseData.error.message ===
-				APIErrorMessageConstants.LOGIN_EMAIL_EXISTS_TYPE
+				APIErrorMessageConstants.LOGIN_TYPE_EMAIL_EXISTS
 			) {
-				errorMessage = APIErrorMessageConstants.LOGIN_EMAIL_EXISTS_MESSAGE
+				errorMessage = APIErrorMessageConstants.LOGIN_MESSAGE_EMAIL_EXISTS
 			} else if (
 				responseData.error.message ===
-				APIErrorMessageConstants.LOGIN_OPERATION_NOT_ALLOWED_TYPE
+				APIErrorMessageConstants.LOGIN_TYPE_OPERATION_NOT_ALLOWED
 			) {
 				errorMessage =
-					APIErrorMessageConstants.LOGIN_OPERATION_NOT_ALLOWED_MESSAGE
+					APIErrorMessageConstants.LOGIN_MESSAGE_OPERATION_NOT_ALLOWED
 			} else if (
 				responseData.error.message ===
-				APIErrorMessageConstants.LOGIN_TOO_MANY_ATTEMPTS_TYPE
+				APIErrorMessageConstants.LOGIN_TYPE_TOO_MANY_ATTEMPTS
 			) {
-				errorMessage = APIErrorMessageConstants.LOGIN_TOO_MANY_ATTEMPTS_MESSAGE
+				errorMessage = APIErrorMessageConstants.LOGIN_MESSAGE_TOO_MANY_ATTEMPTS
 			}
 			const error = new Error(
 				errorMessage || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
