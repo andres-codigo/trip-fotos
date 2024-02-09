@@ -46,7 +46,7 @@
 
 <script>
 import { StoreMessagesConstants } from '../../constants/store-messages'
-import { isLoggedInUser } from '../../utils/globalFunctions'
+import { isLoggedInUser, delayLoading } from '../../utils/globalFunctions'
 
 export default {
 	props: ['id', 'firstName', 'lastName', 'description', 'rate', 'areas'],
@@ -76,9 +76,6 @@ export default {
 	},
 	methods: {
 		isLoggedInUser,
-		delayLoading(ms) {
-			return new Promise((resolve) => setTimeout(resolve, ms))
-		},
 		async deleteCoach() {
 			this.isLoading = true
 			const numberOfSeconds = 2000
@@ -89,7 +86,7 @@ export default {
 				})
 			)
 
-			const loadCoaches = this.delayLoading(numberOfSeconds).then(
+			const loadCoaches = delayLoading(numberOfSeconds).then(
 				this.$store.dispatch('coaches/loadCoaches', {
 					forceRefresh: true,
 				})

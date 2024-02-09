@@ -1,34 +1,37 @@
 <template>
 	<section>
+		<base-dialog :show="!!error" title="An error occurred" @close="handleError">
+			<p>{{ error }}</p>
+		</base-dialog>
 		<base-card>
 			<div v-if="isLoading" class="spinner-container">
 				<base-spinner></base-spinner>
 			</div>
-			<h2>Register as a coach now!</h2>
-			<coach-form @register-coach="registerCoach"></coach-form>
+			<div v-else>
+				<h2>Register as a coach now!</h2>
+				<coach-form @register-coach="registerCoach"></coach-form>
+			</div>
 		</base-card>
 	</section>
 </template>
 
 <script>
-import CoachForm from '../../components/coaches/CoachForm.vue'
-
+import { delayLoading } from '../../utils/globalFunctions'
 import { StoreMessagesConstants } from '../../constants/store-messages'
+
+import CoachForm from '../../components/coaches/CoachForm.vue'
 
 export default {
 	data() {
 		return {
 			isLoading: false,
-			error: '',
+			error: null,
 		}
 	},
 	components: {
 		CoachForm,
 	},
 	methods: {
-		delayLoading(ms) {
-			return new Promise((resolve) => setTimeout(resolve, ms))
-		},
 		async registerCoach(data) {
 			this.isLoading = true
 			const numberOfSeconds = 2000
@@ -41,7 +44,7 @@ export default {
 				this.$store.dispatch('coaches/coachName', data)
 			)
 
-			const routeToCoachesPage = this.delayLoading(numberOfSeconds).then(
+			const routeToCoachesPage = delayLoading(numberOfSeconds).then(
 				this.$router.replace('/coaches')
 			)
 
@@ -52,6 +55,9 @@ export default {
 				.catch((error) => {
 					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
+		},
+		handleError() {
+			this.error = null
 		},
 	},
 }
