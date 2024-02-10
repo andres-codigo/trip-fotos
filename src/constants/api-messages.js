@@ -1,7 +1,7 @@
 export const APIErrorMessageConstants = Object.freeze({
 	// GENERAL
 	GENERIC_MESSAGE: 'Something went wrong!',
-	CATCH_MESSAGE: 'There has been a problem with your fetch operation:',
+	CATCH_MESSAGE: 'There has been a problem with your fetch operation.',
 
 	// AUTHENTICATION
 	LOGIN_TYPE_EMAIL_EXISTS: 'EMAIL_EXISTS',

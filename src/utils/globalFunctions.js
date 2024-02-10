@@ -5,6 +5,6 @@ export const isLoggedInUser = (id, userId) => {
 	return true
 }
 
-export const delayLoading = (milliseconds) => {
+export function delayLoading(milliseconds) {
 	return new Promise((resolve) => setTimeout(resolve, milliseconds))
 }

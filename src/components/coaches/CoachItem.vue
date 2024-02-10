@@ -1,4 +1,7 @@
 <template>
+	<base-dialog :show="!!error" title="An error occurred" @close="handleError">
+		<p>{{ error }}</p>
+	</base-dialog>
 	<div v-if="isLoading" class="spinner-container">
 		<base-spinner></base-spinner>
 	</div>
@@ -9,8 +12,8 @@
 		}"
 	>
 		<h3>{{ fullName }}</h3>
-		<p>{{ shortenedDescription }}</p>
-		<h4><strong>Rate:</strong> ${{ rate }}/hour</h4>
+		<p class="description">{{ shortenedDescription }}</p>
+		<p><strong>Rate:</strong> ${{ rate }}/hour</p>
 		<div class="badges">
 			<base-badge
 				v-for="area in areas"
@@ -53,6 +56,7 @@ export default {
 	data() {
 		return {
 			isLoading: false,
+			error: null,
 		}
 	},
 	computed: {
@@ -100,6 +104,9 @@ export default {
 					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
 		},
+		handleError() {
+			this.error = null
+		},
 	},
 }
 </script>
@@ -111,7 +118,7 @@ li {
 	margin: 1rem 0;
 	padding: 1rem;
 
-	p {
+	.description {
 		font-style: italic;
 	}
 
