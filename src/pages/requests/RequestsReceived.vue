@@ -9,11 +9,11 @@
 		</base-dialog>
 		<section>
 			<base-card>
-				<header>
+				<header class="requests-header">
 					<h2>Requests Received</h2>
 				</header>
 				<base-spinner v-if="isLoading"></base-spinner>
-				<ul v-else-if="hasRequests && !isLoading">
+				<ul v-else-if="hasRequests && !isLoading" class="requests">
 					<request-item
 						v-for="req in receivedRequests"
 						:key="req.id"
@@ -22,7 +22,9 @@
 						:message="req.message"
 					></request-item>
 				</ul>
-				<h3 v-else>You haven't received any requests yet!</h3>
+				<h3 v-else class="no-requests">
+					You haven't received any requests yet!
+				</h3>
 			</base-card>
 		</section>
 	</div>
@@ -70,18 +72,18 @@ export default {
 </script>
 
 <style scoped>
-header {
+.requests-header {
 	text-align: center;
 }
 
-ul {
+.requests {
 	list-style: none;
 	margin: 2rem auto;
 	padding: 0;
 	max-width: 30rem;
 }
 
-h3 {
+.no-requests {
 	text-align: center;
 	font-weight: 100;
 }

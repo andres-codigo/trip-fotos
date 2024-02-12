@@ -7,7 +7,7 @@
 			<base-spinner></base-spinner>
 		</base-dialog>
 		<base-card>
-			<form @submit.prevent="submitForm">
+			<form @submit.prevent="submitForm" class="user-authentication">
 				<div :class="['form-control', { invalid: !email.isValid }]">
 					<label for="email">{{ email.label }}</label>
 					<input
@@ -184,7 +184,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-form {
+.user-authentication {
 	margin: 1rem;
 	padding: 1rem;
 

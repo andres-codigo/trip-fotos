@@ -1,8 +1,6 @@
-CoachFilter
-
 <template>
 	<base-card>
-		<h2>Find Your Coach</h2>
+		<h2 class="filter-header">Find Your Coach</h2>
 		<span
 			:class="['filter-option', { active: value.isActive }]"
 			v-for="(value, key) in filters"
@@ -50,7 +48,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h2 {
+.filter-header {
 	margin: 0.5rem 0;
 }
 .filter-option {

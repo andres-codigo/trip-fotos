@@ -32,7 +32,7 @@ CoachesList
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
-				<ul v-else-if="hasCoaches">
+				<ul v-else-if="hasCoaches" class="coaches">
 					<coach-item
 						v-for="coach in filteredCoaches"
 						:key="coach.id"
@@ -149,7 +149,7 @@ export default {
 	margin: 5rem 0;
 }
 
-ul {
+.coaches {
 	list-style: none;
 	margin: 0;
 	padding: 0;

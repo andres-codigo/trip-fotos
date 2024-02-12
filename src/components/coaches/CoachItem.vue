@@ -7,13 +7,16 @@
 	</div>
 	<li
 		v-else
-		:class="{
-			isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
-		}"
+		:class="[
+			'coach',
+			{
+				isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+			},
+		]"
 	>
-		<h3>{{ fullName }}</h3>
+		<h3 class="name">{{ fullName }}</h3>
 		<p class="description">{{ shortenedDescription }}</p>
-		<p><strong>Rate:</strong> ${{ rate }}/hour</p>
+		<p class="rate"><strong>Rate:</strong> ${{ rate }}/hour</p>
 		<div class="badges">
 			<base-badge
 				v-for="area in areas"
@@ -112,7 +115,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-li {
+.spinner-container {
+	margin: 0.5rem 0;
+}
+
+.coach {
 	border: 1px solid $color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
@@ -122,12 +129,8 @@ li {
 		font-style: italic;
 	}
 
-	h3 {
+	.name {
 		font-size: 1.5rem;
-	}
-
-	h3,
-	h4 {
 		margin: 0.5rem 0;
 	}
 
@@ -148,9 +151,5 @@ li {
 			}
 		}
 	}
-}
-
-div {
-	margin: 0.5rem 0;
 }
 </style>
