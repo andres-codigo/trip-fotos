@@ -154,12 +154,17 @@ export default {
 						APIConstants.API_AUTH_LOGIN_MODE,
 						actionPayload
 					)
+
+					await this.$store.dispatch('coaches/loadCoaches', {
+						forceRefresh: true,
+					})
 				} else {
 					await this.$store.dispatch(
 						APIConstants.API_AUTH_SIGNUP_MODE,
 						actionPayload
 					)
 				}
+
 				const redirectUrl = '/' + (this.$route.query.redirect || 'coaches')
 				this.$router.replace(redirectUrl)
 			} catch (err) {

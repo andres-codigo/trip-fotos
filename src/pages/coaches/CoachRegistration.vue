@@ -44,11 +44,22 @@ export default {
 				this.$store.dispatch('coaches/coachName', data)
 			)
 
+			const loadCoaches = Promise.resolve(
+				this.$store.dispatch('coaches/loadCoaches', {
+					forceRefresh: true,
+				})
+			)
+
 			const routeToCoachesPage = delayLoading(numberOfSeconds).then(
 				this.$router.replace('/coaches')
 			)
 
-			await Promise.all([registerCoach, setCoachName, routeToCoachesPage])
+			await Promise.all([
+				registerCoach,
+				setCoachName,
+				loadCoaches,
+				routeToCoachesPage,
+			])
 				.then(() => {
 					this.isLoading = false
 				})

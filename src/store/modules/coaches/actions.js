@@ -12,6 +12,7 @@ export default {
 				hourlyRate: data.rate,
 				areas: data.areas,
 				files: data.files,
+				registered: new Date(),
 			}
 
 			const token = context.rootGetters.token
@@ -101,6 +102,53 @@ export default {
 		}
 	},
 
+	async updateCoaches(context) {
+		const response = await fetch(APIConstants.BASE_URL + `/coaches.json`, {
+			method: APIConstants.GET,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+
+		if (!response.ok) {
+			throw new Error(APIErrorMessageConstants.LOAD_COACHES)
+		}
+
+		const responseData = await response.json()
+
+		const coaches = []
+
+		for (const key in responseData) {
+			const coach = {
+				id: key,
+				firstName: responseData[key].firstName,
+				lastName: responseData[key].lastName,
+				description: responseData[key].description,
+				hourlyRate: responseData[key].hourlyRate,
+				areas: responseData[key].areas,
+				files: responseData[key].files,
+				registered: responseData[key].registered,
+			}
+			coaches.push(coach)
+		}
+
+		const loggedInCoach = coaches.find(
+			(coach) => coach.id === localStorage.userId
+		)
+
+		const filteredCoach = coaches.filter(
+			(coach) => coach.id !== localStorage.userId
+		)
+
+		if (loggedInCoach !== undefined) {
+			filteredCoach.unshift(loggedInCoach)
+
+			context.commit('setCoaches', filteredCoach)
+		} else {
+			context.commit('setCoaches', coaches)
+		}
+	},
+
 	async deleteCoach(context, data) {
 		try {
 			const coachId = data.coachId
@@ -127,6 +175,8 @@ export default {
 				...responseData,
 				id: coachId,
 			})
+
+			await context.dispatch('updateCoaches')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
@@ -137,35 +187,8 @@ export default {
 			if (!payload.forceRefresh && !context.getters.shouldUpdate) {
 				return
 			}
-			const response = await fetch(APIConstants.BASE_URL + `/coaches.json`, {
-				method: APIConstants.GET,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			})
 
-			if (!response.ok) {
-				throw new Error(APIErrorMessageConstants.LOAD_COACHES)
-			}
-
-			const responseData = await response.json()
-
-			const coaches = []
-
-			for (const key in responseData) {
-				const coach = {
-					id: key,
-					firstName: responseData[key].firstName,
-					lastName: responseData[key].lastName,
-					description: responseData[key].description,
-					hourlyRate: responseData[key].hourlyRate,
-					areas: responseData[key].areas,
-					files: responseData[key].files,
-				}
-				coaches.push(coach)
-			}
-
-			context.commit('setCoaches', coaches)
+			await context.dispatch('updateCoaches')
 			context.commit('setFetchTimestamp')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)

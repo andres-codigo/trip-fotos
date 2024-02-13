@@ -14,7 +14,12 @@
 			},
 		]"
 	>
-		<h3 class="name">{{ fullName }}</h3>
+		<h3 class="name">
+			{{ fullName }}
+		</h3>
+		<p class="registered">
+			{{ registeredDate }}
+		</p>
 		<p class="description">{{ shortenedDescription }}</p>
 		<p class="rate"><strong>Rate:</strong> ${{ rate }}/hour</p>
 		<div class="badges">
@@ -52,10 +57,24 @@
 
 <script>
 import { StoreMessagesConstants } from '../../constants/store-messages'
-import { isLoggedInUser, delayLoading } from '../../utils/globalFunctions'
+import { DataConstants } from '../../constants/data'
+
+import {
+	formatDate,
+	isLoggedInUser,
+	delayLoading,
+} from '../../utils/globalFunctions'
 
 export default {
-	props: ['id', 'firstName', 'lastName', 'description', 'rate', 'areas'],
+	props: [
+		'id',
+		'firstName',
+		'lastName',
+		'description',
+		'rate',
+		'areas',
+		'registered',
+	],
 	data() {
 		return {
 			isLoading: false,
@@ -63,6 +82,9 @@ export default {
 		}
 	},
 	computed: {
+		registeredDate() {
+			return formatDate(this.registered, DataConstants.DD_MMM_YYYY)
+		},
 		fullName() {
 			return this.firstName + ' ' + this.lastName
 		},
@@ -82,6 +104,7 @@ export default {
 		},
 	},
 	methods: {
+		formatDate,
 		isLoggedInUser,
 		async deleteCoach() {
 			this.isLoading = true
@@ -125,15 +148,18 @@ export default {
 	margin: 1rem 0;
 	padding: 1rem;
 
+	.registered {
+		font-size: 0.75rem;
+		display: inline;
+	}
+	.name {
+		font-size: 1.5rem;
+		margin: 0;
+	}
+
 	.description {
 		font-style: italic;
 	}
-
-	.name {
-		font-size: 1.5rem;
-		margin: 0.5rem 0;
-	}
-
 	.badges {
 		padding: 0.25rem 0 1.25rem 0;
 	}

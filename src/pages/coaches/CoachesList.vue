@@ -16,10 +16,10 @@ CoachesList
 			<base-card>
 				<div class="controls">
 					<base-button
-						:mode="!hasCoaches ? 'disabled' : 'outline'"
+						:mode="!hasCoaches && !isLoading ? 'disabled' : 'outline'"
 						@click="loadCoaches(true)"
-						:disabled="!hasCoaches ? true : false"
-						:class="{ hide: !hasCoaches }"
+						:disabled="!hasCoaches && !isLoading ? true : false"
+						:class="{ hide: !hasCoaches && !isLoading }"
 						>Refresh</base-button
 					>
 					<base-button
@@ -42,6 +42,7 @@ CoachesList
 						:description="coach.description"
 						:rate="coach.hourlyRate"
 						:areas="coach.areas"
+						:registered="coach.registered"
 					></coach-item>
 				</ul>
 				<h3 v-else>No coaches found.</h3>
@@ -85,6 +86,7 @@ export default {
 		},
 		filteredCoaches() {
 			const coaches = this.$store.getters['coaches/coaches']
+
 			return coaches.filter((coach) => {
 				if (
 					this.activeFilters.frontend.isActive &&
