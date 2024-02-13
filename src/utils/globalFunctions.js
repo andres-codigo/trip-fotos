@@ -8,7 +8,7 @@ export const isLoggedInUser = (id, userId) => {
 }
 
 export function formatDate(value, format) {
-	return moment(value, format)
+	return moment(value).format(format)
 }
 
 export function delayLoading(milliseconds) {
