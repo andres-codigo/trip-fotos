@@ -4,6 +4,7 @@ CoachesList
 	<div>
 		<base-dialog
 			:show="!!error"
+			:isError="!!error"
 			title="An error occurred!"
 			@close="handleError"
 		>

@@ -1,5 +1,10 @@
 <template>
-	<base-dialog :show="!!error" title="An error occurred" @close="handleError">
+	<base-dialog
+		:show="!!error"
+		:isError="!!error"
+		:title="dialogTitle"
+		@close="handleError"
+	>
 		<p>{{ error }}</p>
 	</base-dialog>
 	<div v-if="isLoading" class="spinner-container">
@@ -58,6 +63,7 @@
 <script>
 import { StoreMessagesConstants } from '../../constants/store-messages'
 import { DataConstants } from '../../constants/data'
+import { GlobalConstants } from '../../constants/global'
 
 import {
 	formatDate,
@@ -77,6 +83,7 @@ export default {
 	],
 	data() {
 		return {
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
 			error: null,
 		}

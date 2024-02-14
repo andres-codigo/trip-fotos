@@ -13,7 +13,9 @@
 				</section>
 				<menu v-if="!fixed">
 					<slot name="actions">
-						<base-button @click="tryClose">Close</base-button>
+						<base-button :isError="isError" @click="tryClose"
+							>Close</base-button
+						>
 					</slot>
 				</menu>
 			</dialog>
@@ -27,6 +29,10 @@ export default {
 		show: {
 			type: Boolean,
 			required: true,
+		},
+		isError: {
+			type: Boolean,
+			required: false,
 		},
 		title: {
 			type: String,

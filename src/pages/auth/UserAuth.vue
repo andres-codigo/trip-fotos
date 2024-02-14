@@ -1,6 +1,11 @@
 <template>
 	<div>
-		<base-dialog :show="!!error" title="An error occurred" @close="handleError">
+		<base-dialog
+			:show="!!error"
+			:isError="!!error"
+			:title="dialogTitle"
+			@close="handleError"
+		>
 			<p>{{ error }}</p>
 		</base-dialog>
 		<base-dialog :show="isLoading" title="Authenticating..." fixed>
@@ -40,6 +45,7 @@
 <script>
 import { APIConstants } from '../../constants/api'
 import { APIErrorMessageConstants } from '../../constants/api-messages'
+import { GlobalConstants } from '../../constants/global'
 
 export default {
 	data() {
@@ -62,6 +68,7 @@ export default {
 			message: [],
 			formIsValid: true,
 			mode: APIConstants.API_AUTH_LOGIN_MODE,
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
 			error: null,
 		}

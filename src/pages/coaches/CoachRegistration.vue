@@ -1,6 +1,11 @@
 <template>
 	<section>
-		<base-dialog :show="!!error" title="An error occurred" @close="handleError">
+		<base-dialog
+			:show="!!error"
+			:isError="!!error"
+			:title="dialogTitle"
+			@close="handleError"
+		>
 			<p>{{ error }}</p>
 		</base-dialog>
 		<base-card>
@@ -18,12 +23,14 @@
 <script>
 import { delayLoading } from '../../utils/globalFunctions'
 import { StoreMessagesConstants } from '../../constants/store-messages'
+import { GlobalConstants } from '../../constants/global'
 
 import CoachForm from '../../components/coaches/CoachForm.vue'
 
 export default {
 	data() {
 		return {
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
 			error: null,
 		}

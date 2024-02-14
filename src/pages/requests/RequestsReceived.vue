@@ -2,7 +2,8 @@
 	<div>
 		<base-dialog
 			:show="!!error"
-			title="An error occurred!"
+			:isError="!!error"
+			:title="dialogTitle"
 			@close="handleError"
 		>
 			<p>{{ error }}</p>
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import { GlobalConstants } from '../../constants/global'
 import RequestItem from '../../components/requests/RequestItem.vue'
 
 export default {
@@ -39,6 +41,7 @@ export default {
 	},
 	data() {
 		return {
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
 			error: null,
 		}
