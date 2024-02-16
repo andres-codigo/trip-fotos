@@ -1,3 +1,6 @@
+import { APIConstants } from '../../../constants/api'
+import { APIErrorMessageConstants } from '../../../constants/api-messages'
+
 export default {
 	async contactCoach(context, payload) {
 		const newRequest = {
@@ -6,7 +9,7 @@ export default {
 			message: payload.message,
 		}
 		const response = await fetch(
-			`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/requests/${payload.coachId}.json`,
+			APIConstants.BASE_URL + `/requests/${payload.coachId}.json`,
 			{
 				method: 'POST',
 				body: JSON.stringify(newRequest),
@@ -16,7 +19,9 @@ export default {
 		const responseData = await response.json()
 
 		if (!response.ok) {
-			const error = new Error(responseData.message || 'Failed to send request.')
+			const error = new Error(
+				responseData.message || APIErrorMessageConstants.CONTACT_COACH
+			)
 			throw error
 		}
 
@@ -29,14 +34,13 @@ export default {
 		const coachId = context.rootGetters.userId
 		const token = context.rootGetters.token
 		const response = await fetch(
-			`https://trip-fotos-default-rtdb.asia-southeast1.firebasedatabase.app/requests/${coachId}.json?auth=` +
-				token
+			APIConstants.BASE_URL + `/requests/${coachId}.json?auth=` + token
 		)
 		const responseData = await response.json()
 
 		if (!response.ok) {
 			const error = new Error(
-				responseData.message || 'Failed to fetch requests.'
+				responseData.message || APIErrorMessageConstants.FETCH_REQUESTS
 			)
 			throw error
 		}
@@ -55,5 +59,6 @@ export default {
 		}
 
 		context.commit('setRequests', requests)
+		context.commit('setRequestsCount', requests.length)
 	},
 }

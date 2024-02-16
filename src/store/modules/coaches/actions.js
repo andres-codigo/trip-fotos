@@ -142,7 +142,10 @@ export default {
 
 		if (loggedInCoach !== undefined) {
 			filteredCoach.unshift(loggedInCoach)
-
+			context.commit(
+				'setCoachName',
+				loggedInCoach.firstName + ' ' + loggedInCoach.lastName
+			)
 			context.commit('setCoaches', filteredCoach)
 		} else {
 			context.commit('setCoaches', coaches)

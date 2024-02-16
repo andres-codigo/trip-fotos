@@ -6,15 +6,26 @@
 			</h1>
 			<ul>
 				<li>
-					<router-link to="/coaches">All Coaches</router-link>
+					<ul>
+						<li v-if="isLoggedIn && isCoach">
+							<router-link to="/requests"
+								>Requests
+								<span
+									class="requests-counter-container"
+									v-if="!!this.totalRequests && this.totalRequests > 0"
+									><span class="counter">{{ this.totalRequests }}</span></span
+								>
+							</router-link>
+						</li>
+						<li>
+							<router-link to="/coaches">All Coaches</router-link>
+						</li>
+					</ul>
 				</li>
-				<li v-if="isLoggedIn">
-					<router-link to="/requests">Requests</router-link>
-				</li>
-				<li v-else>
+				<li v-if="!isLoggedIn">
 					<router-link to="/auth">Login</router-link>
 				</li>
-				<li v-if="isLoggedIn">
+				<li v-else>
 					<base-button @click="logout">Logout {{ coachName }}</base-button>
 				</li>
 			</ul>
@@ -27,6 +38,7 @@ export default {
 	data() {
 		return {
 			coachName: '',
+			totalRequests: null,
 		}
 	},
 	computed: {
@@ -35,6 +47,12 @@ export default {
 		},
 		usersName() {
 			return this.$store.getters['coaches/coachName']
+		},
+		isCoach() {
+			return this.$store.getters['coaches/isCoach']
+		},
+		requestsCount() {
+			return this.$store.getters['requests/requestsCount']
 		},
 	},
 	watch: {
@@ -45,11 +63,15 @@ export default {
 	created() {
 		if (this.isLoggedIn) {
 			this.setCoachName()
+			this.setRequestCount()
 		}
 	},
 	beforeUpdate() {
 		if (this.isLoggedIn) {
 			this.setCoachName()
+			if (this.totalRequests === null) {
+				this.setRequestCount()
+			}
 		}
 	},
 	methods: {
@@ -67,8 +89,14 @@ export default {
 				)
 			}
 		},
+		setRequestCount() {
+			this.$store.dispatch('requests/fetchRequests').then(() => {
+				this.totalRequests = this.requestsCount
+			})
+		},
 		logout() {
 			this.coachName = ''
+			this.totalRequests = null
 
 			this.$store.dispatch('logout')
 			this.$router.replace('/coaches')
@@ -100,12 +128,6 @@ header {
 				color: $color-white;
 				text-decoration: none;
 				margin: 0;
-
-				&:hover,
-				&:active,
-				&.router-link-active {
-					border-color: transparent;
-				}
 			}
 		}
 
@@ -125,18 +147,58 @@ header {
 					color: $color-lavender-magenta;
 					display: inline-block;
 					padding: 0.75rem 1.5rem;
+					position: relative;
 					text-decoration: none;
+
+					.requests-counter-container {
+						--size: 1.4rem;
+						--font-size: 0.75rem;
+						appearance: none;
+						border: 1px solid $color-lavender-magenta;
+						border-radius: var(--size);
+						color: inherit;
+						cursor: pointer;
+						height: var(--size);
+						line-height: var(--size);
+						padding: 0;
+						position: absolute;
+						right: 0.1rem;
+						top: 0rem;
+						width: var(--size);
+
+						@include fadeIn(ease, 2s, 1, forwards);
+
+						.counter {
+							bottom: 1px;
+							display: inline-block;
+							font-size: var(--font-size);
+							position: relative;
+							text-align: center;
+							width: 100%;
+						}
+					}
 
 					&:hover {
 						color: $color-white;
+						.requests-counter-container {
+							border: 1px solid $color-white;
+						}
 					}
 
 					&.router-link-active {
 						border: 1px solid $color-white;
 						color: $color-white;
+
+						.requests-counter-container {
+							border: 1px solid $color-pigment-indigo;
+						}
 						&:hover {
 							border: 1px solid $color-lavender-magenta;
 							color: $color-lavender-magenta;
+
+							.requests-counter-container {
+								border: 1px solid $color-pigment-indigo;
+							}
 						}
 					}
 				}

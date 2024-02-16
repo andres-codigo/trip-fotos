@@ -8,3 +8,41 @@
 	-ms-user-select: $value; /* Internet Explorer/Edge */
 	user-select: $value; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+
+$prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
+// ********************
+// fadeIn
+// ********************
+@mixin keyframe-fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+@-moz-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@-webkit-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@-o-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@-ms-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@mixin fadeIn($type, $duration, $count, $mode) {
+	$keyframe-name: fadeIn;
+	@each $p in $prefix {
+		#{$p}animation: $keyframe-name $type $duration;
+		#{$p}animation-iteration-count: $count;
+		#{$p}animation-fill-mode: $mode;
+	}
+}
+// e.g. @include fadeIn( ease, 2s, 1, forwards );

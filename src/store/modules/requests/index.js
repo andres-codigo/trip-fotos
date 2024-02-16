@@ -7,6 +7,7 @@ export default {
 	state() {
 		return {
 			requests: [],
+			count: 0,
 		}
 	},
 	mutations,

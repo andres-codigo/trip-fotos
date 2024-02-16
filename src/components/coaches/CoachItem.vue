@@ -50,7 +50,7 @@
 						extension of sign-up.
 			-->
 			<base-button
-				v-if="this.$store.getters.userName === 'Bob Dylan'"
+				v-if="fullName !== userName"
 				@click="this.deleteCoach()"
 				mode="outline"
 				class="actions delete"
@@ -108,6 +108,9 @@ export default {
 		},
 		coachDetailsLink() {
 			return this.$route.path + '/' + this.id // /coaches/c1
+		},
+		userName() {
+			return this.$store.getters['coaches/coachName']
 		},
 	},
 	methods: {

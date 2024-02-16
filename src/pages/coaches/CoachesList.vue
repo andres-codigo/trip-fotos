@@ -1,5 +1,3 @@
-CoachesList
-
 <template>
 	<div>
 		<base-dialog

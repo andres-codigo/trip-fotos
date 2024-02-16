@@ -5,4 +5,7 @@ export default {
 	setRequests(state, payload) {
 		state.requests = payload
 	},
+	setRequestsCount(state, payload) {
+		state.count = payload
+	},
 }

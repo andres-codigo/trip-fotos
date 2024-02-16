@@ -22,4 +22,8 @@ export const APIErrorMessageConstants = Object.freeze({
 	LOAD_COACH: 'Failed to register coach.',
 	DELETE_COACH: 'Failed to delete coach.',
 	LOAD_COACHES: 'Failed to load coaches.',
+
+	// REQUESTS
+	FETCH_REQUESTS: 'Failed to fetch requests.',
+	CONTACT_COACH: 'Failed to send request.',
 })
