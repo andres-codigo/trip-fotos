@@ -30,7 +30,7 @@
 		</section>
 		<section
 			:class="{ isLoading: isLoading }"
-			v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
+			v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
 		>
 			<base-card>
 				<header>
@@ -69,6 +69,9 @@ export default {
 		},
 		coach() {
 			return this.$store.getters['coaches/coach']
+		},
+		isCoach() {
+			return this.$store.getters['coaches/isCoach']
 		},
 	},
 	watch: {

@@ -19,9 +19,7 @@
 			},
 		]"
 	>
-		<h3 class="name">
-			{{ fullName }}
-		</h3>
+		<h3 class="name">{{ fullName }}</h3>
 		<p class="registered">
 			{{ registeredDate }}
 		</p>
@@ -37,7 +35,7 @@
 		</div>
 		<div class="actions">
 			<base-button
-				v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
+				v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
 				mode="outline"
 				link
 				:to="coachContactLink"
@@ -112,6 +110,9 @@ export default {
 		},
 		userName() {
 			return this.$store.getters['coaches/coachName']
+		},
+		isCoach() {
+			return this.$store.getters['coaches/isCoach']
 		},
 	},
 	methods: {
