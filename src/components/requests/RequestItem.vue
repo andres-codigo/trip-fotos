@@ -1,5 +1,16 @@
 <template>
-	<li class="request">
+	<base-dialog
+		:show="!!error"
+		:isError="!!error"
+		:title="dialogTitle"
+		@close="handleError"
+	>
+		<p>{{ error }}</p>
+	</base-dialog>
+	<div v-if="isLoading" class="spinner-container">
+		<base-spinner></base-spinner>
+	</div>
+	<li v-else class="request">
 		<div class="container">
 			<h4>From</h4>
 			<p>
@@ -16,15 +27,61 @@
 			<h4>Message</h4>
 			<p>{{ message }}</p>
 		</div>
+		<div class="actions">
+			<base-button
+				@click="this.deleteRequest()"
+				mode="outline"
+				class="actions delete"
+				>Delete</base-button
+			>
+		</div>
 	</li>
 </template>
 
 <script>
+import { StoreMessagesConstants } from '../../constants/store-messages'
+import { GlobalConstants } from '../../constants/global'
+import { delayLoading } from '../../utils/globalFunctions'
+
 export default {
-	props: ['name', 'email', 'message'],
+	props: ['id', 'name', 'email', 'message'],
+	data() {
+		return {
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
+			isLoading: false,
+			error: null,
+		}
+	},
 	computed: {
 		emailLink() {
 			return 'mailto:' + this.email
+		},
+	},
+	methods: {
+		async deleteRequest() {
+			const numberOfSeconds = 2000
+			this.isLoading = true
+
+			const deleteRequest = Promise.resolve(
+				this.$store.dispatch('requests/deleteRequest', {
+					requestId: this.id,
+				})
+			)
+
+			const loadRequests = delayLoading(numberOfSeconds).then(
+				this.$store.dispatch('requests/loadRequests')
+			)
+
+			await Promise.all([deleteRequest, loadRequests])
+				.then(() => {
+					this.isLoading = false
+				})
+				.catch((error) => {
+					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
+				})
+		},
+		handleError() {
+			this.error = null
 		},
 	},
 }
@@ -55,6 +112,20 @@ export default {
 				&:active {
 					color: $color-fresh-eggplant;
 				}
+			}
+		}
+	}
+
+	.actions {
+		display: flex;
+		justify-content: flex-end;
+		&.delete {
+			background-color: $color-white;
+			@include error-text;
+			@include invalid-border;
+			&:hover {
+				background-color: $color-mojo;
+				color: $color-white;
 			}
 		}
 	}

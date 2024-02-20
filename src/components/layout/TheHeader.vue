@@ -59,6 +59,9 @@ export default {
 		usersName(name) {
 			this.coachName = name
 		},
+		requestsCount(count) {
+			this.totalRequests = count
+		},
 	},
 	created() {
 		if (this.isLoggedIn) {
@@ -90,7 +93,7 @@ export default {
 			}
 		},
 		setRequestCount() {
-			this.$store.dispatch('requests/fetchRequests').then(() => {
+			this.$store.dispatch('requests/loadRequests').then(() => {
 				this.totalRequests = this.requestsCount
 			})
 		},

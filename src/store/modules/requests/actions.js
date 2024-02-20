@@ -30,7 +30,7 @@ export default {
 
 		context.commit('addRequest', newRequest)
 	},
-	async fetchRequests(context) {
+	async loadRequests(context) {
 		const coachId = context.rootGetters.userId
 		const token = context.rootGetters.token
 		const response = await fetch(
@@ -60,5 +60,40 @@ export default {
 
 		context.commit('setRequests', requests)
 		context.commit('setRequestsCount', requests.length)
+	},
+	async deleteRequest(context, data) {
+		try {
+			const coachId = context.rootGetters.userId
+			const token = context.rootGetters.token
+
+			const requestId = data.requestId
+
+			const response = await fetch(
+				APIConstants.BASE_URL +
+					`/requests/${coachId}/${requestId}.json?auth=` +
+					token,
+				{
+					method: APIConstants.DELETE,
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+
+			if (!response.ok) {
+				throw new Error(APIErrorMessageConstants.DELETE_COACH)
+			}
+
+			const responseData = await response.json()
+
+			context.commit('deleteRequest', {
+				...responseData,
+				id: coachId,
+			})
+
+			await context.dispatch('loadRequests')
+		} catch (error) {
+			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+		}
 	},
 }
