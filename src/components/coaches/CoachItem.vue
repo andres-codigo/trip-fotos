@@ -50,7 +50,7 @@
 						extension of sign-up.
 			-->
 			<base-button
-				v-if="fullName !== userName"
+				v-if="fullName !== userName && this.$store.getters.userId === adminId"
 				@click="this.deleteCoach()"
 				mode="outline"
 				class="actions delete"
@@ -84,6 +84,7 @@ export default {
 	data() {
 		return {
 			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
+			adminId: GlobalConstants.ADMIN_ID,
 			isLoading: false,
 			error: null,
 		}
