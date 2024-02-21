@@ -33,6 +33,18 @@
 				:title="area"
 			></base-badge>
 		</div>
+		<div class="images">
+			<div v-if="isLoadingImages" class="spinner-container-images">
+				<base-spinner></base-spinner>
+			</div>
+			<ul v-else class="images-list" v-show="!!images">
+				<base-image
+					v-for="file in this.images"
+					:key="file.index"
+					:url="file.url"
+				></base-image>
+			</ul>
+		</div>
 		<div class="actions">
 			<base-button
 				v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
@@ -59,6 +71,8 @@
 </template>
 
 <script>
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
+
 import { StoreMessagesConstants } from '../../constants/store-messages'
 import { DataConstants } from '../../constants/data'
 import { GlobalConstants } from '../../constants/global'
@@ -85,6 +99,8 @@ export default {
 			adminId: GlobalConstants.ADMIN_ID,
 			isLoading: false,
 			error: null,
+			isLoadingImages: false,
+			images: [],
 		}
 	},
 	computed: {
@@ -115,9 +131,42 @@ export default {
 			return this.$store.getters['coaches/isCoach']
 		},
 	},
+	created() {
+		this.getImages()
+	},
 	methods: {
 		formatDate,
 		isLoggedInUser,
+		getImages() {
+			const storage = getStorage()
+			const spaceRef = ref(storage, `images/${this.id}`)
+
+			if (spaceRef.name === this.id) {
+				listAll(spaceRef)
+					.then((res) => {
+						res.items.forEach(async (itemRef, index) => {
+							this.isLoadingImages = true
+							await getDownloadURL(itemRef)
+								.then((downloadURL) => {
+									let image = {
+										index: index,
+										url: downloadURL,
+									}
+									this.images.push(image)
+								})
+								.finally(() => {
+									this.isLoadingImages = false
+								})
+								.catch((error) => {
+									console.log(error)
+								})
+						})
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			}
+		},
 		async deleteCoach() {
 			this.isLoading = true
 			const numberOfSeconds = 2000
@@ -154,6 +203,11 @@ export default {
 	margin: 0.5rem 0;
 }
 
+.spinner-container-images {
+	height: 146.797px;
+	@include fadeIn(ease, 2s, 1, forwards);
+}
+
 .coach {
 	border: 1px solid $color-tundora;
 	border-radius: 12px;
@@ -174,6 +228,17 @@ export default {
 	}
 	.badges {
 		padding: 0.25rem 0 1.25rem 0;
+	}
+
+	.images {
+		.images-list {
+			display: flex;
+			flex-wrap: wrap;
+			list-style: none;
+			padding: 0;
+
+			@include fadeIn(ease, 2s, 1, forwards);
+		}
 	}
 
 	.actions {

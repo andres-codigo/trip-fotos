@@ -1,3 +1,5 @@
+import { getStorage, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+
 import { APIConstants } from '../../../constants/api'
 import { APIErrorMessageConstants } from '../../../constants/api-messages'
 
@@ -30,6 +32,27 @@ export default {
 					...coachData,
 					id: userId,
 				})
+
+				const imagePromises = await Promise.all(
+					Array.from(data.files, async (image) => {
+						const storage = getStorage()
+						const storageRef = ref(storage, `/images/${userId}/${image.name}`)
+
+						const metadata = {
+							customMetadata: {
+								userId: userId,
+							},
+						}
+
+						const response = await uploadBytes(storageRef, image.file, metadata)
+						const url = await getDownloadURL(response.ref)
+
+						return url
+					})
+				)
+
+				const imagesResponse = await Promise.all(imagePromises)
+				return imagesResponse
 			} else {
 				throw new Error(APIErrorMessageConstants.REGISTER_COACH)
 			}
