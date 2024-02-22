@@ -52,11 +52,7 @@ export default {
 
 @include media-query-min-width-image-resizing(667px, 300px);
 
-@include media-query-min-width-image-resizing(960px, 400px);
-
-@include media-query-min-width-image-resizing(1440px, 500px);
-
-@include media-query-min-width-image-resizing(2000px, 600px);
+@include media-query-min-max-width-image-resizing(960px, 2000px, 400px);
 
 // Device orientated min/max media queries
 @include media-query-max-device-width-image-resizing(480px, 260px);
