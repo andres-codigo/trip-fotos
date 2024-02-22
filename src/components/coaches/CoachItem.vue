@@ -1,18 +1,30 @@
 <template>
+	<base-dialog
+		:show="!!error"
+		:isError="!!error"
+		:title="dialogTitle"
+		@close="handleError"
+	>
+		<p>{{ error }}</p>
+	</base-dialog>
 	<div v-if="isLoading" class="spinner-container">
 		<base-spinner></base-spinner>
 	</div>
 	<li
 		v-else
-		:class="{
-			isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
-		}"
+		:class="[
+			'coach',
+			{
+				isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+			},
+		]"
 	>
-		<h3>{{ fullName }}</h3>
-		<h4>
-			<em>{{ shortenedDescription }}</em>
-		</h4>
-		<h4><strong>Rate:</strong> ${{ rate }}/hour</h4>
+		<h3 class="name">{{ fullName }}</h3>
+		<p class="registered">
+			{{ registeredDate }}
+		</p>
+		<p class="description">{{ shortenedDescription }}</p>
+		<p class="rate"><strong>Rate:</strong> ${{ rate }}/hour</p>
 		<div class="badges">
 			<base-badge
 				v-for="area in areas"
@@ -21,9 +33,22 @@
 				:title="area"
 			></base-badge>
 		</div>
+		<div class="images">
+			<div v-if="isLoadingImages" class="spinner-container-images">
+				<base-spinner></base-spinner>
+			</div>
+			<ul v-else class="images-list" v-show="!!images">
+				<base-image
+					v-for="file in this.images"
+					:key="file.index"
+					:url="file.url"
+					:title="fullName"
+				></base-image>
+			</ul>
+		</div>
 		<div class="actions">
 			<base-button
-				v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
+				v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
 				mode="outline"
 				link
 				:to="coachContactLink"
@@ -36,7 +61,7 @@
 						extension of sign-up.
 			-->
 			<base-button
-				v-if="this.$store.getters.userName === 'Bob Dylan'"
+				v-if="fullName !== userName && this.$store.getters.userId === adminId"
 				@click="this.deleteCoach()"
 				mode="outline"
 				class="actions delete"
@@ -47,22 +72,52 @@
 </template>
 
 <script>
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
+
 import { StoreMessagesConstants } from '../../constants/store-messages'
-import { isLoggedInUser } from '../../utils/globalFunctions'
+import { DataConstants } from '../../constants/data'
+import { GlobalConstants } from '../../constants/global'
+
+import {
+	formatDate,
+	isLoggedInUser,
+	delayLoading,
+} from '../../utils/globalFunctions'
 
 export default {
-	props: ['id', 'firstName', 'lastName', 'description', 'rate', 'areas'],
+	props: [
+		'id',
+		'firstName',
+		'lastName',
+		'description',
+		'rate',
+		'areas',
+		'registered',
+	],
 	data() {
 		return {
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
+			adminId: GlobalConstants.ADMIN_ID,
 			isLoading: false,
+			error: null,
+			isLoadingImages: false,
+			images: [],
 		}
 	},
 	computed: {
+		registeredDate() {
+			return formatDate(this.registered, DataConstants.DD_MMM_YYYY)
+		},
 		fullName() {
 			return this.firstName + ' ' + this.lastName
 		},
 		shortenedDescription() {
-			return this.description.substr(0, 250) + '...'
+			let description = this.description.substr(0, 250)
+
+			if (description && description.length === 250) {
+				return description + '...'
+			}
+			return description
 		},
 		coachContactLink() {
 			return this.$route.path + '/' + this.id + '/contact' // /coaches/c1/contact
@@ -70,11 +125,48 @@ export default {
 		coachDetailsLink() {
 			return this.$route.path + '/' + this.id // /coaches/c1
 		},
+		userName() {
+			return this.$store.getters['coaches/coachName']
+		},
+		isCoach() {
+			return this.$store.getters['coaches/isCoach']
+		},
+	},
+	created() {
+		this.getImages()
 	},
 	methods: {
+		formatDate,
 		isLoggedInUser,
-		delayLoading(ms) {
-			return new Promise((resolve) => setTimeout(resolve, ms))
+		getImages() {
+			const storage = getStorage()
+			const spaceRef = ref(storage, `images/${this.id}`)
+
+			if (spaceRef.name === this.id) {
+				listAll(spaceRef)
+					.then((res) => {
+						res.items.forEach(async (itemRef, index) => {
+							this.isLoadingImages = true
+							await getDownloadURL(itemRef)
+								.then((downloadURL) => {
+									let image = {
+										index: index,
+										url: downloadURL,
+									}
+									this.images.push(image)
+								})
+								.finally(() => {
+									this.isLoadingImages = false
+								})
+								.catch((error) => {
+									console.log(error)
+								})
+						})
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			}
 		},
 		async deleteCoach() {
 			this.isLoading = true
@@ -86,7 +178,7 @@ export default {
 				})
 			)
 
-			const loadCoaches = this.delayLoading(numberOfSeconds).then(
+			const loadCoaches = delayLoading(numberOfSeconds).then(
 				this.$store.dispatch('coaches/loadCoaches', {
 					forceRefresh: true,
 				})
@@ -100,28 +192,54 @@ export default {
 					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
 		},
+		handleError() {
+			this.error = null
+		},
 	},
 }
 </script>
 
 <style scoped lang="scss">
-li {
+.spinner-container {
+	margin: 0.5rem 0;
+}
+
+.spinner-container-images {
+	height: 146.797px;
+	@include fadeIn(ease, 2s, 1, forwards);
+}
+
+.coach {
 	border: 1px solid $color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
 	padding: 1rem;
 
-	h3 {
+	.registered {
+		font-size: 0.75rem;
+		display: inline;
+	}
+	.name {
 		font-size: 1.5rem;
+		margin: 0;
 	}
 
-	h3,
-	h4 {
-		margin: 0.5rem 0;
+	.description {
+		font-style: italic;
 	}
-
 	.badges {
 		padding: 0.25rem 0 1.25rem 0;
+	}
+
+	.images {
+		.images-list {
+			display: flex;
+			flex-wrap: wrap;
+			list-style: none;
+			padding: 0;
+
+			@include fadeIn(ease, 2s, 1, forwards);
+		}
 	}
 
 	.actions {
@@ -137,9 +255,5 @@ li {
 			}
 		}
 	}
-}
-
-div {
-	margin: 0.5rem 0;
 }
 </style>

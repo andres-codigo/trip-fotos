@@ -1,9 +1,8 @@
-CoachesList
-
 <template>
 	<div>
 		<base-dialog
 			:show="!!error"
+			:isError="!!error"
 			title="An error occurred!"
 			@close="handleError"
 		>
@@ -16,10 +15,10 @@ CoachesList
 			<base-card>
 				<div class="controls">
 					<base-button
-						:mode="!hasCoaches ? 'disabled' : 'outline'"
+						:mode="!hasCoaches && !isLoading ? 'disabled' : 'outline'"
 						@click="loadCoaches(true)"
-						:disabled="!hasCoaches ? true : false"
-						:class="{ hide: !hasCoaches }"
+						:disabled="!hasCoaches && !isLoading ? true : false"
+						:class="{ hide: !hasCoaches && !isLoading }"
 						>Refresh</base-button
 					>
 					<base-button
@@ -32,7 +31,7 @@ CoachesList
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
-				<ul v-else-if="hasCoaches">
+				<ul v-else-if="hasCoaches" class="coaches">
 					<coach-item
 						v-for="coach in filteredCoaches"
 						:key="coach.id"
@@ -42,6 +41,7 @@ CoachesList
 						:description="coach.description"
 						:rate="coach.hourlyRate"
 						:areas="coach.areas"
+						:registered="coach.registered"
 					></coach-item>
 				</ul>
 				<h3 v-else>No coaches found.</h3>
@@ -85,6 +85,7 @@ export default {
 		},
 		filteredCoaches() {
 			const coaches = this.$store.getters['coaches/coaches']
+
 			return coaches.filter((coach) => {
 				if (
 					this.activeFilters.frontend.isActive &&
@@ -149,7 +150,7 @@ export default {
 	margin: 5rem 0;
 }
 
-ul {
+.coaches {
 	list-style: none;
 	margin: 0;
 	padding: 0;

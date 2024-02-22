@@ -1,5 +1,11 @@
 <template>
-	<button v-if="!link" :class="mode" :disabled="disabled">
+	<button
+		v-if="!link"
+		:class="mode"
+		:disabled="disabled"
+		:isError="isError"
+		ref="baseButton"
+	>
 		<slot></slot>
 	</button>
 	<router-link v-else :to="to" :class="mode">
@@ -29,6 +35,21 @@ export default {
 			type: Boolean,
 			required: false,
 			default: false,
+		},
+		isError: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+	},
+	mounted() {
+		this.isErrorDialog()
+	},
+	methods: {
+		isErrorDialog() {
+			if (this.isError) {
+				this.$refs.baseButton.focus()
+			}
 		},
 	},
 }

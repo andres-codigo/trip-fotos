@@ -2,33 +2,38 @@
 	<div>
 		<base-dialog
 			:show="!!error"
-			title="An error occurred!"
+			:isError="!!error"
+			:title="dialogTitle"
 			@close="handleError"
 		>
 			<p>{{ error }}</p>
 		</base-dialog>
 		<section>
 			<base-card>
-				<header>
+				<header class="requests-header">
 					<h2>Requests Received</h2>
 				</header>
 				<base-spinner v-if="isLoading"></base-spinner>
-				<ul v-else-if="hasRequests && !isLoading">
+				<ul v-else-if="hasRequests && !isLoading" class="requests">
 					<request-item
 						v-for="req in receivedRequests"
 						:key="req.id"
+						:id="req.id"
 						:name="req.userName"
 						:email="req.userEmail"
 						:message="req.message"
 					></request-item>
 				</ul>
-				<h3 v-else>You haven't received any requests yet!</h3>
+				<h3 v-else class="no-requests">
+					You haven't received any requests yet!
+				</h3>
 			</base-card>
 		</section>
 	</div>
 </template>
 
 <script>
+import { GlobalConstants } from '../../constants/global'
 import RequestItem from '../../components/requests/RequestItem.vue'
 
 export default {
@@ -37,6 +42,7 @@ export default {
 	},
 	data() {
 		return {
+			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
 			error: null,
 		}
@@ -56,7 +62,7 @@ export default {
 		async loadRequests() {
 			this.isLoading = true
 			try {
-				await this.$store.dispatch('requests/fetchRequests')
+				await this.$store.dispatch('coaches/updateCoaches')
 			} catch (error) {
 				this.error = error.message || 'Something failed!'
 			}
@@ -70,18 +76,17 @@ export default {
 </script>
 
 <style scoped>
-header {
+.requests-header {
 	text-align: center;
 }
 
-ul {
+.requests {
 	list-style: none;
-	margin: 2rem auto;
+	margin: 0;
 	padding: 0;
-	max-width: 30rem;
 }
 
-h3 {
+.no-requests {
 	text-align: center;
 	font-weight: 100;
 }

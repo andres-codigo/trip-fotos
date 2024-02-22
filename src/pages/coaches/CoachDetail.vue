@@ -11,6 +11,7 @@
 				</div>
 				<div v-else>
 					<h2>{{ fullName }}</h2>
+					<p>{{ this.selectedCoach.description }}</p>
 					<h3>${{ this.selectedCoach.hourlyRate }}/hour</h3>
 				</div>
 			</base-card>
@@ -24,13 +25,25 @@
 						:type="area"
 						:title="area"
 					></base-badge>
-					<p>{{ this.selectedCoach.description }}</p>
+				</div>
+				<div class="images">
+					<div v-if="isLoadingImages" class="spinner-container-images">
+						<base-spinner></base-spinner>
+					</div>
+					<ul v-else class="images-list" v-show="!!images">
+						<base-image
+							v-for="file in this.images"
+							:key="file.index"
+							:url="file.url"
+							:title="fullName"
+						></base-image>
+					</ul>
 				</div>
 			</base-card>
 		</section>
 		<section
 			:class="{ isLoading: isLoading }"
-			v-if="!isLoggedInUser(this.id, this.$store.getters.userId)"
+			v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
 		>
 			<base-card>
 				<header>
@@ -49,6 +62,8 @@
 </template>
 
 <script>
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
+
 import { isLoggedInUser } from '../../utils/globalFunctions'
 
 export default {
@@ -58,6 +73,8 @@ export default {
 			isLoading: false,
 			selectedCoach: {},
 			error: '',
+			isLoadingImages: false,
+			images: [],
 		}
 	},
 	computed: {
@@ -70,6 +87,9 @@ export default {
 		coach() {
 			return this.$store.getters['coaches/coach']
 		},
+		isCoach() {
+			return this.$store.getters['coaches/isCoach']
+		},
 	},
 	watch: {
 		coach(details) {
@@ -78,6 +98,7 @@ export default {
 	},
 	created() {
 		this.loadCoach()
+		this.getImages()
 	},
 	methods: {
 		isLoggedInUser,
@@ -92,12 +113,58 @@ export default {
 			}
 			this.isLoading = false
 		},
+		getImages() {
+			const storage = getStorage()
+			const spaceRef = ref(storage, `images/${this.id}`)
+
+			if (spaceRef.name === this.id) {
+				listAll(spaceRef)
+					.then((res) => {
+						res.items.forEach(async (itemRef, index) => {
+							this.isLoadingImages = true
+							await getDownloadURL(itemRef)
+								.then((downloadURL) => {
+									let image = {
+										index: index,
+										url: downloadURL,
+									}
+									this.images.push(image)
+								})
+								.finally(() => {
+									this.isLoadingImages = false
+								})
+								.catch((error) => {
+									console.log(error)
+								})
+						})
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			}
+		},
 	},
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .isLoading {
 	display: none;
+}
+
+.spinner-container-images {
+	height: 146.797px;
+	@include fadeIn(ease, 2s, 1, forwards);
+}
+
+.images {
+	.images-list {
+		display: flex;
+		flex-wrap: wrap;
+		list-style: none;
+		padding: 0;
+
+		@include fadeIn(ease, 2s, 1, forwards);
+	}
 }
 </style>

@@ -8,12 +8,14 @@
 						<h2>{{ title }}</h2>
 					</slot>
 				</header>
-				<section>
+				<section :class="sectionClasses ? 'image-section' : 'general-section'">
 					<slot></slot>
 				</section>
 				<menu v-if="!fixed">
 					<slot name="actions">
-						<base-button @click="tryClose">Close</base-button>
+						<base-button :isError="isError" @click="tryClose"
+							>Close</base-button
+						>
 					</slot>
 				</menu>
 			</dialog>
@@ -28,8 +30,16 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		isError: {
+			type: Boolean,
+			required: false,
+		},
 		title: {
 			type: String,
+			required: false,
+		},
+		sectionClasses: {
+			type: Boolean,
 			required: false,
 		},
 		fixed: {
@@ -52,34 +62,34 @@ export default {
 
 <style scoped lang="scss">
 .backdrop {
+	background-color: rgba(0, 0, 0, 0.75);
+	height: 100%;
+	left: 0;
 	position: fixed;
 	top: 0;
-	left: 0;
-	height: 100vh;
 	width: 100%;
-	background-color: rgba(0, 0, 0, 0.75);
 	z-index: 10;
 }
 
 dialog {
-	position: fixed;
-	top: 20vh;
-	left: 10%;
-	width: 80%;
-	z-index: 100;
-	border-radius: 12px;
+	background-color: $color-white;
 	border: none;
+	border-radius: 12px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-	padding: 0;
+	left: 10%;
 	margin: 0;
 	overflow: hidden;
-	background-color: $color-white;
+	padding: 0;
+	position: fixed;
+	top: 7vh;
+	width: 80%;
+	z-index: 100;
 
 	header {
 		background-color: $color-ripe-plum;
 		color: $color-white;
-		width: 100%;
 		padding: 1rem;
+		width: 100%;
 
 		h2 {
 			margin: 0;
@@ -87,14 +97,25 @@ dialog {
 	}
 
 	section {
-		padding: 1rem;
+		&.image-section {
+			padding: 2.5rem 0 1rem 0;
+		}
+		&.general-section {
+			padding: 1rem;
+		}
+		:slotted(img) {
+			display: block;
+			margin: 0 auto;
+			object-fit: cover;
+			padding: 10px;
+		}
 	}
 
 	menu {
-		padding: 1rem;
 		display: flex;
 		justify-content: flex-end;
 		margin: 0;
+		padding: 1rem;
 	}
 
 	&.dialog-enter-from,
@@ -118,7 +139,7 @@ dialog {
 	}
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
 	dialog {
 		left: calc(50% - 20rem);
 		width: 40rem;

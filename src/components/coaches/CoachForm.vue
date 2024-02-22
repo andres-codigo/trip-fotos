@@ -52,7 +52,7 @@
 				v-else-if="field.type === 'checkbox'"
 				:class="['form-control', { invalid: !field.isValid }]"
 			>
-				<h3>{{ field.label }}</h3>
+				<h3 class="checkbox-label">{{ field.label }}</h3>
 				<div v-for="(expertiseItem, key) in field.areaTypes" :key="key">
 					<input
 						:type="field.type"
@@ -67,7 +67,7 @@
 			</div>
 		</div>
 		<AddFile @updated-files-list="updateFilesList" ref="child" />
-		<p :class="{ invalid: !formIsValid }" v-if="!formIsValid">
+		<p :class="{ 'invalid-form': !formIsValid }" v-if="!formIsValid">
 			Please fix the above errors and submit again.
 		</p>
 		<base-button>Register</base-button>
@@ -204,12 +204,13 @@ form {
 
 		@include input-textarea;
 
-		@include checkbox;
-
-		h3 {
+		.checkbox-label {
 			font-size: 1rem;
 			margin: 0.5rem 0;
 		}
+
+		@include checkbox;
+
 		&.invalid {
 			p {
 				@include error-message;
@@ -224,7 +225,7 @@ form {
 		}
 	}
 
-	p {
+	.invalid-form {
 		@include error-message;
 	}
 }

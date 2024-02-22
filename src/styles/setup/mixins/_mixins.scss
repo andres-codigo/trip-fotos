@@ -1,0 +1,110 @@
+@import './form/valid/valid';
+@import './form/invalid/_invalid';
+
+@mixin user-select($value) {
+	-webkit-touch-callout: $value; /* iOS Safari */
+	-webkit-user-select: $value; /* Safari */
+	-moz-user-select: $value; /* Old versions of Firefox */
+	-ms-user-select: $value; /* Internet Explorer/Edge */
+	user-select: $value; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+$prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
+// ********************
+// START fadeIn
+// ********************
+@mixin keyframe-fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+@-moz-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@-webkit-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@-o-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@-ms-keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@keyframes fadeIn {
+	@include keyframe-fadeIn;
+}
+@mixin fadeIn($type, $duration, $count, $mode) {
+	$keyframe-name: fadeIn;
+	@each $p in $prefix {
+		#{$p}animation: $keyframe-name $type $duration;
+		#{$p}animation-iteration-count: $count;
+		#{$p}animation-fill-mode: $mode;
+	}
+}
+//
+// e.g. @include fadeIn( ease, 2s, 1, forwards );
+//
+
+// ********************
+// END fadeIn
+// ********************
+
+// ********************
+// START dialog image resizing media queries
+// ********************
+@mixin section-image-dom($width) {
+	.image-section {
+		img {
+			max-width: $width;
+		}
+	}
+}
+
+@mixin media-query-min-width-image-resizing($min-width, $max-image-width) {
+	@media only screen and (min-width: $min-width) {
+		@include section-image-dom($max-image-width);
+	}
+}
+
+@mixin media-query-max-width-image-resizing($max-width, $max-image-width) {
+	@media only screen and (max-width: $max-width) {
+		@include section-image-dom($max-image-width);
+	}
+}
+
+@mixin media-query-min-max-width-image-resizing(
+	$min-width,
+	$max-width,
+	$max-image-width
+) {
+	@media only screen and (min-width: $min-width) and (max-width: $max-width) {
+		@include section-image-dom($max-image-width);
+	}
+}
+
+@mixin media-query-max-device-width-image-resizing(
+	$max-width,
+	$max-image-width
+) {
+	@media only screen and (max-device-width: $max-width) {
+		@include section-image-dom($max-image-width);
+	}
+}
+
+@mixin media-query-ipad-orientation-min-max-device-width-image-resizing(
+	$min-device-width,
+	$max-device-width,
+	$orientation,
+	$max-image-width
+) {
+	@media only screen and (min-device-width: $min-device-width) and (max-device-width: $max-device-width) and (orientation: $orientation) {
+		@include section-image-dom($max-image-width);
+	}
+}
+// ********************
+// END dialog image resizing media queries
+// ********************
