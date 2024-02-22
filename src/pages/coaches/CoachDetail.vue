@@ -35,6 +35,7 @@
 							v-for="file in this.images"
 							:key="file.index"
 							:url="file.url"
+							:title="fullName"
 						></base-image>
 					</ul>
 				</div>
