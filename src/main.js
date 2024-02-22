@@ -1,3 +1,5 @@
+import { inject } from '@vercel/analytics'
+
 import { createApp, defineAsyncComponent } from 'vue'
 import { VueFire } from 'vuefire'
 
@@ -31,3 +33,5 @@ app.component('base-spinner', BaseSpinner)
 app.component('base-dialog', BaseDialog)
 
 app.mount('#app')
+
+inject()

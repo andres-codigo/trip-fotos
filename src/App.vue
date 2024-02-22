@@ -5,6 +5,7 @@
 			<component :is="slotProps.Component"></component>
 		</transition>
 	</router-view>
+	<SpeedInsights />
 </template>
 
 <script>
@@ -30,6 +31,10 @@ export default {
 		},
 	},
 }
+</script>
+
+<script setup>
+import { SpeedInsights } from '@vercel/speed-insights/vue'
 </script>
 
 <style lang="scss">
