@@ -8,11 +8,7 @@
 				<li class="nav-item">
 					<ul>
 						<li v-if="isLoggedIn && isCoach">
-							<router-link
-								to="/requests"
-								:custom="true"
-								v-slot="{ href, navigate }"
-							>
+							<router-link to="/requests" :custom="true" v-slot="{ href }">
 								<a
 									:href="href"
 									class="nav-link"
@@ -20,8 +16,8 @@
 								>
 									Requests<span
 										class="requests-counter-container"
-										v-if="!!this.totalRequests && this.totalRequests > 0"
-										><span class="counter">{{ this.totalRequests }}</span></span
+										v-if="!!totalRequests && totalRequests > 0"
+										><span class="counter">{{ totalRequests }}</span></span
 									>
 								</a>
 							</router-link>
