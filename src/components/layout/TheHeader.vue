@@ -139,7 +139,7 @@ export default {
 		async logout() {
 			this.coachName = ''
 			this.totalRequests = null
-			await this.toggleHamburgerMenuActiveClass()
+			this.toggleHamburgerMenuActiveClass()
 			await this.$store.dispatch('logout')
 			await this.$router.replace('/coaches')
 		},
