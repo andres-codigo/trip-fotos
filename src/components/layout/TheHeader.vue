@@ -11,7 +11,7 @@
 							<router-link
 								to="/requests"
 								class="nav-link"
-								@click="this.toggleHamburgerMenuActiveClass"
+								@click="this.toggleHamburgerMenuActiveClass()"
 								>Requests
 								<span
 									class="requests-counter-container"
@@ -24,7 +24,7 @@
 							<router-link
 								to="/coaches"
 								class="nav-link"
-								@click="this.toggleHamburgerMenuActiveClass"
+								@click="this.toggleHamburgerMenuActiveClass()"
 								>All Coaches</router-link
 							>
 						</li>
@@ -34,7 +34,7 @@
 					<router-link
 						to="/auth"
 						class="nav-link"
-						@click="this.toggleHamburgerMenuActiveClass"
+						@click="this.toggleHamburgerMenuActiveClass()"
 						>Login</router-link
 					>
 				</li>
