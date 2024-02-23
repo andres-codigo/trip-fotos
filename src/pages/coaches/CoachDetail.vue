@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<section class="coach-detail-container">
 		<section>
 			<base-card
 				:class="{
@@ -58,7 +58,7 @@
 				<router-view></router-view>
 			</base-card>
 		</section>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -148,23 +148,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.isLoading {
-	display: none;
-}
+.coach-detail-container {
+	padding: 0 20px;
+	.isLoading {
+		display: none;
+	}
 
-.spinner-container-images {
-	height: 146.797px;
-	@include fadeIn(ease, 2s, 1, forwards);
-}
-
-.images {
-	.images-list {
-		display: flex;
-		flex-wrap: wrap;
-		list-style: none;
-		padding: 0;
-
+	.spinner-container-images {
+		height: 146.797px;
 		@include fadeIn(ease, 2s, 1, forwards);
+	}
+
+	.images {
+		.images-list {
+			display: flex;
+			flex-wrap: wrap;
+			list-style: none;
+			padding: 0;
+
+			@include fadeIn(ease, 2s, 1, forwards);
+		}
 	}
 }
 </style>

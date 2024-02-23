@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section class="coach-registration-container">
 		<base-dialog
 			:show="!!error"
 			:isError="!!error"
@@ -80,3 +80,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.coach-registration-container {
+	padding: 0 20px;
+}
+</style>

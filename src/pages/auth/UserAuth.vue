@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<section class="user-authentication-container">
 		<base-dialog
 			:show="!!error"
 			:isError="!!error"
@@ -39,7 +39,7 @@
 				}}</base-button>
 			</form>
 		</base-card>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -196,22 +196,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.user-authentication {
-	margin: 1rem;
-	padding: 1rem;
+.user-authentication-container {
+	padding: 0 20px;
+	.user-authentication {
+		margin: 1rem;
+		padding: 1rem;
 
-	.form-control {
-		margin: 0.5rem 0;
+		.form-control {
+			margin: 0.5rem 0;
 
-		@include input;
+			@include input;
 
-		&.invalid {
-			p {
-				@include error-message;
-			}
+			&.invalid {
+				p {
+					@include error-message;
+				}
 
-			input {
-				@include invalid-border;
+				input {
+					@include invalid-border;
+				}
 			}
 		}
 	}
