@@ -7,18 +7,32 @@
 			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
 				<li class="nav-item">
 					<ul>
-						<li
-							v-if="isLoggedIn && isCoach"
-							@click="this.toggleHamburgerMenuActiveClass()"
-						>
-							<router-link to="/requests" class="nav-link"
+						<li v-if="isLoggedIn && isCoach">
+							<router-link
+								to="/requests"
+								:custom="true"
+								v-slot="{ href, navigate }"
+							>
+								<a
+									:href="href"
+									class="nav-link"
+									@click="this.toggleHamburgerMenuActiveClass()"
+								>
+									Requests<span
+										class="requests-counter-container"
+										v-if="!!this.totalRequests && this.totalRequests > 0"
+										><span class="counter">{{ this.totalRequests }}</span></span
+									>
+								</a>
+							</router-link>
+							<!-- <router-link to="/requests" class="nav-link"
 								>Requests
 								<span
 									class="requests-counter-container"
 									v-if="!!this.totalRequests && this.totalRequests > 0"
 									><span class="counter">{{ this.totalRequests }}</span></span
 								>
-							</router-link>
+							</router-link> -->
 						</li>
 						<li @click="this.toggleHamburgerMenuActiveClass()">
 							<router-link to="/coaches" class="nav-link"
