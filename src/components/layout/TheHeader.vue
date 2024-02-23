@@ -30,19 +30,29 @@
 								>
 							</router-link> -->
 						</li>
-						<li @click="this.toggleHamburgerMenuActiveClass()">
-							<router-link to="/coaches" class="nav-link"
-								>All Coaches</router-link
-							>
+						<li>
+							<router-link to="/coaches" :custom="true" v-slot="{ href }">
+								<a
+									:href="href"
+									class="nav-link"
+									@click="this.toggleHamburgerMenuActiveClass()"
+								>
+									All Coaches
+								</a>
+							</router-link>
 						</li>
 					</ul>
 				</li>
-				<li
-					v-if="!isLoggedIn"
-					class="nav-item"
-					@click="this.toggleHamburgerMenuActiveClass()"
-				>
-					<router-link to="/auth" class="nav-link">Login</router-link>
+				<li v-if="!isLoggedIn" class="nav-item">
+					<router-link to="/auth" :custom="true" v-slot="{ href }">
+						<a
+							:href="href"
+							class="nav-link"
+							@click="this.toggleHamburgerMenuActiveClass()"
+						>
+							Login
+						</a>
+					</router-link>
 				</li>
 				<li v-else class="nav-item">
 					<base-button @click="logout">Logout {{ coachName }}</base-button>
