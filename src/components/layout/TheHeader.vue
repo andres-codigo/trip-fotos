@@ -1,14 +1,17 @@
 <template>
-	<header>
-		<nav>
-			<h1>
+	<header class="header">
+		<nav class="navbar">
+			<h1 class="nav-logo">
 				<router-link to="/">Find a Coach</router-link>
 			</h1>
-			<ul>
-				<li>
+			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
+				<li class="nav-item">
 					<ul>
 						<li v-if="isLoggedIn && isCoach">
-							<router-link to="/requests"
+							<router-link
+								to="/requests"
+								class="nav-link"
+								@click="this.toggleHamburgerMenuActiveClass"
 								>Requests
 								<span
 									class="requests-counter-container"
@@ -18,17 +21,32 @@
 							</router-link>
 						</li>
 						<li>
-							<router-link to="/coaches">All Coaches</router-link>
+							<router-link
+								to="/coaches"
+								class="nav-link"
+								@click="this.toggleHamburgerMenuActiveClass"
+								>All Coaches</router-link
+							>
 						</li>
 					</ul>
 				</li>
-				<li v-if="!isLoggedIn">
-					<router-link to="/auth">Login</router-link>
+				<li v-if="!isLoggedIn" class="nav-item">
+					<router-link
+						to="/auth"
+						class="nav-link"
+						@click="this.toggleHamburgerMenuActiveClass"
+						>Login</router-link
+					>
 				</li>
-				<li v-else>
+				<li v-else class="nav-item">
 					<base-button @click="logout">Logout {{ coachName }}</base-button>
 				</li>
 			</ul>
+			<div class="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
 		</nav>
 	</header>
 </template>
@@ -69,6 +87,9 @@ export default {
 			this.setRequestCount()
 		}
 	},
+	mounted() {
+		this.navBarMenu()
+	},
 	beforeUpdate() {
 		if (this.isLoggedIn) {
 			this.setCoachName()
@@ -78,6 +99,24 @@ export default {
 		}
 	},
 	methods: {
+		toggleHamburgerMenuActiveClass() {
+			const hamburger = document.querySelector('.hamburger')
+			const navMenu = document.querySelector('.nav-menu')
+
+			hamburger.classList.toggle('active')
+			navMenu.classList.toggle('active')
+		},
+		navBarMenu() {
+			const hamburger = document.querySelector('.hamburger')
+			const navMenu = document.querySelector('.nav-menu')
+
+			hamburger.addEventListener('click', mobileMenu)
+
+			function mobileMenu() {
+				hamburger.classList.toggle('active')
+				navMenu.classList.toggle('active')
+			}
+		},
 		setCoachName() {
 			let localStorageCoachName = localStorage.getItem('userName')
 
@@ -97,14 +136,60 @@ export default {
 				this.totalRequests = this.requestsCount
 			})
 		},
-		logout() {
+		async logout() {
 			this.coachName = ''
 			this.totalRequests = null
-
-			this.$store.dispatch('logout')
-			this.$router.replace('/coaches')
+			await this.toggleHamburgerMenuActiveClass()
+			await this.$store.dispatch('logout')
+			await this.$router.replace('/coaches')
 		},
 	},
+}
+</script>
+
+<script setup>
+import { ref } from 'vue'
+
+// State to toggle dropdown visibility
+const open = ref(true)
+
+// Method to close the dropdown
+const closeDropdown = (event) => {
+	const eventClassList = event.target.classList
+
+	if (!eventClassList.contains('backdrop')) {
+		const eventParentClassList = event.target.parentElement.classList
+
+		const containsHamburgerClass = eventClassList.contains('hamburger')
+		const containsBarClass = eventClassList.contains('bar')
+		const parentContainsHamburgerClass =
+			eventParentClassList.contains('hamburger')
+
+		if (eventClassList !== null) {
+			if (
+				(containsBarClass && parentContainsHamburgerClass) ||
+				containsHamburgerClass
+			) {
+				open.value = true
+			}
+
+			if (!containsHamburgerClass) {
+				if (!containsBarClass && !parentContainsHamburgerClass) {
+					const hamburger = document.querySelector('.hamburger')
+					const navMenu = document.querySelector('.nav-menu')
+
+					if (
+						hamburger.classList.contains('active') &&
+						navMenu.classList.contains('active')
+					) {
+						hamburger.classList.toggle('active')
+						navMenu.classList.toggle('active')
+						open.value = false
+					}
+				}
+			}
+		}
+	}
 }
 </script>
 
@@ -117,7 +202,7 @@ header {
 	justify-content: center;
 	width: 100%;
 
-	nav {
+	.navbar {
 		align-items: center;
 		display: flex;
 		justify-content: space-between;
@@ -129,22 +214,33 @@ header {
 
 			a {
 				color: $color-white;
-				text-decoration: none;
 				margin: 0;
+				text-decoration: none;
 			}
 		}
 
-		ul {
+		.nav-menu {
 			align-items: center;
 			display: flex;
-			justify-content: center;
 			list-style: none;
+			justify-content: space-between;
 			margin: 0;
 			padding: 0;
 
-			li {
+			.nav-item {
 				margin: 0 0.5rem;
 
+				ul {
+					align-items: center;
+					display: flex;
+					justify-content: center;
+					list-style: none;
+					margin: 0;
+					padding: 0;
+					li {
+						margin: 0 0.5rem;
+					}
+				}
 				a {
 					border: 1px solid transparent;
 					color: $color-lavender-magenta;
@@ -204,6 +300,93 @@ header {
 							}
 						}
 					}
+				}
+			}
+		}
+
+		.hamburger {
+			display: none;
+		}
+
+		.bar {
+			background-color: $color-white;
+			display: block;
+			height: 3px;
+			margin: 5px auto;
+			width: 25px;
+			-webkit-transition: all 0.3s ease-in-out;
+			transition: all 0.3s ease-in-out;
+		}
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	header {
+		.navbar {
+			.nav-menu {
+				position: absolute;
+				left: -100%;
+				top: 5rem;
+				flex-direction: column;
+				background-color: $color-pigment-indigo;
+				width: 100%;
+				text-align: center;
+				box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+
+				&.active {
+					left: 0;
+				}
+
+				.nav-item {
+					width: 100%;
+					a {
+						margin: 0.75rem 0;
+						&.router-link-active {
+							border: none;
+							width: 100%;
+							&:hover {
+								border: none;
+							}
+						}
+					}
+					button {
+						background-color: $color-pigment-indigo;
+						border: 1px solid $color-pigment-indigo;
+						margin: 0.75rem 0;
+					}
+					.nav-link {
+						width: 100%;
+					}
+					ul {
+						display: block;
+						padding-inline-start: 0;
+						li {
+							.router-link-active {
+								border: none;
+								width: 100%;
+								&:hover {
+									border: none;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.hamburger {
+				display: block;
+				cursor: pointer;
+
+				&.active .bar:nth-child(2) {
+					opacity: 0;
+				}
+
+				&.active .bar:nth-child(1) {
+					transform: translateY(8px) rotate(45deg);
+				}
+
+				&.active .bar:nth-child(3) {
+					transform: translateY(-8px) rotate(-45deg);
 				}
 			}
 		}

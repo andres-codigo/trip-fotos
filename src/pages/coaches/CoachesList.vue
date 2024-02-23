@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<section class="coach-list-container">
 		<base-dialog
 			:show="!!error"
 			:isError="!!error"
@@ -47,7 +47,7 @@
 				<h3 v-else>No coaches found.</h3>
 			</base-card>
 		</section>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -138,21 +138,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.controls {
-	display: flex;
-	justify-content: space-between;
-	.hide {
-		display: none;
+.coach-list-container {
+	padding: 0 20px;
+	.controls {
+		display: flex;
+		justify-content: space-between;
+		.hide {
+			display: none;
+		}
 	}
-}
 
-.spinner-container {
-	margin: 5rem 0;
-}
+	.spinner-container {
+		margin: 5rem 0;
+	}
 
-.coaches {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	.coaches {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
 }
 </style>

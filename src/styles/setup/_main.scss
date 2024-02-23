@@ -1,11 +1,23 @@
 * {
+	// TODO: uncomment and resolve margin/padding changes page/component by page/component
+	// margin: 0;
+	// padding: 0;
 	box-sizing: border-box;
 }
 
 html {
 	font-family: 'Roboto', sans-serif;
-}
+	body {
+		margin: 0;
+		#app {
+			height: 100vh;
+			li {
+				list-style: none;
+			}
 
-body {
-	margin: 0;
+			a {
+				text-decoration: none;
+			}
+		}
+	}
 }

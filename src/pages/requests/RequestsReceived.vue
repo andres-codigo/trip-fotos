@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<section class="requests-received-container">
 		<base-dialog
 			:show="!!error"
 			:isError="!!error"
@@ -29,7 +29,7 @@
 				</h3>
 			</base-card>
 		</section>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -76,18 +76,21 @@ export default {
 </script>
 
 <style scoped>
-.requests-header {
-	text-align: center;
-}
+.requests-received-container {
+	padding: 0 20px;
+	.requests-header {
+		text-align: center;
+	}
 
-.requests {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
+	.requests {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
 
-.no-requests {
-	text-align: center;
-	font-weight: 100;
+	.no-requests {
+		text-align: center;
+		font-weight: 100;
+	}
 }
 </style>

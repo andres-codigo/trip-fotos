@@ -3,10 +3,15 @@ import { inject } from '@vercel/analytics'
 import { createApp, defineAsyncComponent } from 'vue'
 import { VueFire } from 'vuefire'
 
+import App from './App.vue'
+
 import { firebaseApp } from './firebase.js'
+
 import router from './router.js'
 import store from './store/index.js'
-import App from './App.vue'
+
+import ClickOutside from './directives/click-outside-directive.js'
+
 import BaseCard from './components/ui/BaseCard.vue'
 import BaseButton from './components/ui/BaseButton.vue'
 import BaseBadge from './components/ui/BaseBadge.vue'
@@ -24,6 +29,8 @@ app.use(VueFire, {
 })
 app.use(router)
 app.use(store)
+
+app.directive('click-outside', ClickOutside)
 
 app.component('base-card', BaseCard)
 app.component('base-button', BaseButton)
