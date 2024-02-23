@@ -7,11 +7,11 @@
 			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
 				<li class="nav-item">
 					<ul>
-						<li v-if="isLoggedIn && isCoach">
-							<router-link
-								to="/requests"
-								class="nav-link"
-								@click="this.toggleHamburgerMenuActiveClass()"
+						<li
+							v-if="isLoggedIn && isCoach"
+							@click="this.toggleHamburgerMenuActiveClass()"
+						>
+							<router-link to="/requests" class="nav-link"
 								>Requests
 								<span
 									class="requests-counter-container"
@@ -20,23 +20,19 @@
 								>
 							</router-link>
 						</li>
-						<li>
-							<router-link
-								to="/coaches"
-								class="nav-link"
-								@click="this.toggleHamburgerMenuActiveClass()"
+						<li @click="this.toggleHamburgerMenuActiveClass()">
+							<router-link to="/coaches" class="nav-link"
 								>All Coaches</router-link
 							>
 						</li>
 					</ul>
 				</li>
-				<li v-if="!isLoggedIn" class="nav-item">
-					<router-link
-						to="/auth"
-						class="nav-link"
-						@click="this.toggleHamburgerMenuActiveClass()"
-						>Login</router-link
-					>
+				<li
+					v-if="!isLoggedIn"
+					class="nav-item"
+					@click="this.toggleHamburgerMenuActiveClass()"
+				>
+					<router-link to="/auth" class="nav-link">Login</router-link>
 				</li>
 				<li v-else class="nav-item">
 					<base-button @click="logout">Logout {{ coachName }}</base-button>
