@@ -11,19 +11,6 @@
 							v-if="isLoggedIn && isCoach"
 							@click.prevent="toggleHamburgerMenuActiveClass()"
 						>
-							<!-- <router-link to="/requests" :custom="true" v-slot="{ href }">
-								<a
-									:href="href"
-									class="nav-link"
-									@click="this.toggleHamburgerMenuActiveClass()"
-								>
-									Requests<span
-										class="requests-counter-container"
-										v-if="!!totalRequests && totalRequests > 0"
-										><span class="counter">{{ totalRequests }}</span></span
-									>
-								</a>
-							</router-link> -->
 							<router-link to="/requests" class="nav-link"
 								>Requests
 								<span
@@ -34,15 +21,6 @@
 							</router-link>
 						</li>
 						<li @click.prevent="toggleHamburgerMenuActiveClass()">
-							<!-- <router-link to="/coaches" :custom="true" v-slot="{ href }">
-								<a
-									:href="href"
-									class="nav-link"
-									@click="this.toggleHamburgerMenuActiveClass()"
-								>
-									All Coaches
-								</a>
-							</router-link> -->
 							<router-link to="/coaches" class="nav-link"
 								>All Coaches</router-link
 							>
@@ -54,15 +32,6 @@
 					class="nav-item"
 					@click.prevent="toggleHamburgerMenuActiveClass()"
 				>
-					<!-- <router-link to="/auth" :custom="true" v-slot="{ href }">
-						<a
-							:href="href"
-							class="nav-link"
-							@click="this.toggleHamburgerMenuActiveClass()"
-						>
-							Login
-						</a>
-					</router-link> -->
 					<router-link to="/auth" class="nav-link">Login</router-link>
 				</li>
 				<li v-else class="nav-item">
@@ -127,7 +96,6 @@ export default {
 	},
 	methods: {
 		toggleHamburgerMenuActiveClass() {
-			console.log('a')
 			const hamburger = document.querySelector('.hamburger')
 			const navMenu = document.querySelector('.nav-menu')
 
