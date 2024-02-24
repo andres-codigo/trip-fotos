@@ -7,8 +7,11 @@
 			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
 				<li class="nav-item">
 					<ul>
-						<li v-if="isLoggedIn && isCoach">
-							<router-link to="/requests" :custom="true" v-slot="{ href }">
+						<li
+							v-if="isLoggedIn && isCoach"
+							@click.prevent="this.toggleHamburgerMenuActiveClass()"
+						>
+							<!-- <router-link to="/requests" :custom="true" v-slot="{ href }">
 								<a
 									:href="href"
 									class="nav-link"
@@ -20,18 +23,18 @@
 										><span class="counter">{{ totalRequests }}</span></span
 									>
 								</a>
-							</router-link>
-							<!-- <router-link to="/requests" class="nav-link"
+							</router-link> -->
+							<router-link to="/requests" class="nav-link"
 								>Requests
 								<span
 									class="requests-counter-container"
 									v-if="!!this.totalRequests && this.totalRequests > 0"
 									><span class="counter">{{ this.totalRequests }}</span></span
 								>
-							</router-link> -->
+							</router-link>
 						</li>
-						<li>
-							<router-link to="/coaches" :custom="true" v-slot="{ href }">
+						<li @click.prevent="this.toggleHamburgerMenuActiveClass()">
+							<!-- <router-link to="/coaches" :custom="true" v-slot="{ href }">
 								<a
 									:href="href"
 									class="nav-link"
@@ -39,12 +42,19 @@
 								>
 									All Coaches
 								</a>
-							</router-link>
+							</router-link> -->
+							<router-link to="/coaches" class="nav-link"
+								>All Coaches</router-link
+							>
 						</li>
 					</ul>
 				</li>
-				<li v-if="!isLoggedIn" class="nav-item">
-					<router-link to="/auth" :custom="true" v-slot="{ href }">
+				<li
+					v-if="!isLoggedIn"
+					class="nav-item"
+					@click.prevent="this.toggleHamburgerMenuActiveClass()"
+				>
+					<!-- <router-link to="/auth" :custom="true" v-slot="{ href }">
 						<a
 							:href="href"
 							class="nav-link"
@@ -52,7 +62,8 @@
 						>
 							Login
 						</a>
-					</router-link>
+					</router-link> -->
+					<router-link to="/auth" class="nav-link">Login</router-link>
 				</li>
 				<li v-else class="nav-item">
 					<base-button @click="logout">Logout {{ coachName }}</base-button>
@@ -116,7 +127,6 @@ export default {
 	},
 	methods: {
 		toggleHamburgerMenuActiveClass() {
-			console.log('toggleHamburgerMenuActiveClass')
 			const hamburger = document.querySelector('.hamburger')
 			const navMenu = document.querySelector('.nav-menu')
 
