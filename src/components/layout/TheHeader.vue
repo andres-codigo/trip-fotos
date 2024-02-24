@@ -15,8 +15,8 @@
 								>Requests
 								<span
 									class="requests-counter-container"
-									v-if="!!this.totalRequests && this.totalRequests > 0"
-									><span class="counter">{{ this.totalRequests }}</span></span
+									v-if="!!totalRequests && totalRequests > 0"
+									><span class="counter">{{ totalRequests }}</span></span
 								>
 							</router-link>
 						</li>
