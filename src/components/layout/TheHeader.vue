@@ -9,7 +9,7 @@
 					<ul>
 						<li
 							v-if="isLoggedIn && isCoach"
-							@click.prevent="this.toggleHamburgerMenuActiveClass()"
+							@click.prevent="toggleHamburgerMenuActiveClass()"
 						>
 							<!-- <router-link to="/requests" :custom="true" v-slot="{ href }">
 								<a
@@ -33,7 +33,7 @@
 								>
 							</router-link>
 						</li>
-						<li @click.prevent="this.toggleHamburgerMenuActiveClass()">
+						<li @click.prevent="toggleHamburgerMenuActiveClass()">
 							<!-- <router-link to="/coaches" :custom="true" v-slot="{ href }">
 								<a
 									:href="href"
@@ -52,7 +52,7 @@
 				<li
 					v-if="!isLoggedIn"
 					class="nav-item"
-					@click.prevent="this.toggleHamburgerMenuActiveClass()"
+					@click.prevent="toggleHamburgerMenuActiveClass()"
 				>
 					<!-- <router-link to="/auth" :custom="true" v-slot="{ href }">
 						<a
@@ -127,6 +127,7 @@ export default {
 	},
 	methods: {
 		toggleHamburgerMenuActiveClass() {
+			console.log('a')
 			const hamburger = document.querySelector('.hamburger')
 			const navMenu = document.querySelector('.nav-menu')
 
