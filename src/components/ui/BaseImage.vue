@@ -45,6 +45,20 @@ export default {
 	}
 }
 
+@media only screen and (max-width: 480px) {
+	.coach {
+		.images {
+			.images-list {
+				padding: 15px;
+			}
+		}
+	}
+	.image-preview {
+		margin: 0.3rem 2.5%;
+		width: 45%;
+	}
+}
+
 // Min/max media queries
 @include media-query-max-width-image-resizing(357px, 160px);
 

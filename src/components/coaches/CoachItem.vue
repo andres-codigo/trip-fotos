@@ -228,7 +228,7 @@ export default {
 		font-style: italic;
 	}
 	.badges {
-		padding: 0.25rem 0 1.25rem 0;
+		padding: 0.25rem 0 0.5rem 0;
 	}
 
 	.images {
@@ -252,6 +252,16 @@ export default {
 			&:hover {
 				background-color: $color-mojo;
 				color: $color-white;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.coach {
+		.images {
+			.images-list {
+				margin-bottom: 15px;
 			}
 		}
 	}

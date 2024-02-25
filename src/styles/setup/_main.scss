@@ -11,6 +11,9 @@ html {
 		margin: 0;
 		#app {
 			height: 100vh;
+			section {
+				min-width: 280px;
+			}
 			li {
 				list-style: none;
 			}

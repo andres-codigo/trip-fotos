@@ -21,6 +21,7 @@ export default {
 	border-radius: 30px;
 	color: $color-mine-shaft;
 	display: inline-block;
+	margin-bottom: 0.5rem;
 	margin-right: 0.5rem;
 	padding: 0.5rem 1.5rem;
 	@include user-select(none);
