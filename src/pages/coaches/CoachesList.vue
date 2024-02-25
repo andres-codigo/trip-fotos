@@ -15,7 +15,12 @@
 			<base-card>
 				<div class="controls">
 					<base-button
-						:mode="!hasCoaches && !isLoading ? 'disabled' : 'outline'"
+						:mode="
+							(!hasCoaches && !isLoading) ||
+							(filteredCoaches && filteredCoaches.length === 0)
+								? 'disabled'
+								: 'outline'
+						"
 						@click="loadCoaches(true)"
 						:disabled="!hasCoaches && !isLoading ? true : false"
 						:class="{ hide: !hasCoaches && !isLoading }"
@@ -44,7 +49,14 @@
 						:registered="coach.registered"
 					></coach-item>
 				</ul>
-				<h3 v-else>No coaches found.</h3>
+				<h3
+					v-if="
+						(!hasCoaches && !isLoading) ||
+						(filteredCoaches && filteredCoaches.length === 0)
+					"
+				>
+					No coaches to display.
+				</h3>
 			</base-card>
 		</section>
 	</section>
