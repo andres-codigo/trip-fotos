@@ -10,6 +10,10 @@ import { firebaseApp } from './firebase.js'
 import router from './router.js'
 import store from './store/index.js'
 
+const loadImage = require('./assets/loading-spinner.gif')
+
+import VueLazyload from 'vue-lazyload'
+
 import ClickOutside from './directives/click-outside-directive.js'
 
 import BaseCard from './components/ui/BaseCard.vue'
@@ -29,6 +33,13 @@ app.use(VueFire, {
 })
 app.use(router)
 app.use(store)
+
+app.use(VueLazyload, {
+	preLoad: 1.3,
+	loading: loadImage,
+	attempt: 3,
+	lazyComponent: true,
+})
 
 app.directive('click-outside', ClickOutside)
 

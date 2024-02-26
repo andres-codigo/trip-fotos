@@ -5,10 +5,10 @@
 		:sectionClasses="addImageClasses"
 		@close="toggleDialog"
 	>
-		<img :src="url" />
+		<img v-lazy="url" />
 	</base-dialog>
 	<span class="image-preview" @click="toggleDialog">
-		<img :src="url" />
+		<img v-lazy="url" />
 	</span>
 </template>
 
@@ -40,7 +40,7 @@ export default {
 	img {
 		display: block;
 		height: 100%;
-		object-fit: cover;
+		object-fit: scale-down;
 		width: 100%;
 	}
 }
@@ -54,7 +54,7 @@ export default {
 		}
 	}
 	.image-preview {
-		margin: 0.3rem 2.5%;
+		margin: 0.5rem 2.5%;
 		width: 45%;
 	}
 }
