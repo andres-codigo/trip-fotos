@@ -1,14 +1,16 @@
 <template>
 	<base-card>
 		<h2 class="filter-header">Find Your Coach</h2>
-		<span
-			:class="['filter-option', { active: value.isActive }]"
-			v-for="(value, key) in filters"
-			:key="key"
-		>
-			<input type="checkbox" :id="key" checked @change="setFilter" />
-			<label :for="key">{{ key }}</label>
-		</span>
+		<div class="checkbox-container">
+			<span
+				:class="['filter-option', { active: value.isActive }]"
+				v-for="(value, key) in filters"
+				:key="key"
+			>
+				<input type="checkbox" :id="key" checked @change="setFilter" />
+				<label :for="key">{{ key }}</label>
+			</span>
+		</div>
 	</base-card>
 </template>
 
@@ -51,25 +53,39 @@ export default {
 .filter-header {
 	margin: 0.5rem 0;
 }
-.filter-option {
-	margin-right: 1rem;
+.checkbox-container {
+	display: flex;
+	flex-wrap: wrap;
+	.filter-option {
+		width: auto;
+		margin: 0 1rem 10px 0;
 
-	label,
-	input {
-		vertical-align: middle;
+		label,
+		input {
+			vertical-align: middle;
+		}
+
+		label {
+			display: inline-block;
+			margin-left: 0.25rem;
+			text-transform: capitalize;
+			width: 4rem;
+
+			@include user-select(none);
+		}
+
+		&.active label {
+			font-weight: bold;
+		}
 	}
+}
 
-	label {
-		display: inline-block;
-		margin-left: 0.25rem;
-		text-transform: capitalize;
-		width: 4rem;
-
-		@include user-select(none);
-	}
-
-	&.active label {
-		font-weight: bold;
+@media only screen and (max-width: 440px) {
+	.checkbox-container {
+		.filter-option {
+			width: 50%;
+			margin: 0 0 10px 0;
+		}
 	}
 }
 </style>

@@ -147,6 +147,7 @@ export default {
 
 <style scoped lang="scss">
 .coach-list-container {
+	display: inline;
 	padding: 0 20px;
 	.controls {
 		display: flex;
@@ -164,6 +165,12 @@ export default {
 		list-style: none;
 		margin: 0;
 		padding: 0;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.coach-list-container {
+		display: inline-block;
 	}
 }
 </style>
