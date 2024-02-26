@@ -96,11 +96,13 @@ export default {
 	},
 	methods: {
 		toggleHamburgerMenuActiveClass() {
-			const hamburger = document.querySelector('.hamburger')
-			const navMenu = document.querySelector('.nav-menu')
+			if (document.documentElement.clientWidth <= 768) {
+				const hamburger = document.querySelector('.hamburger')
+				const navMenu = document.querySelector('.nav-menu')
 
-			hamburger.classList.toggle('active')
-			navMenu.classList.toggle('active')
+				hamburger.classList.toggle('active')
+				navMenu.classList.toggle('active')
+			}
 		},
 		navBarMenu() {
 			const hamburger = document.querySelector('.hamburger')
@@ -151,36 +153,38 @@ const open = ref(true)
 
 // Method to close the dropdown
 const closeDropdown = (event) => {
-	const eventClassList = event.target.classList
+	if (document.documentElement.clientWidth <= 768) {
+		const eventClassList = event.target.classList
 
-	if (!eventClassList.contains('backdrop')) {
-		const eventParentClassList = event.target.parentElement.classList
+		if (!eventClassList.contains('backdrop')) {
+			const eventParentClassList = event.target.parentElement.classList
 
-		const containsHamburgerClass = eventClassList.contains('hamburger')
-		const containsBarClass = eventClassList.contains('bar')
-		const parentContainsHamburgerClass =
-			eventParentClassList.contains('hamburger')
+			const containsHamburgerClass = eventClassList.contains('hamburger')
+			const containsBarClass = eventClassList.contains('bar')
+			const parentContainsHamburgerClass =
+				eventParentClassList.contains('hamburger')
 
-		if (eventClassList !== null) {
-			if (
-				(containsBarClass && parentContainsHamburgerClass) ||
-				containsHamburgerClass
-			) {
-				open.value = true
-			}
+			if (eventClassList !== null) {
+				if (
+					(containsBarClass && parentContainsHamburgerClass) ||
+					containsHamburgerClass
+				) {
+					open.value = true
+				}
 
-			if (!containsHamburgerClass) {
-				if (!containsBarClass && !parentContainsHamburgerClass) {
-					const hamburger = document.querySelector('.hamburger')
-					const navMenu = document.querySelector('.nav-menu')
+				if (!containsHamburgerClass) {
+					if (!containsBarClass && !parentContainsHamburgerClass) {
+						const hamburger = document.querySelector('.hamburger')
+						const navMenu = document.querySelector('.nav-menu')
 
-					if (
-						hamburger.classList.contains('active') &&
-						navMenu.classList.contains('active')
-					) {
-						hamburger.classList.toggle('active')
-						navMenu.classList.toggle('active')
-						open.value = false
+						if (
+							hamburger.classList.contains('active') &&
+							navMenu.classList.contains('active')
+						) {
+							hamburger.classList.toggle('active')
+							navMenu.classList.toggle('active')
+							open.value = false
+						}
 					}
 				}
 			}
