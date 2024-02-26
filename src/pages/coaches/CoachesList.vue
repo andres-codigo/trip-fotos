@@ -49,12 +49,8 @@
 						:registered="coach.registered"
 					></coach-item>
 				</ul>
-				<h3
-					v-if="
-						(!hasCoaches && !isLoading) ||
-						(filteredCoaches && filteredCoaches.length === 0)
-					"
-				>
+				<h3 v-if="!hasCoaches && !isLoading">No coaches listed.</h3>
+				<h3 v-else-if="filteredCoaches && filteredCoaches.length === 0">
 					No coaches to display.
 				</h3>
 			</base-card>
