@@ -50,7 +50,14 @@
 					></coach-item>
 				</ul>
 				<h3 v-if="!hasCoaches && !isLoading">No coaches listed.</h3>
-				<h3 v-else-if="filteredCoaches && filteredCoaches.length === 0">
+				<h3
+					v-else-if="
+						coaches &&
+						coaches.length > 0 &&
+						filteredCoaches &&
+						filteredCoaches.length === 0
+					"
+				>
 					No coaches to display.
 				</h3>
 			</base-card>
@@ -91,8 +98,13 @@ export default {
 		isCoach() {
 			return this.$store.getters['coaches/isCoach']
 		},
-		filteredCoaches() {
+		coaches() {
 			const coaches = this.$store.getters['coaches/coaches']
+			console.log(coaches.length)
+			return coaches
+		},
+		filteredCoaches() {
+			const coaches = this.coaches
 
 			return coaches.filter((coach) => {
 				if (

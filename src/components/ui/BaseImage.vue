@@ -31,11 +31,10 @@ export default {
 
 <style scoped lang="scss">
 .image-preview {
-	aspect-ratio: 1/1;
 	margin: 1rem 2.5%;
 	overflow: hidden;
 	position: relative;
-	width: 20%;
+	width: 28%;
 
 	img {
 		display: block;
