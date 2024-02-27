@@ -100,7 +100,6 @@ export default {
 		},
 		coaches() {
 			const coaches = this.$store.getters['coaches/coaches']
-			console.log(coaches.length)
 			return coaches
 		},
 		filteredCoaches() {
