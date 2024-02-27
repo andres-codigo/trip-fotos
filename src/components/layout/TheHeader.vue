@@ -96,11 +96,13 @@ export default {
 	},
 	methods: {
 		toggleHamburgerMenuActiveClass() {
-			const hamburger = document.querySelector('.hamburger')
-			const navMenu = document.querySelector('.nav-menu')
+			if (document.documentElement.clientWidth <= 768) {
+				const hamburger = document.querySelector('.hamburger')
+				const navMenu = document.querySelector('.nav-menu')
 
-			hamburger.classList.toggle('active')
-			navMenu.classList.toggle('active')
+				hamburger.classList.toggle('active')
+				navMenu.classList.toggle('active')
+			}
 		},
 		navBarMenu() {
 			const hamburger = document.querySelector('.hamburger')
@@ -151,36 +153,38 @@ const open = ref(true)
 
 // Method to close the dropdown
 const closeDropdown = (event) => {
-	const eventClassList = event.target.classList
+	if (document.documentElement.clientWidth <= 768) {
+		const eventClassList = event.target.classList
 
-	if (!eventClassList.contains('backdrop')) {
-		const eventParentClassList = event.target.parentElement.classList
+		if (!eventClassList.contains('backdrop')) {
+			const eventParentClassList = event.target.parentElement.classList
 
-		const containsHamburgerClass = eventClassList.contains('hamburger')
-		const containsBarClass = eventClassList.contains('bar')
-		const parentContainsHamburgerClass =
-			eventParentClassList.contains('hamburger')
+			const containsHamburgerClass = eventClassList.contains('hamburger')
+			const containsBarClass = eventClassList.contains('bar')
+			const parentContainsHamburgerClass =
+				eventParentClassList.contains('hamburger')
 
-		if (eventClassList !== null) {
-			if (
-				(containsBarClass && parentContainsHamburgerClass) ||
-				containsHamburgerClass
-			) {
-				open.value = true
-			}
+			if (eventClassList !== null) {
+				if (
+					(containsBarClass && parentContainsHamburgerClass) ||
+					containsHamburgerClass
+				) {
+					open.value = true
+				}
 
-			if (!containsHamburgerClass) {
-				if (!containsBarClass && !parentContainsHamburgerClass) {
-					const hamburger = document.querySelector('.hamburger')
-					const navMenu = document.querySelector('.nav-menu')
+				if (!containsHamburgerClass) {
+					if (!containsBarClass && !parentContainsHamburgerClass) {
+						const hamburger = document.querySelector('.hamburger')
+						const navMenu = document.querySelector('.nav-menu')
 
-					if (
-						hamburger.classList.contains('active') &&
-						navMenu.classList.contains('active')
-					) {
-						hamburger.classList.toggle('active')
-						navMenu.classList.toggle('active')
-						open.value = false
+						if (
+							hamburger.classList.contains('active') &&
+							navMenu.classList.contains('active')
+						) {
+							hamburger.classList.toggle('active')
+							navMenu.classList.toggle('active')
+							open.value = false
+						}
 					}
 				}
 			}
@@ -239,7 +243,7 @@ header {
 				}
 				a {
 					border: 1px solid transparent;
-					color: $color-lavender-magenta;
+					color: $color-white;
 					display: inline-block;
 					padding: 0.75rem 1.5rem;
 					position: relative;
@@ -249,7 +253,7 @@ header {
 						--size: 1.4rem;
 						--font-size: 0.75rem;
 						appearance: none;
-						border: 1px solid $color-lavender-magenta;
+						border: 1px solid $color-white;
 						border-radius: var(--size);
 						color: inherit;
 						cursor: pointer;
@@ -274,7 +278,7 @@ header {
 					}
 
 					&:hover {
-						color: $color-white;
+						color: $color-lavender-magenta;
 						.requests-counter-container {
 							border: 1px solid $color-white;
 						}
@@ -322,7 +326,7 @@ header {
 			.nav-menu {
 				position: absolute;
 				left: -100%;
-				top: 5rem;
+				top: 4.9rem;
 				flex-direction: column;
 				background-color: $color-pigment-indigo;
 				width: 100%;
@@ -331,38 +335,77 @@ header {
 
 				&.active {
 					left: 0;
-				}
-
-				.nav-item {
-					width: 100%;
-					a {
-						margin: 0.75rem 0;
-						&.router-link-active {
-							border: none;
-							width: 100%;
-							&:hover {
-								border: none;
+					.nav-item {
+						margin: 0;
+						width: 100%;
+						ul {
+							display: block;
+							padding-inline-start: 0;
+							li {
+								margin: 0;
+								a {
+									padding: 1.25rem 0;
+									width: 100%;
+									&.router-link-active {
+										background-color: $color-ripe-eggplant;
+										border: none;
+										width: 100%;
+										&:hover {
+											border: none;
+										}
+									}
+								}
 							}
 						}
-					}
-					button {
-						background-color: $color-pigment-indigo;
-						border: 1px solid $color-pigment-indigo;
-						margin: 0.75rem 0;
-					}
-					.nav-link {
-						width: 100%;
-					}
-					ul {
-						display: block;
-						padding-inline-start: 0;
-						li {
-							.router-link-active {
+						a {
+							padding: 1.25rem 0;
+							width: 100%;
+
+							.requests-counter-container {
+								--size: 2rem;
+								--font-size: 1rem;
+								appearance: none;
+								border: none;
+								border-radius: var(--size);
+
+								@include fadeIn(ease, 2s, 1, forwards);
+
+								.counter {
+									bottom: 1px;
+									display: inline-block;
+									font-size: var(--font-size);
+									position: relative;
+									text-align: center;
+									width: 100%;
+								}
+							}
+
+							&:active,
+							&:hover {
+								color: $color-lavender-magenta;
+								.requests-counter-container {
+									border: none;
+								}
+							}
+							&.router-link-active {
+								background-color: $color-ripe-eggplant;
 								border: none;
 								width: 100%;
 								&:hover {
 									border: none;
 								}
+							}
+						}
+						button {
+							background-color: $color-pigment-indigo;
+							border: 1px solid $color-pigment-indigo;
+							border-radius: 0;
+							margin: 0;
+							padding: 1.25rem 0;
+							width: inherit;
+							&:active,
+							&:hover {
+								color: $color-lavender-magenta;
 							}
 						}
 					}

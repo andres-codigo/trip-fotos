@@ -15,7 +15,12 @@
 			<base-card>
 				<div class="controls">
 					<base-button
-						:mode="!hasCoaches && !isLoading ? 'disabled' : 'outline'"
+						:mode="
+							(!hasCoaches && !isLoading) ||
+							(filteredCoaches && filteredCoaches.length === 0)
+								? 'disabled'
+								: 'outline'
+						"
 						@click="loadCoaches(true)"
 						:disabled="!hasCoaches && !isLoading ? true : false"
 						:class="{ hide: !hasCoaches && !isLoading }"
@@ -44,7 +49,17 @@
 						:registered="coach.registered"
 					></coach-item>
 				</ul>
-				<h3 v-else>No coaches found.</h3>
+				<h3 v-if="!hasCoaches && !isLoading">No coaches listed.</h3>
+				<h3
+					v-else-if="
+						coaches &&
+						coaches.length > 0 &&
+						filteredCoaches &&
+						filteredCoaches.length === 0
+					"
+				>
+					No coaches to display.
+				</h3>
 			</base-card>
 		</section>
 	</section>
@@ -83,8 +98,12 @@ export default {
 		isCoach() {
 			return this.$store.getters['coaches/isCoach']
 		},
-		filteredCoaches() {
+		coaches() {
 			const coaches = this.$store.getters['coaches/coaches']
+			return coaches
+		},
+		filteredCoaches() {
+			const coaches = this.coaches
 
 			return coaches.filter((coach) => {
 				if (
@@ -139,6 +158,7 @@ export default {
 
 <style scoped lang="scss">
 .coach-list-container {
+	display: inline;
 	padding: 0 20px;
 	.controls {
 		display: flex;
@@ -156,6 +176,12 @@ export default {
 		list-style: none;
 		margin: 0;
 		padding: 0;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.coach-list-container {
+		display: inline-block;
 	}
 }
 </style>

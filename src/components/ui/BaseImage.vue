@@ -5,10 +5,10 @@
 		:sectionClasses="addImageClasses"
 		@close="toggleDialog"
 	>
-		<img :src="url" />
+		<img v-lazy="url" />
 	</base-dialog>
 	<span class="image-preview" @click="toggleDialog">
-		<img :src="url" />
+		<img v-lazy="url" />
 	</span>
 </template>
 
@@ -31,17 +31,30 @@ export default {
 
 <style scoped lang="scss">
 .image-preview {
-	aspect-ratio: 1/1;
 	margin: 1rem 2.5%;
 	overflow: hidden;
 	position: relative;
-	width: 20%;
+	width: 28%;
 
 	img {
 		display: block;
 		height: 100%;
-		object-fit: cover;
+		object-fit: scale-down;
 		width: 100%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.coach {
+		.images {
+			.images-list {
+				padding: 15px;
+			}
+		}
+	}
+	.image-preview {
+		margin: 0.5rem 2.5%;
+		width: 45%;
 	}
 }
 
