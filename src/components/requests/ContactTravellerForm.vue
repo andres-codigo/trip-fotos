@@ -138,13 +138,13 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('requests/contactCoach', {
+			this.$store.dispatch('requests/contactTraveller', {
 				name: this.name.val,
 				email: this.email.val,
 				message: this.message.val,
-				coachId: this.$route.params.id,
+				travellerId: this.$route.params.id,
 			})
-			this.$router.replace('/coaches')
+			this.$router.replace('/trips')
 		},
 	},
 }

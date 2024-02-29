@@ -1,6 +1,6 @@
 <template>
 	<base-card>
-		<h2 class="filter-header">Find Your Coach</h2>
+		<h2 class="filter-header">Find Your Traveller</h2>
 		<div class="checkbox-container">
 			<span
 				:class="['filter-option', { active: value.isActive }]"

@@ -1,5 +1,5 @@
 <template>
-	<section class="coach-list-container">
+	<section class="traveller-list-container">
 		<base-dialog
 			:show="!!error"
 			:isError="!!error"
@@ -9,56 +9,56 @@
 			<p>{{ error }}</p>
 		</base-dialog>
 		<section>
-			<coach-filter @change-filter="setFilters"></coach-filter>
+			<trip-filter @change-filter="setFilters"></trip-filter>
 		</section>
 		<section>
 			<base-card>
 				<div class="controls">
 					<base-button
 						:mode="
-							(!hasCoaches && !isLoading) ||
-							(filteredCoaches && filteredCoaches.length === 0)
+							(!hasTravellers && !isLoading) ||
+							(filteredTravellers && filteredTravellers.length === 0)
 								? 'disabled'
 								: 'outline'
 						"
-						@click="loadCoaches(true)"
-						:disabled="!hasCoaches && !isLoading ? true : false"
-						:class="{ hide: !hasCoaches && !isLoading }"
+						@click="loadTravellers(true)"
+						:disabled="!hasTravellers && !isLoading ? true : false"
+						:class="{ hide: !hasTravellers && !isLoading }"
 						>Refresh</base-button
 					>
 					<base-button
-						v-if="isLoggedIn && !isCoach && !isLoading"
+						v-if="isLoggedIn && !isTraveller && !isLoading"
 						link
 						to="/register"
-						>Register as a Coach</base-button
+						>Register as a Traveller</base-button
 					>
 				</div>
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
-				<ul v-else-if="hasCoaches" class="coaches">
-					<coach-item
-						v-for="coach in filteredCoaches"
-						:key="coach.id"
-						:id="coach.id"
-						:first-name="coach.firstName"
-						:last-name="coach.lastName"
-						:description="coach.description"
-						:rate="coach.hourlyRate"
-						:areas="coach.areas"
-						:registered="coach.registered"
-					></coach-item>
+				<ul v-else-if="hasTravellers" class="travellers">
+					<trip-item
+						v-for="traveller in filteredTravellers"
+						:key="traveller.id"
+						:id="traveller.id"
+						:first-name="traveller.firstName"
+						:last-name="traveller.lastName"
+						:description="traveller.description"
+						:rate="traveller.hourlyRate"
+						:areas="traveller.areas"
+						:registered="traveller.registered"
+					></trip-item>
 				</ul>
-				<h3 v-if="!hasCoaches && !isLoading">No coaches listed.</h3>
+				<h3 v-if="!hasTravellers && !isLoading">No travellers listed.</h3>
 				<h3
 					v-else-if="
-						coaches &&
-						coaches.length > 0 &&
-						filteredCoaches &&
-						filteredCoaches.length === 0
+						travellers &&
+						travellers.length > 0 &&
+						filteredTravellers &&
+						filteredTravellers.length === 0
 					"
 				>
-					No coaches to display.
+					No travellers to display.
 				</h3>
 			</base-card>
 		</section>
@@ -66,13 +66,13 @@
 </template>
 
 <script>
-import CoachItem from '../../components/coaches/CoachItem.vue'
-import CoachFilter from '../../components/coaches/CoachFilter.vue'
+import TripItem from '../../components/trips/TripItem.vue'
+import TripFilter from '../../components/trips/TripFilter.vue'
 
 export default {
 	components: {
-		CoachItem,
-		CoachFilter,
+		TripItem,
+		TripFilter,
 	},
 	data() {
 		return {
@@ -95,53 +95,53 @@ export default {
 		isLoggedIn() {
 			return this.$store.getters.isAuthenticated
 		},
-		isCoach() {
-			return this.$store.getters['coaches/isCoach']
+		isTraveller() {
+			return this.$store.getters['travellers/isTraveller']
 		},
-		coaches() {
-			const coaches = this.$store.getters['coaches/coaches']
-			return coaches
+		travellers() {
+			const travellers = this.$store.getters['travellers/travellers']
+			return travellers
 		},
-		filteredCoaches() {
-			const coaches = this.coaches
+		filteredTravellers() {
+			const travellers = this.travellers
 
-			return coaches.filter((coach) => {
+			return travellers.filter((traveller) => {
 				if (
 					this.activeFilters.frontend.isActive &&
-					coach.areas.includes('frontend')
+					traveller.areas.includes('frontend')
 				) {
 					return true
 				}
 				if (
 					this.activeFilters.backend.isActive &&
-					coach.areas.includes('backend')
+					traveller.areas.includes('backend')
 				) {
 					return true
 				}
 				if (
 					this.activeFilters.career.isActive &&
-					coach.areas.includes('career')
+					traveller.areas.includes('career')
 				) {
 					return true
 				}
 				return false
 			})
 		},
-		hasCoaches() {
-			return !this.isLoading && this.$store.getters['coaches/hasCoaches']
+		hasTravellers() {
+			return !this.isLoading && this.$store.getters['travellers/hasTravellers']
 		},
 	},
 	created() {
-		this.loadCoaches()
+		this.loadTravellers()
 	},
 	methods: {
 		setFilters(updatedFilters) {
 			this.activeFilters = updatedFilters
 		},
-		async loadCoaches(refresh = false) {
+		async loadTravellers(refresh = false) {
 			this.isLoading = true
 			try {
-				await this.$store.dispatch('coaches/loadCoaches', {
+				await this.$store.dispatch('travellers/loadTravellers', {
 					forceRefresh: refresh,
 				})
 			} catch (error) {
@@ -157,7 +157,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.coach-list-container {
+.traveller-list-container {
 	display: inline;
 	padding: 0 20px;
 	.controls {
@@ -172,7 +172,7 @@ export default {
 		margin: 5rem 0;
 	}
 
-	.coaches {
+	.travellers {
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -180,7 +180,7 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-	.coach-list-container {
+	.traveller-list-container {
 		display: inline-block;
 	}
 }

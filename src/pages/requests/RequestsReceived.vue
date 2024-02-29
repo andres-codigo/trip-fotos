@@ -62,7 +62,7 @@ export default {
 		async loadRequests() {
 			this.isLoading = true
 			try {
-				await this.$store.dispatch('coaches/updateCoaches')
+				await this.$store.dispatch('travellers/updateTravellers')
 			} catch (error) {
 				this.error = error.message || 'Something failed!'
 			}

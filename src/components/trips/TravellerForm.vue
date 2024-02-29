@@ -81,7 +81,7 @@ export default {
 	components: {
 		AddFile,
 	},
-	emits: ['register-coach'],
+	emits: ['register-traveller'],
 	data() {
 		return {
 			fields: {
@@ -191,7 +191,7 @@ export default {
 				files: this.files.val,
 			}
 
-			this.$emit('register-coach', formData)
+			this.$emit('register-traveller', formData)
 		},
 	},
 }

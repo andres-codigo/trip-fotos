@@ -45,7 +45,7 @@ export default {
 }
 
 @media only screen and (max-width: 480px) {
-	.coach {
+	.traveller {
 		.images {
 			.images-list {
 				padding: 15px;

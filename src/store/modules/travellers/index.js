@@ -7,9 +7,9 @@ export default {
 	state() {
 		return {
 			lastFetch: null,
-			coach: {},
-			coachName: '',
-			coaches: [],
+			traveller: {},
+			travellerName: '',
+			travellers: [],
 		}
 	},
 	mutations,

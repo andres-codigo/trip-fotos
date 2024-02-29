@@ -4,13 +4,14 @@ import NotFound from './pages/NotFound.vue'
 
 import store from './store/index.js'
 
-const CoachesList = () => import('./pages/coaches/CoachesList.vue')
+const TripsList = () => import('./pages/trips/TripsList.vue')
 
-const CoachDetail = () => import('./pages/coaches/CoachDetail.vue')
+const TravellerDetail = () => import('./pages/trips/TravellerDetail.vue')
 
-const CoachRegistration = () => import('./pages/coaches/CoachRegistration.vue')
+const TravellerRegistration = () =>
+	import('./pages/trips/TravellerRegistration.vue')
 
-const ContactCoach = () => import('./pages/requests/ContactCoach.vue')
+const ContactTraveller = () => import('./pages/requests/ContactTraveller.vue')
 
 const RequestsReceived = () => import('./pages/requests/RequestsReceived.vue')
 
@@ -19,19 +20,23 @@ const UserAuth = () => import('./pages/auth/UserAuth.vue')
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
-		{ path: '/', redirect: '/coaches' },
-		{ path: '/coaches', component: CoachesList },
+		{ path: '/', redirect: '/trips' },
+		{ path: '/trips', component: TripsList },
 		{
-			path: '/coaches/:id',
-			component: CoachDetail,
+			path: '/trips/:id',
+			component: TravellerDetail,
 			props: true,
 			children: [
-				{ path: 'contact', name: 'contact-coach', component: ContactCoach }, // /coaches/c1/contact
+				{
+					path: 'contact',
+					name: 'contact-traveller',
+					component: ContactTraveller,
+				}, // /trips/c1/contact
 			],
 		},
 		{
 			path: '/register',
-			component: CoachRegistration,
+			component: TravellerRegistration,
 			meta: { requiresAuth: true },
 		},
 		{
@@ -49,7 +54,7 @@ router.beforeEach(function (to, _, next) {
 	if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
 		next('/auth')
 	} else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
-		next('/coaches')
+		next('/trips')
 	} else {
 		next()
 	}

@@ -2,14 +2,14 @@ import { APIConstants } from '../../../constants/api'
 import { APIErrorMessageConstants } from '../../../constants/api-messages'
 
 export default {
-	async contactCoach(context, payload) {
+	async contactTraveller(context, payload) {
 		const newRequest = {
 			userName: payload.name,
 			userEmail: payload.email,
 			message: payload.message,
 		}
 		const response = await fetch(
-			APIConstants.BASE_URL + `/requests/${payload.coachId}.json`,
+			APIConstants.BASE_URL + `/requests/${payload.travellerId}.json`,
 			{
 				method: 'POST',
 				body: JSON.stringify(newRequest),
@@ -20,21 +20,21 @@ export default {
 
 		if (!response.ok) {
 			const error = new Error(
-				responseData.message || APIErrorMessageConstants.CONTACT_COACH
+				responseData.message || APIErrorMessageConstants.CONTACT_TRAVELLER
 			)
 			throw error
 		}
 
 		newRequest.id = responseData.name
-		newRequest.coachId = payload.coachId
+		newRequest.travellerId = payload.travellerId
 
 		context.commit('addRequest', newRequest)
 	},
 	async loadRequests(context) {
-		const coachId = context.rootGetters.userId
+		const travellerId = context.rootGetters.userId
 		const token = context.rootGetters.token
 		const response = await fetch(
-			APIConstants.BASE_URL + `/requests/${coachId}.json?auth=` + token
+			APIConstants.BASE_URL + `/requests/${travellerId}.json?auth=` + token
 		)
 		const responseData = await response.json()
 
@@ -50,7 +50,7 @@ export default {
 		for (const key in responseData) {
 			const request = {
 				id: key,
-				coachId: coachId,
+				travellerId: travellerId,
 				userName: responseData[key].userName,
 				userEmail: responseData[key].userEmail,
 				message: responseData[key].message,
@@ -63,14 +63,14 @@ export default {
 	},
 	async deleteRequest(context, data) {
 		try {
-			const coachId = context.rootGetters.userId
+			const travellerId = context.rootGetters.userId
 			const token = context.rootGetters.token
 
 			const requestId = data.requestId
 
 			const response = await fetch(
 				APIConstants.BASE_URL +
-					`/requests/${coachId}/${requestId}.json?auth=` +
+					`/requests/${travellerId}/${requestId}.json?auth=` +
 					token,
 				{
 					method: APIConstants.DELETE,
@@ -81,14 +81,14 @@ export default {
 			)
 
 			if (!response.ok) {
-				throw new Error(APIErrorMessageConstants.DELETE_COACH)
+				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 
 			const responseData = await response.json()
 
 			context.commit('deleteRequest', {
 				...responseData,
-				id: coachId,
+				id: travellerId,
 			})
 
 			await context.dispatch('loadRequests')

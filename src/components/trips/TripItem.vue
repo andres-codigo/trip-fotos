@@ -13,7 +13,7 @@
 	<li
 		v-else
 		:class="[
-			'coach',
+			'traveller',
 			{
 				isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
 			},
@@ -48,13 +48,15 @@
 		</div>
 		<div class="actions">
 			<base-button
-				v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
+				v-if="
+					!isLoggedInUser(this.id, this.$store.getters.userId) && isTraveller
+				"
 				mode="outline"
 				link
-				:to="coachContactLink"
+				:to="travellerContactLink"
 				>Contact</base-button
 			>
-			<base-button link :to="coachDetailsLink">Details</base-button>
+			<base-button link :to="travellerDetailsLink">Details</base-button>
 			<!--
 				TODO: 	Added to ease deletion of items during development
 						Look to incorporate into working flow dependent on
@@ -62,7 +64,7 @@
 			-->
 			<base-button
 				v-if="fullName !== userName && this.$store.getters.userId === adminId"
-				@click="this.deleteCoach()"
+				@click="this.deleteTraveller()"
 				mode="outline"
 				class="actions delete"
 				>Delete</base-button
@@ -119,17 +121,17 @@ export default {
 			}
 			return description
 		},
-		coachContactLink() {
-			return this.$route.path + '/' + this.id + '/contact' // /coaches/c1/contact
+		travellerContactLink() {
+			return this.$route.path + '/' + this.id + '/contact' // /trips/c1/contact
 		},
-		coachDetailsLink() {
-			return this.$route.path + '/' + this.id // /coaches/c1
+		travellerDetailsLink() {
+			return this.$route.path + '/' + this.id // /trips/c1
 		},
 		userName() {
-			return this.$store.getters['coaches/coachName']
+			return this.$store.getters['travellers/travellerName']
 		},
-		isCoach() {
-			return this.$store.getters['coaches/isCoach']
+		isTraveller() {
+			return this.$store.getters['travellers/isTraveller']
 		},
 	},
 	created() {
@@ -168,23 +170,23 @@ export default {
 					})
 			}
 		},
-		async deleteCoach() {
+		async deleteTraveller() {
 			this.isLoading = true
 			const numberOfSeconds = 2000
 
-			const deleteCoach = Promise.resolve(
-				this.$store.dispatch('coaches/deleteCoach', {
-					coachId: this.id,
+			const deleteTraveller = Promise.resolve(
+				this.$store.dispatch('travellers/deleteTraveller', {
+					travellerId: this.id,
 				})
 			)
 
-			const loadCoaches = delayLoading(numberOfSeconds).then(
-				this.$store.dispatch('coaches/loadCoaches', {
+			const loadTravellers = delayLoading(numberOfSeconds).then(
+				this.$store.dispatch('travellers/loadTravellers', {
 					forceRefresh: true,
 				})
 			)
 
-			await Promise.all([deleteCoach, loadCoaches])
+			await Promise.all([deleteTraveller, loadTravellers])
 				.then(() => {
 					this.isLoading = false
 				})
@@ -209,7 +211,7 @@ export default {
 	@include fadeIn(ease, 2s, 1, forwards);
 }
 
-.coach {
+.traveller {
 	border: 1px solid $color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
@@ -258,7 +260,7 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-	.coach {
+	.traveller {
 		.images {
 			.images-list {
 				margin-bottom: 15px;

@@ -26,7 +26,7 @@ export default {
 	watch: {
 		didAutoLogout(curValue, oldValue) {
 			if (curValue && curValue !== oldValue) {
-				this.$router.replace('/coaches')
+				this.$router.replace('/trips')
 			}
 		},
 	},

@@ -4,10 +4,10 @@ import { APIConstants } from '../../../constants/api'
 import { APIErrorMessageConstants } from '../../../constants/api-messages'
 
 export default {
-	async registerCoach(context, data) {
+	async registerTraveller(context, data) {
 		try {
 			const userId = context.rootGetters.userId
-			const coachData = {
+			const travellerData = {
 				firstName: data.first,
 				lastName: data.last,
 				description: data.desc,
@@ -20,16 +20,16 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				APIConstants.BASE_URL + `/coaches/${userId}.json?auth=` + token,
+				APIConstants.BASE_URL + `/travellers/${userId}.json?auth=` + token,
 				{
 					method: APIConstants.PUT,
-					body: JSON.stringify(coachData),
+					body: JSON.stringify(travellerData),
 				}
 			)
 
 			if (response.ok) {
-				context.commit('registerCoach', {
-					...coachData,
+				context.commit('registerTraveller', {
+					...travellerData,
 					id: userId,
 				})
 
@@ -54,23 +54,24 @@ export default {
 				const imagesResponse = await Promise.all(imagePromises)
 				return imagesResponse
 			} else {
-				throw new Error(APIErrorMessageConstants.REGISTER_COACH)
+				throw new Error(APIErrorMessageConstants.REGISTER_TRAVELLER)
 			}
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
-	async coachName(context, data) {
+	async travellerName(context, data) {
 		try {
-			const coachData = {
+			const travellerData = {
 				firstName: data.first,
 				lastName: data.last,
 			}
 
 			const token = context.rootGetters.token
 
-			const coachName = coachData.firstName + ' ' + coachData.lastName
+			const travellerName =
+				travellerData.firstName + ' ' + travellerData.lastName
 
 			const response = await fetch(
 				APIConstants.API_URL + 'update?key=' + APIConstants.API_KEY,
@@ -78,30 +79,30 @@ export default {
 					method: APIConstants.POST,
 					body: JSON.stringify({
 						idToken: token,
-						displayName: coachName,
+						displayName: travellerName,
 					}),
 				}
 			)
 
 			if (!response.ok) {
-				throw new Error(APIErrorMessageConstants.LOAD_COACH_NAME)
+				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER_NAME)
 			}
 
 			const updateResponse = await response.json()
 
 			localStorage.setItem('userName', updateResponse.displayName)
-			context.commit('setCoachName', updateResponse.displayName)
+			context.commit('setTravellerName', updateResponse.displayName)
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
-	async loadCoach(context, data) {
+	async loadTraveller(context, data) {
 		try {
-			const coachId = data.coachId
+			const travellerId = data.travellerId
 
 			const response = await fetch(
-				APIConstants.BASE_URL + `/coaches/${coachId}.json`,
+				APIConstants.BASE_URL + `/travellers/${travellerId}.json`,
 				{
 					method: APIConstants.GET,
 					headers: {
@@ -111,22 +112,22 @@ export default {
 			)
 
 			if (!response.ok) {
-				throw new Error(APIErrorMessageConstants.LOAD_COACH)
+				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER)
 			}
 
 			const responseData = await response.json()
 
-			context.commit('setCoach', {
+			context.commit('setTraveller', {
 				...responseData,
-				id: coachId,
+				id: travellerId,
 			})
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
-	async updateCoaches(context) {
-		const response = await fetch(APIConstants.BASE_URL + `/coaches.json`, {
+	async updateTravellers(context) {
+		const response = await fetch(APIConstants.BASE_URL + `/travellers.json`, {
 			method: APIConstants.GET,
 			headers: {
 				'Content-Type': 'application/json',
@@ -134,15 +135,15 @@ export default {
 		})
 
 		if (!response.ok) {
-			throw new Error(APIErrorMessageConstants.LOAD_COACHES)
+			throw new Error(APIErrorMessageConstants.LOAD_TRAVELLERS)
 		}
 
 		const responseData = await response.json()
 
-		const coaches = []
+		const travellers = []
 
 		for (const key in responseData) {
-			const coach = {
+			const traveller = {
 				id: key,
 				firstName: responseData[key].firstName,
 				lastName: responseData[key].lastName,
@@ -152,37 +153,37 @@ export default {
 				files: responseData[key].files,
 				registered: responseData[key].registered,
 			}
-			coaches.push(coach)
+			travellers.push(traveller)
 		}
 
-		const loggedInCoach = coaches.find(
-			(coach) => coach.id === localStorage.userId
+		const loggedInTraveller = travellers.find(
+			(traveller) => traveller.id === localStorage.userId
 		)
 
-		const filteredCoach = coaches.filter(
-			(coach) => coach.id !== localStorage.userId
+		const filteredTraveller = travellers.filter(
+			(traveller) => traveller.id !== localStorage.userId
 		)
 
-		if (loggedInCoach !== undefined) {
-			filteredCoach.unshift(loggedInCoach)
+		if (loggedInTraveller !== undefined) {
+			filteredTraveller.unshift(loggedInTraveller)
 			context.commit(
-				'setCoachName',
-				loggedInCoach.firstName + ' ' + loggedInCoach.lastName
+				'setTravellerName',
+				loggedInTraveller.firstName + ' ' + loggedInTraveller.lastName
 			)
-			context.commit('setCoaches', filteredCoach)
+			context.commit('setTravellers', filteredTraveller)
 		} else {
-			context.commit('setCoaches', coaches)
+			context.commit('setTravellers', travellers)
 		}
 	},
 
-	async deleteCoach(context, data) {
+	async deleteTraveller(context, data) {
 		try {
-			const coachId = data.coachId
+			const travellerId = data.travellerId
 
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				APIConstants.BASE_URL + `/coaches/${coachId}.json?auth=` + token,
+				APIConstants.BASE_URL + `/travellers/${travellerId}.json?auth=` + token,
 				{
 					method: APIConstants.DELETE,
 					headers: {
@@ -192,29 +193,29 @@ export default {
 			)
 
 			if (!response.ok) {
-				throw new Error(APIErrorMessageConstants.DELETE_COACH)
+				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 
 			const responseData = await response.json()
 
-			context.commit('deleteCoach', {
+			context.commit('deleteTraveller', {
 				...responseData,
-				id: coachId,
+				id: travellerId,
 			})
 
-			await context.dispatch('updateCoaches')
+			await context.dispatch('updateTravellers')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
-	async loadCoaches(context, payload) {
+	async loadTravellers(context, payload) {
 		try {
 			if (!payload.forceRefresh && !context.getters.shouldUpdate) {
 				return
 			}
 
-			await context.dispatch('updateCoaches')
+			await context.dispatch('updateTravellers')
 			context.commit('setFetchTimestamp')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)

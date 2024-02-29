@@ -1,5 +1,5 @@
 <template>
-	<section class="coach-detail-container">
+	<section class="traveller-detail-container">
 		<section>
 			<base-card
 				:class="{
@@ -11,8 +11,8 @@
 				</div>
 				<div v-else>
 					<h2>{{ fullName }}</h2>
-					<p>{{ this.selectedCoach.description }}</p>
-					<h3>${{ this.selectedCoach.hourlyRate }}/hour</h3>
+					<p>{{ this.selectedTraveller.description }}</p>
+					<h3>${{ this.selectedTraveller.hourlyRate }}/hour</h3>
 				</div>
 			</base-card>
 		</section>
@@ -20,7 +20,7 @@
 			<base-card>
 				<div>
 					<base-badge
-						v-for="area in this.selectedCoach.areas"
+						v-for="area in this.selectedTraveller.areas"
 						:key="area"
 						:type="area"
 						:title="area"
@@ -43,13 +43,13 @@
 		</section>
 		<section
 			:class="{ isLoading: isLoading }"
-			v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
+			v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isTraveller"
 		>
 			<base-card>
 				<header>
 					<h2>Interested? Reach out now!</h2>
 					<base-button
-						v-if="this.$route.name !== 'contact-coach'"
+						v-if="this.$route.name !== 'contact-traveller'"
 						link
 						:to="contactLink"
 						>Contact</base-button
@@ -71,7 +71,7 @@ export default {
 	data() {
 		return {
 			isLoading: false,
-			selectedCoach: {},
+			selectedTraveller: {},
 			error: '',
 			isLoadingImages: false,
 			images: [],
@@ -79,34 +79,36 @@ export default {
 	},
 	computed: {
 		fullName() {
-			return this.selectedCoach.firstName + ' ' + this.selectedCoach.lastName
+			return (
+				this.selectedTraveller.firstName + ' ' + this.selectedTraveller.lastName
+			)
 		},
 		contactLink() {
 			return this.$route.path + '/contact'
 		},
-		coach() {
-			return this.$store.getters['coaches/coach']
+		traveller() {
+			return this.$store.getters['travellers/traveller']
 		},
-		isCoach() {
-			return this.$store.getters['coaches/isCoach']
+		isTraveller() {
+			return this.$store.getters['travellers/isTraveller']
 		},
 	},
 	watch: {
-		coach(details) {
-			this.selectedCoach = details
+		traveller(details) {
+			this.selectedTraveller = details
 		},
 	},
 	created() {
-		this.loadCoach()
+		this.loadTraveller()
 		this.getImages()
 	},
 	methods: {
 		isLoggedInUser,
-		async loadCoach() {
+		async loadTraveller() {
 			this.isLoading = true
 			try {
-				await this.$store.dispatch('coaches/loadCoach', {
-					coachId: this.id,
+				await this.$store.dispatch('travellers/loadTraveller', {
+					travellerId: this.id,
 				})
 			} catch (error) {
 				this.error = error.message || 'Something went wrong!'
@@ -148,7 +150,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.coach-detail-container {
+.traveller-detail-container {
 	padding: 0 20px;
 	.isLoading {
 		display: none;

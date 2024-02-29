@@ -162,7 +162,7 @@ export default {
 						actionPayload
 					)
 
-					await this.$store.dispatch('coaches/loadCoaches', {
+					await this.$store.dispatch('travellers/loadTravellers', {
 						forceRefresh: true,
 					})
 				} else {
@@ -172,7 +172,7 @@ export default {
 					)
 				}
 
-				const redirectUrl = '/' + (this.$route.query.redirect || 'coaches')
+				const redirectUrl = '/' + (this.$route.query.redirect || 'trips')
 				this.$router.replace(redirectUrl)
 			} catch (err) {
 				this.error =
