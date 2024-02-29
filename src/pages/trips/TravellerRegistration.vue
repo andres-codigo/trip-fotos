@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
-
 import { delayLoading } from '../../utils/globalFunctions'
 import { StoreMessagesConstants } from '../../constants/store-messages'
 import { GlobalConstants } from '../../constants/global'
