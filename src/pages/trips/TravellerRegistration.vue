@@ -43,7 +43,7 @@ export default {
 	methods: {
 		async registerTraveller(data) {
 			this.isLoading = true
-			const numberOfSeconds = 5000
+			const numberOfSeconds = 2000
 
 			const registerTraveller = Promise.resolve(
 				this.$store.dispatch('travellers/registerTraveller', data)

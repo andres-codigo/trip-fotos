@@ -38,7 +38,6 @@ app.use(VueLazyload, {
 	preLoad: 1.3,
 	loading: loadImage,
 	attempt: 3,
-	lazyComponent: true,
 })
 
 app.directive('click-outside', ClickOutside)

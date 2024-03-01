@@ -36,7 +36,7 @@
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
-				<ul v-else-if="hasTravellers" class="travellers">
+				<ul v-else-if="!isLoading && hasTravellers" class="travellers">
 					<trip-item
 						v-for="traveller in filteredTravellers"
 						:key="traveller.id"
@@ -44,22 +44,13 @@
 						:first-name="traveller.firstName"
 						:last-name="traveller.lastName"
 						:description="traveller.description"
-						:rate="traveller.hourlyRate"
+						:days="traveller.daysInCity"
 						:areas="traveller.areas"
+						:files="traveller.files"
 						:registered="traveller.registered"
 					></trip-item>
 				</ul>
 				<h3 v-if="!hasTravellers && !isLoading">No travellers listed.</h3>
-				<h3
-					v-else-if="
-						travellers &&
-						travellers.length > 0 &&
-						filteredTravellers &&
-						filteredTravellers.length === 0
-					"
-				>
-					No travellers to display.
-				</h3>
 			</base-card>
 		</section>
 	</section>
@@ -79,13 +70,13 @@ export default {
 			isLoading: false,
 			error: null,
 			activeFilters: {
-				frontend: {
+				tokyo: {
 					isActive: true,
 				},
-				backend: {
+				prague: {
 					isActive: true,
 				},
-				career: {
+				sydney: {
 					isActive: true,
 				},
 			},
@@ -99,28 +90,27 @@ export default {
 			return this.$store.getters['travellers/isTraveller']
 		},
 		travellers() {
-			const travellers = this.$store.getters['travellers/travellers']
-			return travellers
+			return this.$store.getters['travellers/travellers']
 		},
 		filteredTravellers() {
 			const travellers = this.travellers
 
 			return travellers.filter((traveller) => {
 				if (
-					this.activeFilters.frontend.isActive &&
-					traveller.areas.includes('frontend')
+					this.activeFilters.tokyo.isActive &&
+					traveller.areas.includes('tokyo')
 				) {
 					return true
 				}
 				if (
-					this.activeFilters.backend.isActive &&
-					traveller.areas.includes('backend')
+					this.activeFilters.prague.isActive &&
+					traveller.areas.includes('prague')
 				) {
 					return true
 				}
 				if (
-					this.activeFilters.career.isActive &&
-					traveller.areas.includes('career')
+					this.activeFilters.sydney.isActive &&
+					traveller.areas.includes('sydney')
 				) {
 					return true
 				}
@@ -128,7 +118,7 @@ export default {
 			})
 		},
 		hasTravellers() {
-			return !this.isLoading && this.$store.getters['travellers/hasTravellers']
+			return this.$store.getters['travellers/hasTravellers']
 		},
 	},
 	created() {
@@ -139,15 +129,18 @@ export default {
 			this.activeFilters = updatedFilters
 		},
 		async loadTravellers(refresh = false) {
-			this.isLoading = true
 			try {
-				await this.$store.dispatch('travellers/loadTravellers', {
-					forceRefresh: refresh,
-				})
+				this.isLoading = true
+				await this.$store
+					.dispatch('travellers/loadTravellers', {
+						forceRefresh: refresh,
+					})
+					.then(() => {
+						this.isLoading = false
+					})
 			} catch (error) {
 				this.error = error.message || 'Something went wrong!'
 			}
-			this.isLoading = false
 		},
 		handleError() {
 			this.error = null
@@ -166,6 +159,9 @@ export default {
 		.hide {
 			display: none;
 		}
+	}
+	h3 {
+		text-align: center;
 	}
 
 	.spinner-container {

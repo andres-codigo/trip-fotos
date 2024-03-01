@@ -12,7 +12,7 @@
 				<div v-else>
 					<h2>{{ fullName }}</h2>
 					<p>{{ this.selectedTraveller.description }}</p>
-					<h3>${{ this.selectedTraveller.hourlyRate }}/hour</h3>
+					<h3>${{ this.selectedTraveller.daysInCity }}/hour</h3>
 				</div>
 			</base-card>
 		</section>
@@ -27,14 +27,11 @@
 					></base-badge>
 				</div>
 				<div class="images">
-					<div v-if="isLoadingImages" class="spinner-container-images">
-						<base-spinner></base-spinner>
-					</div>
-					<ul v-else class="images-list" v-show="!!images">
+					<ul class="images-list" v-show="!!this.selectedTraveller.files">
 						<base-image
-							v-for="file in this.images"
-							:key="file.index"
-							:url="file.url"
+							v-for="file in this.selectedTraveller.files"
+							:key="file"
+							:url="file"
 							:title="fullName"
 						></base-image>
 					</ul>
@@ -62,8 +59,6 @@
 </template>
 
 <script>
-import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
-
 import { isLoggedInUser } from '../../utils/globalFunctions'
 
 export default {
@@ -73,8 +68,6 @@ export default {
 			isLoading: false,
 			selectedTraveller: {},
 			error: '',
-			isLoadingImages: false,
-			images: [],
 		}
 	},
 	computed: {
@@ -100,7 +93,6 @@ export default {
 	},
 	created() {
 		this.loadTraveller()
-		this.getImages()
 	},
 	methods: {
 		isLoggedInUser,
@@ -114,36 +106,6 @@ export default {
 				this.error = error.message || 'Something went wrong!'
 			}
 			this.isLoading = false
-		},
-		getImages() {
-			const storage = getStorage()
-			const spaceRef = ref(storage, `images/${this.id}`)
-
-			if (spaceRef.name === this.id) {
-				listAll(spaceRef)
-					.then((res) => {
-						res.items.forEach(async (itemRef, index) => {
-							this.isLoadingImages = true
-							await getDownloadURL(itemRef)
-								.then((downloadURL) => {
-									let image = {
-										index: index,
-										url: downloadURL,
-									}
-									this.images.push(image)
-								})
-								.finally(() => {
-									this.isLoadingImages = false
-								})
-								.catch((error) => {
-									console.log(error)
-								})
-						})
-					})
-					.catch((error) => {
-						console.log(error)
-					})
-			}
 		},
 	},
 }

@@ -7,13 +7,32 @@ export default {
 	async registerTraveller(context, data) {
 		try {
 			const userId = context.rootGetters.userId
+
+			const imagePromises = await Promise.all(
+				Array.from(data.files, async (image) => {
+					const storage = getStorage()
+					const storageRef = ref(storage, `/images/${userId}/${image.name}`)
+
+					const metadata = {
+						customMetadata: {
+							userId: userId,
+						},
+					}
+
+					const response = await uploadBytes(storageRef, image.file, metadata)
+					const url = await getDownloadURL(response.ref)
+
+					return url
+				})
+			)
+
 			const travellerData = {
 				firstName: data.first,
 				lastName: data.last,
 				description: data.desc,
-				hourlyRate: data.rate,
+				daysInCity: data.days,
 				areas: data.areas,
-				files: data.files,
+				files: imagePromises,
 				registered: new Date(),
 			}
 
@@ -32,27 +51,6 @@ export default {
 					...travellerData,
 					id: userId,
 				})
-
-				const imagePromises = await Promise.all(
-					Array.from(data.files, async (image) => {
-						const storage = getStorage()
-						const storageRef = ref(storage, `/images/${userId}/${image.name}`)
-
-						const metadata = {
-							customMetadata: {
-								userId: userId,
-							},
-						}
-
-						const response = await uploadBytes(storageRef, image.file, metadata)
-						const url = await getDownloadURL(response.ref)
-
-						return url
-					})
-				)
-
-				const imagesResponse = await Promise.all(imagePromises)
-				return imagesResponse
 			} else {
 				throw new Error(APIErrorMessageConstants.REGISTER_TRAVELLER)
 			}
@@ -148,7 +146,7 @@ export default {
 				firstName: responseData[key].firstName,
 				lastName: responseData[key].lastName,
 				description: responseData[key].description,
-				hourlyRate: responseData[key].hourlyRate,
+				daysInCity: responseData[key].daysInCity,
 				areas: responseData[key].areas,
 				files: responseData[key].files,
 				registered: responseData[key].registered,

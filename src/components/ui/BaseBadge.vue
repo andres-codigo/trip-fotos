@@ -26,21 +26,21 @@ export default {
 	padding: 0.5rem 1.5rem;
 	@include user-select(none);
 
-	&.frontend,
-	&.backend,
-	&.career {
+	&.tokyo,
+	&.prague,
+	&.sydney {
 		color: $color-white;
 	}
 
-	&.frontend {
+	&.tokyo {
 		background-color: $color-pigment-indigo;
 	}
 
-	&.backend {
+	&.prague {
 		background-color: $color-purple;
 	}
 
-	&.career {
+	&.sydney {
 		background-color: $color-fresh-eggplant;
 	}
 }

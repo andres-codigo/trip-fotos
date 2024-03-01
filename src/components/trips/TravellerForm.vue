@@ -45,7 +45,7 @@
 					@blur="clearValidity(key)"
 				/>
 				<p :class="{ invalid: !field.isValid }" v-if="!field.isValid">
-					Rate must be greater than 0.
+					Number of days spent in the city cannot be empty.
 				</p>
 			</div>
 			<div
@@ -103,29 +103,29 @@ export default {
 					val: '',
 					isValid: true,
 				},
-				rate: {
-					label: 'Hourly rate',
+				days: {
+					label: 'Days in city?',
 					type: 'number',
 					val: null,
 					isValid: true,
 				},
 				areas: {
-					label: 'Areas of Expertise',
+					label: 'Cities visited',
 					type: 'checkbox',
 					val: [],
 					isValid: true,
 					areaTypes: {
 						0: {
-							area: 'frontend',
-							label: 'Frontend Development',
+							area: 'tokyo',
+							label: 'Tokyo, Japan',
 						},
 						1: {
-							area: 'backend',
-							label: 'Backend Development',
+							area: 'prague',
+							label: 'Prague, Czechia',
 						},
 						2: {
-							area: 'career',
-							label: 'Career Advisory',
+							area: 'sydney',
+							label: 'Sydney, Australia',
 						},
 					},
 				},
@@ -163,8 +163,8 @@ export default {
 				this.fields.description.isValid = false
 				this.formIsValid = false
 			}
-			if (!this.fields.rate.val || this.fields.rate.val < 0) {
-				this.fields.rate.isValid = false
+			if (!this.fields.days.val || this.fields.days.val < 0) {
+				this.fields.days.isValid = false
 				this.formIsValid = false
 			}
 			if (this.fields.areas.val.length === 0) {
@@ -186,7 +186,7 @@ export default {
 				first: this.fields.firstName.val,
 				last: this.fields.lastName.val,
 				desc: this.fields.description.val,
-				rate: this.fields.rate.val,
+				days: this.fields.days.val,
 				areas: this.fields.areas.val,
 				files: this.files.val,
 			}
