@@ -9,6 +9,9 @@
 			<p>{{ error }}</p>
 		</base-dialog>
 		<base-card>
+			<h2 v-if="registeringUser">
+				Registering you as a traveller, one moment please...
+			</h2>
 			<div v-if="isLoading" class="spinner-container">
 				<base-spinner></base-spinner>
 			</div>
@@ -23,7 +26,6 @@
 </template>
 
 <script>
-import { delayLoading } from '../../utils/globalFunctions'
 import { StoreMessagesConstants } from '../../constants/store-messages'
 import { GlobalConstants } from '../../constants/global'
 
@@ -34,6 +36,7 @@ export default {
 		return {
 			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
+			registeringUser: false,
 			error: null,
 		}
 	},
@@ -42,8 +45,8 @@ export default {
 	},
 	methods: {
 		async registerTraveller(data) {
+			this.registeringUser = true
 			this.isLoading = true
-			const numberOfSeconds = 2000
 
 			const registerTraveller = Promise.resolve(
 				this.$store.dispatch('travellers/registerTraveller', data)
@@ -53,24 +56,14 @@ export default {
 				this.$store.dispatch('travellers/travellerName', data)
 			)
 
-			const loadTravellers = Promise.resolve(
-				this.$store.dispatch('travellers/loadTravellers', {
-					forceRefresh: true,
-				})
-			)
-
-			const routeToTravellersPage = delayLoading(numberOfSeconds).then(
-				this.$router.replace('/trips')
-			)
-
-			await Promise.all([
-				registerTraveller,
-				setTravellerName,
-				loadTravellers,
-				routeToTravellersPage,
-			])
+			await Promise.all([registerTraveller, setTravellerName])
 				.then(() => {
-					this.isLoading = false
+					this.$store.dispatch('travellers/loadTravellers', {
+						forceRefresh: true,
+					})
+				})
+				.then(() => {
+					this.$router.replace('/trips')
 				})
 				.catch((error) => {
 					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE

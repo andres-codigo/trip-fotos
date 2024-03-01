@@ -61,35 +61,27 @@ export default {
 
 	async travellerName(context, data) {
 		try {
-			const travellerData = {
-				firstName: data.first,
-				lastName: data.last,
-			}
-
-			const token = context.rootGetters.token
-
-			const travellerName =
-				travellerData.firstName + ' ' + travellerData.lastName
+			const travellerName = data.first + ' ' + data.last
 
 			const response = await fetch(
 				APIConstants.API_URL + 'update?key=' + APIConstants.API_KEY,
 				{
 					method: APIConstants.POST,
 					body: JSON.stringify({
-						idToken: token,
+						idToken: context.rootGetters.token,
 						displayName: travellerName,
 					}),
 				}
 			)
 
-			if (!response.ok) {
+			if (response.ok) {
+				const updateResponse = await response.json()
+
+				localStorage.setItem('userName', updateResponse.displayName)
+				context.commit('setTravellerName', updateResponse.displayName)
+			} else {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER_NAME)
 			}
-
-			const updateResponse = await response.json()
-
-			localStorage.setItem('userName', updateResponse.displayName)
-			context.commit('setTravellerName', updateResponse.displayName)
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
@@ -109,16 +101,16 @@ export default {
 				}
 			)
 
-			if (!response.ok) {
+			if (response.ok) {
+				const responseData = await response.json()
+
+				context.commit('setTraveller', {
+					...responseData,
+					id: travellerId,
+				})
+			} else {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER)
 			}
-
-			const responseData = await response.json()
-
-			context.commit('setTraveller', {
-				...responseData,
-				id: travellerId,
-			})
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
@@ -132,45 +124,45 @@ export default {
 			},
 		})
 
-		if (!response.ok) {
-			throw new Error(APIErrorMessageConstants.LOAD_TRAVELLERS)
-		}
+		if (response.ok) {
+			const responseData = await response.json()
 
-		const responseData = await response.json()
+			const travellers = []
 
-		const travellers = []
-
-		for (const key in responseData) {
-			const traveller = {
-				id: key,
-				firstName: responseData[key].firstName,
-				lastName: responseData[key].lastName,
-				description: responseData[key].description,
-				daysInCity: responseData[key].daysInCity,
-				areas: responseData[key].areas,
-				files: responseData[key].files,
-				registered: responseData[key].registered,
+			for (const key in responseData) {
+				const traveller = {
+					id: key,
+					firstName: responseData[key].firstName,
+					lastName: responseData[key].lastName,
+					description: responseData[key].description,
+					daysInCity: responseData[key].daysInCity,
+					areas: responseData[key].areas,
+					files: responseData[key].files,
+					registered: responseData[key].registered,
+				}
+				travellers.push(traveller)
 			}
-			travellers.push(traveller)
-		}
 
-		const loggedInTraveller = travellers.find(
-			(traveller) => traveller.id === localStorage.userId
-		)
-
-		const filteredTraveller = travellers.filter(
-			(traveller) => traveller.id !== localStorage.userId
-		)
-
-		if (loggedInTraveller !== undefined) {
-			filteredTraveller.unshift(loggedInTraveller)
-			context.commit(
-				'setTravellerName',
-				loggedInTraveller.firstName + ' ' + loggedInTraveller.lastName
+			const loggedInTraveller = travellers.find(
+				(traveller) => traveller.id === localStorage.userId
 			)
-			context.commit('setTravellers', filteredTraveller)
+
+			const filteredTraveller = travellers.filter(
+				(traveller) => traveller.id !== localStorage.userId
+			)
+
+			if (loggedInTraveller !== undefined) {
+				filteredTraveller.unshift(loggedInTraveller)
+				context.commit(
+					'setTravellerName',
+					loggedInTraveller.firstName + ' ' + loggedInTraveller.lastName
+				)
+				context.commit('setTravellers', filteredTraveller)
+			} else {
+				context.commit('setTravellers', travellers)
+			}
 		} else {
-			context.commit('setTravellers', travellers)
+			throw new Error(APIErrorMessageConstants.LOAD_TRAVELLERS)
 		}
 	},
 
@@ -190,18 +182,18 @@ export default {
 				}
 			)
 
-			if (!response.ok) {
+			if (response.ok) {
+				const responseData = await response.json()
+
+				context.commit('deleteTraveller', {
+					...responseData,
+					id: travellerId,
+				})
+
+				await context.dispatch('updateTravellers')
+			} else {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
-
-			const responseData = await response.json()
-
-			context.commit('deleteTraveller', {
-				...responseData,
-				id: travellerId,
-			})
-
-			await context.dispatch('updateTravellers')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
