@@ -18,17 +18,17 @@ export default {
 
 		const responseData = await response.json()
 
-		if (!response.ok) {
+		if (response.ok) {
+			newRequest.id = responseData.name
+			newRequest.travellerId = payload.travellerId
+
+			context.commit('addRequest', newRequest)
+		} else {
 			const error = new Error(
 				responseData.message || APIErrorMessageConstants.CONTACT_TRAVELLER
 			)
 			throw error
 		}
-
-		newRequest.id = responseData.name
-		newRequest.travellerId = payload.travellerId
-
-		context.commit('addRequest', newRequest)
 	},
 	async loadRequests(context) {
 		const travellerId = context.rootGetters.userId
@@ -38,28 +38,28 @@ export default {
 		)
 		const responseData = await response.json()
 
-		if (!response.ok) {
+		if (response.ok) {
+			const requests = []
+
+			for (const key in responseData) {
+				const request = {
+					id: key,
+					travellerId: travellerId,
+					userName: responseData[key].userName,
+					userEmail: responseData[key].userEmail,
+					message: responseData[key].message,
+				}
+				requests.push(request)
+			}
+
+			context.commit('setRequests', requests)
+			context.commit('setRequestsCount', requests.length)
+		} else {
 			const error = new Error(
 				responseData.message || APIErrorMessageConstants.FETCH_REQUESTS
 			)
 			throw error
 		}
-
-		const requests = []
-
-		for (const key in responseData) {
-			const request = {
-				id: key,
-				travellerId: travellerId,
-				userName: responseData[key].userName,
-				userEmail: responseData[key].userEmail,
-				message: responseData[key].message,
-			}
-			requests.push(request)
-		}
-
-		context.commit('setRequests', requests)
-		context.commit('setRequestsCount', requests.length)
 	},
 	async deleteRequest(context, data) {
 		try {
@@ -80,18 +80,18 @@ export default {
 				}
 			)
 
-			if (!response.ok) {
+			if (response.ok) {
+				const responseData = await response.json()
+
+				context.commit('deleteRequest', {
+					...responseData,
+					id: travellerId,
+				})
+
+				await context.dispatch('loadRequests')
+			} else {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
-
-			const responseData = await response.json()
-
-			context.commit('deleteRequest', {
-				...responseData,
-				id: travellerId,
-			})
-
-			await context.dispatch('loadRequests')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}

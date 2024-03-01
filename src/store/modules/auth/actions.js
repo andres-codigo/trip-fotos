@@ -24,6 +24,7 @@ export default {
 		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
 			url = APIConstants.API_URL + 'signUp?key=' + APIConstants.API_KEY
 		}
+
 		const response = await fetch(url, {
 			method: APIConstants.POST,
 			body: JSON.stringify({
@@ -35,7 +36,34 @@ export default {
 
 		const responseData = await response.json()
 
-		if (!response.ok) {
+		if (response.ok) {
+			const expiresIn = +responseData.expiresIn * 1000
+			const expirationDate = new Date().getTime() + expiresIn
+
+			let displayName = ''
+			if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
+				displayName
+			} else {
+				displayName = responseData.displayName
+			}
+
+			localStorage.setItem('token', responseData.idToken)
+			localStorage.setItem('userId', responseData.localId)
+			localStorage.setItem('userName', displayName)
+			localStorage.setItem('userEmail', responseData.email)
+			localStorage.setItem('tokenExpiration', expirationDate)
+
+			timer = setTimeout(function () {
+				context.dispatch('autoLogout')
+			}, expiresIn)
+
+			context.commit('setUser', {
+				token: responseData.idToken,
+				userId: responseData.localId,
+				userName: displayName,
+				userEmail: responseData.email,
+			})
+		} else {
 			let errorMessage = ''
 
 			if (
@@ -60,33 +88,6 @@ export default {
 			)
 			throw error
 		}
-
-		const expiresIn = +responseData.expiresIn * 1000
-		const expirationDate = new Date().getTime() + expiresIn
-
-		let displayName = ''
-		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
-			displayName
-		} else {
-			displayName = responseData.displayName
-		}
-
-		localStorage.setItem('token', responseData.idToken)
-		localStorage.setItem('userId', responseData.localId)
-		localStorage.setItem('userName', displayName)
-		localStorage.setItem('userEmail', responseData.email)
-		localStorage.setItem('tokenExpiration', expirationDate)
-
-		timer = setTimeout(function () {
-			context.dispatch('autoLogout')
-		}, expiresIn)
-
-		context.commit('setUser', {
-			token: responseData.idToken,
-			userId: responseData.localId,
-			userName: displayName,
-			userEmail: responseData.email,
-		})
 	},
 	tryLogin(context) {
 		const token = localStorage.getItem('token')
