@@ -164,4 +164,10 @@ export default {
 		}
 	}
 }
+
+@media only screen and (max-width: 768px) {
+	.traveller-detail-container {
+		display: inline-block;
+	}
+}
 </style>
