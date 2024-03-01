@@ -2,13 +2,13 @@
 	<header class="header">
 		<nav class="navbar">
 			<h1 class="nav-logo">
-				<router-link to="/">Find a Coach</router-link>
+				<router-link to="/">Find a Trip</router-link>
 			</h1>
 			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
 				<li class="nav-item">
 					<ul>
 						<li
-							v-if="isLoggedIn && isCoach"
+							v-if="isLoggedIn && isTraveller"
 							@click.prevent="toggleHamburgerMenuActiveClass()"
 						>
 							<router-link to="/requests" class="nav-link"
@@ -21,8 +21,8 @@
 							</router-link>
 						</li>
 						<li @click.prevent="toggleHamburgerMenuActiveClass()">
-							<router-link to="/coaches" class="nav-link"
-								>All Coaches</router-link
+							<router-link to="/trips" class="nav-link"
+								>All Travellers</router-link
 							>
 						</li>
 					</ul>
@@ -35,7 +35,7 @@
 					<router-link to="/auth" class="nav-link">Login</router-link>
 				</li>
 				<li v-else class="nav-item">
-					<base-button @click="logout">Logout {{ coachName }}</base-button>
+					<base-button @click="logout">Logout {{ travellerName }}</base-button>
 				</li>
 			</ul>
 			<div class="hamburger">
@@ -51,7 +51,7 @@
 export default {
 	data() {
 		return {
-			coachName: '',
+			travellerName: '',
 			totalRequests: null,
 		}
 	},
@@ -60,10 +60,10 @@ export default {
 			return this.$store.getters.isAuthenticated
 		},
 		usersName() {
-			return this.$store.getters['coaches/coachName']
+			return this.$store.getters['travellers/travellerName']
 		},
-		isCoach() {
-			return this.$store.getters['coaches/isCoach']
+		isTraveller() {
+			return this.$store.getters['travellers/isTraveller']
 		},
 		requestsCount() {
 			return this.$store.getters['requests/requestsCount']
@@ -71,7 +71,7 @@ export default {
 	},
 	watch: {
 		usersName(name) {
-			this.coachName = name
+			this.travellerName = name
 		},
 		requestsCount(count) {
 			this.totalRequests = count
@@ -79,7 +79,7 @@ export default {
 	},
 	created() {
 		if (this.isLoggedIn) {
-			this.setCoachName()
+			this.setTravellerName()
 			this.setRequestCount()
 		}
 	},
@@ -88,7 +88,7 @@ export default {
 	},
 	beforeUpdate() {
 		if (this.isLoggedIn) {
-			this.setCoachName()
+			this.setTravellerName()
 			if (this.totalRequests === null) {
 				this.setRequestCount()
 			}
@@ -115,16 +115,16 @@ export default {
 				navMenu.classList.toggle('active')
 			}
 		},
-		setCoachName() {
-			let localStorageCoachName = localStorage.getItem('userName')
+		setTravellerName() {
+			let localStorageTravellerName = localStorage.getItem('userName')
 
-			if (localStorageCoachName && localStorageCoachName.length > 0) {
-				this.coachName = localStorageCoachName
+			if (localStorageTravellerName && localStorageTravellerName.length > 0) {
+				this.travellerName = localStorageTravellerName
 
 				this.$watch(
 					() => localStorage.getItem('userName'),
 					(newValue) => {
-						this.coachName = newValue
+						this.travellerName = newValue
 					}
 				)
 			}
@@ -135,11 +135,11 @@ export default {
 			})
 		},
 		async logout() {
-			this.coachName = ''
+			this.travellerName = ''
 			this.totalRequests = null
 			this.toggleHamburgerMenuActiveClass()
 			await this.$store.dispatch('logout')
-			await this.$router.replace('/coaches')
+			await this.$router.replace('/trips')
 		},
 	},
 }
@@ -280,7 +280,7 @@ header {
 					&:hover {
 						color: $color-lavender-magenta;
 						.requests-counter-container {
-							border: 1px solid $color-white;
+							border: 1px solid $color-lavender-magenta;
 						}
 					}
 

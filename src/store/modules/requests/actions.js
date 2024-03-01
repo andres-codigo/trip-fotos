@@ -2,14 +2,14 @@ import { APIConstants } from '../../../constants/api'
 import { APIErrorMessageConstants } from '../../../constants/api-messages'
 
 export default {
-	async contactCoach(context, payload) {
+	async contactTraveller(context, payload) {
 		const newRequest = {
 			userName: payload.name,
 			userEmail: payload.email,
 			message: payload.message,
 		}
 		const response = await fetch(
-			APIConstants.BASE_URL + `/requests/${payload.coachId}.json`,
+			APIConstants.BASE_URL + `/requests/${payload.travellerId}.json`,
 			{
 				method: 'POST',
 				body: JSON.stringify(newRequest),
@@ -18,59 +18,59 @@ export default {
 
 		const responseData = await response.json()
 
-		if (!response.ok) {
+		if (response.ok) {
+			newRequest.id = responseData.name
+			newRequest.travellerId = payload.travellerId
+
+			context.commit('addRequest', newRequest)
+		} else {
 			const error = new Error(
-				responseData.message || APIErrorMessageConstants.CONTACT_COACH
+				responseData.message || APIErrorMessageConstants.CONTACT_TRAVELLER
 			)
 			throw error
 		}
-
-		newRequest.id = responseData.name
-		newRequest.coachId = payload.coachId
-
-		context.commit('addRequest', newRequest)
 	},
 	async loadRequests(context) {
-		const coachId = context.rootGetters.userId
+		const travellerId = context.rootGetters.userId
 		const token = context.rootGetters.token
 		const response = await fetch(
-			APIConstants.BASE_URL + `/requests/${coachId}.json?auth=` + token
+			APIConstants.BASE_URL + `/requests/${travellerId}.json?auth=` + token
 		)
 		const responseData = await response.json()
 
-		if (!response.ok) {
+		if (response.ok) {
+			const requests = []
+
+			for (const key in responseData) {
+				const request = {
+					id: key,
+					travellerId: travellerId,
+					userName: responseData[key].userName,
+					userEmail: responseData[key].userEmail,
+					message: responseData[key].message,
+				}
+				requests.push(request)
+			}
+
+			context.commit('setRequests', requests)
+			context.commit('setRequestsCount', requests.length)
+		} else {
 			const error = new Error(
 				responseData.message || APIErrorMessageConstants.FETCH_REQUESTS
 			)
 			throw error
 		}
-
-		const requests = []
-
-		for (const key in responseData) {
-			const request = {
-				id: key,
-				coachId: coachId,
-				userName: responseData[key].userName,
-				userEmail: responseData[key].userEmail,
-				message: responseData[key].message,
-			}
-			requests.push(request)
-		}
-
-		context.commit('setRequests', requests)
-		context.commit('setRequestsCount', requests.length)
 	},
 	async deleteRequest(context, data) {
 		try {
-			const coachId = context.rootGetters.userId
+			const travellerId = context.rootGetters.userId
 			const token = context.rootGetters.token
 
 			const requestId = data.requestId
 
 			const response = await fetch(
 				APIConstants.BASE_URL +
-					`/requests/${coachId}/${requestId}.json?auth=` +
+					`/requests/${travellerId}/${requestId}.json?auth=` +
 					token,
 				{
 					method: APIConstants.DELETE,
@@ -80,18 +80,18 @@ export default {
 				}
 			)
 
-			if (!response.ok) {
-				throw new Error(APIErrorMessageConstants.DELETE_COACH)
+			if (response.ok) {
+				const responseData = await response.json()
+
+				context.commit('deleteRequest', {
+					...responseData,
+					id: travellerId,
+				})
+
+				await context.dispatch('loadRequests')
+			} else {
+				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
-
-			const responseData = await response.json()
-
-			context.commit('deleteRequest', {
-				...responseData,
-				id: coachId,
-			})
-
-			await context.dispatch('loadRequests')
 		} catch (error) {
 			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}

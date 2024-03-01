@@ -1,6 +1,6 @@
 <template>
 	<base-card>
-		<h2 class="filter-header">Find Your Coach</h2>
+		<h2 class="filter-header">Filter by city</h2>
 		<div class="checkbox-container">
 			<span
 				:class="['filter-option', { active: value.isActive }]"
@@ -20,13 +20,13 @@ export default {
 	data() {
 		return {
 			filters: {
-				frontend: {
+				tokyo: {
 					isActive: true,
 				},
-				backend: {
+				prague: {
 					isActive: true,
 				},
-				career: {
+				sydney: {
 					isActive: true,
 				},
 			},

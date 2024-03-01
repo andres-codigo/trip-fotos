@@ -13,7 +13,7 @@
 	<li
 		v-else
 		:class="[
-			'coach',
+			'traveller',
 			{
 				isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
 			},
@@ -24,7 +24,7 @@
 			{{ registeredDate }}
 		</p>
 		<p class="description">{{ shortenedDescription }}</p>
-		<p class="rate"><strong>Rate:</strong> ${{ rate }}/hour</p>
+		<p class="days"><strong>Days in city:</strong> {{ days }} days</p>
 		<div class="badges">
 			<base-badge
 				v-for="area in areas"
@@ -34,27 +34,26 @@
 			></base-badge>
 		</div>
 		<div class="images">
-			<div v-if="isLoadingImages" class="spinner-container-images">
-				<base-spinner></base-spinner>
-			</div>
-			<ul v-else class="images-list" v-show="!!images">
+			<ul class="images-list" v-show="!!files">
 				<base-image
-					v-for="file in this.images"
-					:key="file.index"
-					:url="file.url"
+					v-for="file in files"
+					:key="file"
+					:url="file"
 					:title="fullName"
 				></base-image>
 			</ul>
 		</div>
 		<div class="actions">
 			<base-button
-				v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isCoach"
+				v-if="
+					!isLoggedInUser(this.id, this.$store.getters.userId) && isTraveller
+				"
 				mode="outline"
 				link
-				:to="coachContactLink"
+				:to="travellerContactLink"
 				>Contact</base-button
 			>
-			<base-button link :to="coachDetailsLink">Details</base-button>
+			<base-button link :to="travellerDetailsLink">Details</base-button>
 			<!--
 				TODO: 	Added to ease deletion of items during development
 						Look to incorporate into working flow dependent on
@@ -62,7 +61,7 @@
 			-->
 			<base-button
 				v-if="fullName !== userName && this.$store.getters.userId === adminId"
-				@click="this.deleteCoach()"
+				@click="this.deleteTraveller()"
 				mode="outline"
 				class="actions delete"
 				>Delete</base-button
@@ -72,8 +71,6 @@
 </template>
 
 <script>
-import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
-
 import { StoreMessagesConstants } from '../../constants/store-messages'
 import { DataConstants } from '../../constants/data'
 import { GlobalConstants } from '../../constants/global'
@@ -90,8 +87,9 @@ export default {
 		'firstName',
 		'lastName',
 		'description',
-		'rate',
+		'days',
 		'areas',
+		'files',
 		'registered',
 	],
 	data() {
@@ -100,8 +98,6 @@ export default {
 			adminId: GlobalConstants.ADMIN_ID,
 			isLoading: false,
 			error: null,
-			isLoadingImages: false,
-			images: [],
 		}
 	},
 	computed: {
@@ -119,72 +115,39 @@ export default {
 			}
 			return description
 		},
-		coachContactLink() {
-			return this.$route.path + '/' + this.id + '/contact' // /coaches/c1/contact
+		travellerContactLink() {
+			return this.$route.path + '/' + this.id + '/contact' // /trips/c1/contact
 		},
-		coachDetailsLink() {
-			return this.$route.path + '/' + this.id // /coaches/c1
+		travellerDetailsLink() {
+			return this.$route.path + '/' + this.id // /trips/c1
 		},
 		userName() {
-			return this.$store.getters['coaches/coachName']
+			return this.$store.getters['travellers/travellerName']
 		},
-		isCoach() {
-			return this.$store.getters['coaches/isCoach']
+		isTraveller() {
+			return this.$store.getters['travellers/isTraveller']
 		},
-	},
-	created() {
-		this.getImages()
 	},
 	methods: {
 		formatDate,
 		isLoggedInUser,
-		getImages() {
-			const storage = getStorage()
-			const spaceRef = ref(storage, `images/${this.id}`)
-
-			if (spaceRef.name === this.id) {
-				listAll(spaceRef)
-					.then((res) => {
-						res.items.forEach(async (itemRef, index) => {
-							this.isLoadingImages = true
-							await getDownloadURL(itemRef)
-								.then((downloadURL) => {
-									let image = {
-										index: index,
-										url: downloadURL,
-									}
-									this.images.push(image)
-								})
-								.finally(() => {
-									this.isLoadingImages = false
-								})
-								.catch((error) => {
-									console.log(error)
-								})
-						})
-					})
-					.catch((error) => {
-						console.log(error)
-					})
-			}
-		},
-		async deleteCoach() {
+		async deleteTraveller() {
 			this.isLoading = true
 			const numberOfSeconds = 2000
 
-			const deleteCoach = Promise.resolve(
-				this.$store.dispatch('coaches/deleteCoach', {
-					coachId: this.id,
+			const deleteTraveller = Promise.resolve(
+				this.$store.dispatch('travellers/deleteTraveller', {
+					travellerId: this.id,
 				})
 			)
 
-			const loadCoaches = delayLoading(numberOfSeconds).then(
-				this.$store.dispatch('coaches/loadCoaches', {
+			const loadTravellers = delayLoading(numberOfSeconds).then(
+				this.$store.dispatch('travellers/loadTravellers', {
 					forceRefresh: true,
 				})
 			)
 
-			await Promise.all([deleteCoach, loadCoaches])
+			await Promise.all([deleteTraveller, loadTravellers])
 				.then(() => {
 					this.isLoading = false
 				})
@@ -209,7 +172,7 @@ export default {
 	@include fadeIn(ease, 2s, 1, forwards);
 }
 
-.coach {
+.traveller {
 	border: 1px solid $color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
@@ -258,7 +221,7 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-	.coach {
+	.traveller {
 		.images {
 			.images-list {
 				margin-bottom: 15px;

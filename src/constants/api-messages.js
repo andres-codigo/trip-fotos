@@ -16,14 +16,14 @@ export const APIErrorMessageConstants = Object.freeze({
 	FAILED_TO_AUTHENTICATE:
 		'Failed to authenticate. Check your login credentials.',
 
-	// COACHES
-	REGISTER_COACH: 'Failed to register coach.',
-	LOAD_COACH_NAME: 'Failed to load coach name.',
-	LOAD_COACH: 'Failed to register coach.',
-	DELETE_COACH: 'Failed to delete coach.',
-	LOAD_COACHES: 'Failed to load coaches.',
+	// TRAVELLERS
+	REGISTER_TRAVELLER: 'Failed to register traveller.',
+	LOAD_TRAVELLER_NAME: 'Failed to load traveller name.',
+	LOAD_TRAVELLER: 'Failed to register traveller.',
+	DELETE_TRAVELLER: 'Failed to delete traveller.',
+	LOAD_TRAVELLERS: 'Failed to load travellers.',
 
 	// REQUESTS
 	FETCH_REQUESTS: 'Failed to fetch requests.',
-	CONTACT_COACH: 'Failed to send request.',
+	CONTACT_TRAVELLER: 'Failed to send request.',
 })

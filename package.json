@@ -2,7 +2,7 @@
 	"name": "vue-first-app",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Find a Coach' project.",
+	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Find a Traveller' project.",
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",

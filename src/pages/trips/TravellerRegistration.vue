@@ -1,5 +1,5 @@
 <template>
-	<section class="coach-registration-container">
+	<section class="traveller-registration-container">
 		<base-dialog
 			:show="!!error"
 			:isError="!!error"
@@ -9,66 +9,61 @@
 			<p>{{ error }}</p>
 		</base-dialog>
 		<base-card>
+			<h2 v-if="registeringUser">
+				Registering you as a traveller, one moment please...
+			</h2>
 			<div v-if="isLoading" class="spinner-container">
 				<base-spinner></base-spinner>
 			</div>
 			<div v-else>
-				<h2>Register as a coach now!</h2>
-				<coach-form @register-coach="registerCoach"></coach-form>
+				<h2>Register as a traveller now!</h2>
+				<traveller-form
+					@register-traveller="registerTraveller"
+				></traveller-form>
 			</div>
 		</base-card>
 	</section>
 </template>
 
 <script>
-import { delayLoading } from '../../utils/globalFunctions'
 import { StoreMessagesConstants } from '../../constants/store-messages'
 import { GlobalConstants } from '../../constants/global'
 
-import CoachForm from '../../components/coaches/CoachForm.vue'
+import TravellerForm from '../../components/trips/TravellerForm.vue'
 
 export default {
 	data() {
 		return {
 			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
 			isLoading: false,
+			registeringUser: false,
 			error: null,
 		}
 	},
 	components: {
-		CoachForm,
+		TravellerForm,
 	},
 	methods: {
-		async registerCoach(data) {
+		async registerTraveller(data) {
+			this.registeringUser = true
 			this.isLoading = true
-			const numberOfSeconds = 2000
 
-			const registerCoach = Promise.resolve(
-				this.$store.dispatch('coaches/registerCoach', data)
+			const registerTraveller = Promise.resolve(
+				this.$store.dispatch('travellers/registerTraveller', data)
 			)
 
-			const setCoachName = Promise.resolve(
-				this.$store.dispatch('coaches/coachName', data)
+			const setTravellerName = Promise.resolve(
+				this.$store.dispatch('travellers/travellerName', data)
 			)
 
-			const loadCoaches = Promise.resolve(
-				this.$store.dispatch('coaches/loadCoaches', {
-					forceRefresh: true,
-				})
-			)
-
-			const routeToCoachesPage = delayLoading(numberOfSeconds).then(
-				this.$router.replace('/coaches')
-			)
-
-			await Promise.all([
-				registerCoach,
-				setCoachName,
-				loadCoaches,
-				routeToCoachesPage,
-			])
+			await Promise.all([registerTraveller, setTravellerName])
 				.then(() => {
-					this.isLoading = false
+					this.$store.dispatch('travellers/loadTravellers', {
+						forceRefresh: true,
+					})
+				})
+				.then(() => {
+					this.$router.replace('/trips')
 				})
 				.catch((error) => {
 					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
@@ -82,7 +77,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.coach-registration-container {
+.traveller-registration-container {
 	padding: 0 20px;
 }
 </style>
