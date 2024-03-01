@@ -12,20 +12,55 @@
 				<div v-else>
 					<h2>{{ fullName }}</h2>
 					<p>{{ this.selectedTraveller.description }}</p>
-					<h3>${{ this.selectedTraveller.daysInCity }}/hour</h3>
+					<p class="days">
+						<strong>Days in city:</strong>
+						{{ this.selectedTraveller.daysInCity }} days
+					</p>
+					<div>
+						<base-badge
+							v-for="area in this.selectedTraveller.areas"
+							:key="area"
+							:type="area"
+							:title="area"
+						></base-badge>
+					</div>
 				</div>
 			</base-card>
 		</section>
-		<section :class="{ isLoading: isLoading }">
-			<base-card>
-				<div>
-					<base-badge
-						v-for="area in this.selectedTraveller.areas"
-						:key="area"
-						:type="area"
-						:title="area"
-					></base-badge>
+		<section
+			:class="
+				this.isNotLoggedIn ||
+				isLoggedInUser(this.id, this.$store.getters.userId)
+					? 'hide'
+					: 'show'
+			"
+		>
+			<base-card
+				:class="{
+					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+				}"
+			>
+				<div v-if="isLoading" class="spinner-container">
+					<base-spinner></base-spinner>
 				</div>
+				<header v-else>
+					<h2>Interested? Reach out now!</h2>
+					<base-button
+						v-if="this.$route.name !== 'contact-traveller'"
+						link
+						:to="contactLink"
+						>Contact</base-button
+					>
+				</header>
+				<router-view></router-view>
+			</base-card>
+		</section>
+		<section>
+			<base-card
+				:class="{
+					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+				}"
+			>
 				<div class="images">
 					<ul class="images-list" v-show="!!this.selectedTraveller.files">
 						<base-image
@@ -38,23 +73,6 @@
 				</div>
 			</base-card>
 		</section>
-		<section
-			:class="{ isLoading: isLoading }"
-			v-if="!isLoggedInUser(this.id, this.$store.getters.userId) && isTraveller"
-		>
-			<base-card>
-				<header>
-					<h2>Interested? Reach out now!</h2>
-					<base-button
-						v-if="this.$route.name !== 'contact-traveller'"
-						link
-						:to="contactLink"
-						>Contact</base-button
-					>
-				</header>
-				<router-view></router-view>
-			</base-card>
-		</section>
 	</section>
 </template>
 
@@ -65,12 +83,16 @@ export default {
 	props: ['id'],
 	data() {
 		return {
+			isNotLoggedIn: true,
 			isLoading: false,
 			selectedTraveller: {},
 			error: '',
 		}
 	},
 	computed: {
+		isLoggedIn() {
+			return this.$store.getters.isAuthenticated
+		},
 		fullName() {
 			return (
 				this.selectedTraveller.firstName + ' ' + this.selectedTraveller.lastName
@@ -92,6 +114,10 @@ export default {
 		},
 	},
 	created() {
+		if (this.isLoggedIn) {
+			this.isNotLoggedIn = false
+		}
+
 		this.loadTraveller()
 	},
 	methods: {
@@ -113,9 +139,13 @@ export default {
 
 <style scoped lang="scss">
 .traveller-detail-container {
+	display: inline;
 	padding: 0 20px;
-	.isLoading {
+	.hide {
 		display: none;
+	}
+	.show {
+		display: block;
 	}
 
 	.spinner-container-images {
