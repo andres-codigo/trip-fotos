@@ -1,8 +1,8 @@
 {
-	"name": "vue-first-app",
+	"name": "trip-fotos-app",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Trip Fotos' project.",
+	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Find a coach' project.",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
