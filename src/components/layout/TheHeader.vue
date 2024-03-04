@@ -2,7 +2,7 @@
 	<header class="header">
 		<nav class="navbar">
 			<h1 class="nav-logo">
-				<router-link to="/">Find a Trip</router-link>
+				<router-link to="/">Trip Fotos</router-link>
 			</h1>
 			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
 				<li class="nav-item">

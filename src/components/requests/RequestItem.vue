@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import { StoreMessagesConstants } from '../../constants/store-messages'
-import { GlobalConstants } from '../../constants/global'
-import { delayLoading } from '../../utils/globalFunctions'
+import { StoreMessagesConstants } from '@/constants/store-messages'
+import { GlobalConstants } from '@/constants/global'
+import { delayLoading } from '@/utils/globalFunctions'
 
 export default {
 	props: ['id', 'name', 'email', 'message'],

@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import TripItem from '../../components/trips/TripItem.vue'
-import TripFilter from '../../components/trips/TripFilter.vue'
+import TripItem from '@/components/trips/TripItem.vue'
+import TripFilter from '@/components/trips/TripFilter.vue'
 
 export default {
 	components: {

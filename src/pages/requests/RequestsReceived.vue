@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { GlobalConstants } from '../../constants/global'
-import RequestItem from '../../components/requests/RequestItem.vue'
+import { GlobalConstants } from '@/constants/global'
+import RequestItem from '@/components/requests/RequestItem.vue'
 
 export default {
 	components: {

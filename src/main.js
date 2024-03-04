@@ -10,7 +10,7 @@ import { firebaseApp } from './firebase.js'
 import router from './router.js'
 import store from './store/index.js'
 
-const loadImage = require('./assets/loading-spinner.svg')
+import loadImage from './assets/loading-spinner.svg'
 
 import VueLazyload from 'vue-lazyload'
 

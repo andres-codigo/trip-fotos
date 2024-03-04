@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import { StoreMessagesConstants } from '../../constants/store-messages'
-import { GlobalConstants } from '../../constants/global'
+import { StoreMessagesConstants } from '@/constants/store-messages'
+import { GlobalConstants } from '@/constants/global'
 
-import TravellerForm from '../../components/trips/TravellerForm.vue'
+import TravellerForm from '@/components/trips/TravellerForm.vue'
 
 export default {
 	data() {

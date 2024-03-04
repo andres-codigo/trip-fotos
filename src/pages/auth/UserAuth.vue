@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import { APIConstants } from '../../constants/api'
-import { APIErrorMessageConstants } from '../../constants/api-messages'
-import { GlobalConstants } from '../../constants/global'
+import { APIConstants } from '@/constants/api'
+import { APIErrorMessageConstants } from '@/constants/api-messages'
+import { GlobalConstants } from '@/constants/global'
 
 export default {
 	data() {
