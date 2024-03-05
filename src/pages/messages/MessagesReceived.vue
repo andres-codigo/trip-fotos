@@ -1,5 +1,5 @@
 <template>
-	<section class="requests-received-container">
+	<section class="messages-received-container">
 		<base-dialog
 			:show="!!error"
 			:is-error="!!error"
@@ -10,22 +10,22 @@
 		</base-dialog>
 		<section>
 			<base-card>
-				<header class="requests-header">
-					<h2>Requests Received</h2>
+				<header class="messages-header">
+					<h2>Messages</h2>
 				</header>
 				<base-spinner v-if="isLoading"></base-spinner>
-				<ul v-else-if="hasRequests && !isLoading" class="requests">
-					<request-item
-						v-for="req in receivedRequests"
+				<ul v-else-if="hasMessages && !isLoading" class="messages">
+					<message-item
+						v-for="req in receivedMessages"
 						:id="req.id"
 						:key="req.id"
 						:name="req.userName"
 						:email="req.userEmail"
 						:message="req.message"
-					></request-item>
+					></message-item>
 				</ul>
-				<h3 v-else class="no-requests">
-					You haven't received any requests yet!
+				<h3 v-else class="no-messages">
+					You haven't messages any messages yet!
 				</h3>
 			</base-card>
 		</section>
@@ -34,11 +34,11 @@
 
 <script>
 import { GlobalConstants } from '@/constants/global'
-import RequestItem from '@/components/requests/RequestItem.vue'
+import MessageItem from '@/components/messages/MessageItem.vue'
 
 export default {
 	components: {
-		RequestItem,
+		MessageItem,
 	},
 	data() {
 		return {
@@ -48,18 +48,18 @@ export default {
 		}
 	},
 	computed: {
-		receivedRequests() {
-			return this.$store.getters['requests/requests']
+		receivedMessages() {
+			return this.$store.getters['messages/messages']
 		},
-		hasRequests() {
-			return this.$store.getters['requests/hasRequests']
+		hasMessages() {
+			return this.$store.getters['messages/hasMessages']
 		},
 	},
 	created() {
-		this.loadRequests()
+		this.loadMessages()
 	},
 	methods: {
-		async loadRequests() {
+		async loadMessages() {
 			this.isLoading = true
 			try {
 				await this.$store.dispatch('travellers/updateTravellers')
@@ -76,19 +76,19 @@ export default {
 </script>
 
 <style scoped>
-.requests-received-container {
+.messages-received-container {
 	padding: 0 20px;
-	.requests-header {
+	.messages-header {
 		text-align: center;
 	}
 
-	.requests {
+	.messages {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
 
-	.no-requests {
+	.no-messages {
 		text-align: center;
 		font-weight: 100;
 	}

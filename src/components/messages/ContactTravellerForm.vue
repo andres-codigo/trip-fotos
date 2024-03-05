@@ -138,7 +138,7 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('requests/contactTraveller', {
+			this.$store.dispatch('messages/contactTraveller', {
 				name: this.name.val,
 				email: this.email.val,
 				message: this.message.val,

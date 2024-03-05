@@ -11,13 +11,13 @@
 							v-if="isLoggedIn && isTraveller"
 							@click.prevent="toggleHamburgerMenuActiveClass()"
 						>
-							<router-link to="/requests" class="nav-link"
-								>Requests
+							<router-link to="/messages" class="nav-link"
+								>Messages
 								<span
-									v-if="!!totalRequests && totalRequests > 0"
-									class="requests-counter-container"
+									v-if="!!totalMessages && totalMessages > 0"
+									class="messages-counter-container"
 									><span class="counter">{{
-										totalRequests
+										totalMessages
 									}}</span></span
 								>
 							</router-link>
@@ -56,7 +56,7 @@ export default {
 	data() {
 		return {
 			travellerName: '',
-			totalRequests: null,
+			totalMessages: null,
 		}
 	},
 	computed: {
@@ -69,22 +69,22 @@ export default {
 		isTraveller() {
 			return this.$store.getters['travellers/isTraveller']
 		},
-		requestsCount() {
-			return this.$store.getters['requests/requestsCount']
+		messagesCount() {
+			return this.$store.getters['messages/messagesCount']
 		},
 	},
 	watch: {
 		usersName(name) {
 			this.travellerName = name
 		},
-		requestsCount(count) {
-			this.totalRequests = count
+		messagesCount(count) {
+			this.totalMessages = count
 		},
 	},
 	created() {
 		if (this.isLoggedIn) {
 			this.setTravellerName()
-			this.setRequestCount()
+			this.setMessageCount()
 		}
 	},
 	mounted() {
@@ -93,8 +93,8 @@ export default {
 	beforeUpdate() {
 		if (this.isLoggedIn) {
 			this.setTravellerName()
-			if (this.totalRequests === null) {
-				this.setRequestCount()
+			if (this.totalMessages === null) {
+				this.setMessageCount()
 			}
 		}
 	},
@@ -136,14 +136,14 @@ export default {
 				)
 			}
 		},
-		setRequestCount() {
-			this.$store.dispatch('requests/loadRequests').then(() => {
-				this.totalRequests = this.requestsCount
+		setMessageCount() {
+			this.$store.dispatch('messages/loadMessages').then(() => {
+				this.totalMessages = this.messagesCount
 			})
 		},
 		async logout() {
 			this.travellerName = ''
-			this.totalRequests = null
+			this.totalMessages = null
 			this.toggleHamburgerMenuActiveClass()
 			await this.$store.dispatch('logout')
 			await this.$router.replace('/trips')
@@ -256,26 +256,23 @@ header {
 					position: relative;
 					text-decoration: none;
 
-					.requests-counter-container {
+					.messages-counter-container {
 						--size: 1.4rem;
 						--font-size: 0.75rem;
 						appearance: none;
-						border: 1px solid $color-white;
-						border-radius: var(--size);
+						border: 1px solid $color-pigment-indigo;
 						color: inherit;
 						cursor: pointer;
 						height: var(--size);
 						line-height: var(--size);
 						padding: 0;
 						position: absolute;
-						right: 0.1rem;
 						top: 0rem;
 						width: var(--size);
 
 						@include fadeIn(ease, 2s, 1, forwards);
 
 						.counter {
-							bottom: 1px;
 							display: inline-block;
 							font-size: var(--font-size);
 							position: relative;
@@ -286,8 +283,8 @@ header {
 
 					&:hover {
 						color: $color-lavender-magenta;
-						.requests-counter-container {
-							border: 1px solid $color-lavender-magenta;
+						.messages-counter-container {
+							border: 1px solid $color-pigment-indigo;
 						}
 					}
 
@@ -295,14 +292,14 @@ header {
 						border: 1px solid $color-white;
 						color: $color-white;
 
-						.requests-counter-container {
+						.messages-counter-container {
 							border: 1px solid $color-pigment-indigo;
 						}
 						&:hover {
 							border: 1px solid $color-lavender-magenta;
 							color: $color-lavender-magenta;
 
-							.requests-counter-container {
+							.messages-counter-container {
 								border: 1px solid $color-pigment-indigo;
 							}
 						}
@@ -368,7 +365,7 @@ header {
 							padding: 1.25rem 0;
 							width: 100%;
 
-							.requests-counter-container {
+							.messages-counter-container {
 								--size: 2rem;
 								--font-size: 1rem;
 								appearance: none;
@@ -390,7 +387,7 @@ header {
 							&:active,
 							&:hover {
 								color: $color-lavender-magenta;
-								.requests-counter-container {
+								.messages-counter-container {
 									border: none;
 								}
 							}

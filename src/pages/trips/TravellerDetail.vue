@@ -43,7 +43,7 @@
 					<base-spinner></base-spinner>
 				</div>
 				<header v-else>
-					<h2>Interested? Reach out now!</h2>
+					<h2>Send {{ selectedTraveller.firstName }} a message</h2>
 					<base-button
 						v-if="$route.name !== 'contact-traveller'"
 						link

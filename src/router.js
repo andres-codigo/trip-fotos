@@ -11,9 +11,9 @@ const TravellerDetail = () => import('@/pages/trips/TravellerDetail.vue')
 const TravellerRegistration = () =>
 	import('@/pages/trips/TravellerRegistration.vue')
 
-const ContactTraveller = () => import('@/pages/requests/ContactTraveller.vue')
+const ContactTraveller = () => import('@/pages/messages/ContactTraveller.vue')
 
-const RequestsReceived = () => import('@/pages/requests/RequestsReceived.vue')
+const MessagesReceived = () => import('@/pages/messages/MessagesReceived.vue')
 
 const UserAuth = () => import('@/pages/auth/UserAuth.vue')
 
@@ -40,8 +40,8 @@ const router = createRouter({
 			meta: { requiresAuth: true },
 		},
 		{
-			path: '/requests',
-			component: RequestsReceived,
+			path: '/messages',
+			component: MessagesReceived,
 			meta: { requiresAuth: true },
 		},
 		{ path: '/auth', component: UserAuth, meta: { requiresUnauth: true } },
