@@ -2,9 +2,9 @@
 	<header class="header">
 		<nav class="navbar">
 			<h1 class="nav-logo">
-				<router-link to="/">Find a Trip</router-link>
+				<router-link to="/">Trip Fotos</router-link>
 			</h1>
-			<ul class="nav-menu" v-show="open" v-click-outside="closeDropdown">
+			<ul v-show="open" v-click-outside="closeDropdown" class="nav-menu">
 				<li class="nav-item">
 					<ul>
 						<li
@@ -14,9 +14,11 @@
 							<router-link to="/requests" class="nav-link"
 								>Requests
 								<span
-									class="requests-counter-container"
 									v-if="!!totalRequests && totalRequests > 0"
-									><span class="counter">{{ totalRequests }}</span></span
+									class="requests-counter-container"
+									><span class="counter">{{
+										totalRequests
+									}}</span></span
 								>
 							</router-link>
 						</li>
@@ -35,7 +37,9 @@
 					<router-link to="/auth" class="nav-link">Login</router-link>
 				</li>
 				<li v-else class="nav-item">
-					<base-button @click="logout">Logout {{ travellerName }}</base-button>
+					<base-button @click="logout"
+						>Logout {{ travellerName }}</base-button
+					>
 				</li>
 			</ul>
 			<div class="hamburger">
@@ -118,7 +122,10 @@ export default {
 		setTravellerName() {
 			let localStorageTravellerName = localStorage.getItem('userName')
 
-			if (localStorageTravellerName && localStorageTravellerName.length > 0) {
+			if (
+				localStorageTravellerName &&
+				localStorageTravellerName.length > 0
+			) {
 				this.travellerName = localStorageTravellerName
 
 				this.$watch(

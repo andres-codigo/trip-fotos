@@ -1,7 +1,7 @@
 <template>
 	<base-dialog
 		:show="!!error"
-		:isError="!!error"
+		:is-error="!!error"
 		:title="dialogTitle"
 		@close="handleError"
 	>
@@ -13,9 +13,7 @@
 	<li v-else class="request">
 		<div class="container">
 			<h4>From</h4>
-			<p>
-				{{ name }}
-			</p>
+			<p>{{ name }}</p>
 		</div>
 		<div class="container">
 			<h4>Email</h4>
@@ -29,9 +27,9 @@
 		</div>
 		<div class="actions">
 			<base-button
-				@click="this.deleteRequest()"
 				mode="outline"
 				class="actions delete"
+				@click="deleteRequest()"
 				>Delete</base-button
 			>
 		</div>
@@ -39,12 +37,29 @@
 </template>
 
 <script>
-import { StoreMessagesConstants } from '../../constants/store-messages'
-import { GlobalConstants } from '../../constants/global'
-import { delayLoading } from '../../utils/globalFunctions'
+import { StoreMessagesConstants } from '@/constants/store-messages'
+import { GlobalConstants } from '@/constants/global'
+import { delayLoading } from '@/utils/globalFunctions'
 
 export default {
-	props: ['id', 'name', 'email', 'message'],
+	props: {
+		id: {
+			type: String,
+			default: null,
+		},
+		name: {
+			type: String,
+			default: null,
+		},
+		email: {
+			type: String,
+			default: null,
+		},
+		message: {
+			type: String,
+			default: null,
+		},
+	},
 	data() {
 		return {
 			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
@@ -77,7 +92,8 @@ export default {
 					this.isLoading = false
 				})
 				.catch((error) => {
-					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
+					this.error =
+						error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
 		},
 		handleError() {

@@ -3,7 +3,7 @@
 		<section>
 			<base-card
 				:class="{
-					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
 				}"
 			>
 				<div v-if="isLoading" class="spinner-container">
@@ -11,14 +11,14 @@
 				</div>
 				<div v-else>
 					<h2>{{ fullName }}</h2>
-					<p>{{ this.selectedTraveller.description }}</p>
+					<p>{{ selectedTraveller.description }}</p>
 					<p class="days">
 						<strong>Days in city:</strong>
-						{{ this.selectedTraveller.daysInCity }} days
+						{{ selectedTraveller.daysInCity }} days
 					</p>
 					<div>
 						<base-badge
-							v-for="area in this.selectedTraveller.areas"
+							v-for="area in selectedTraveller.areas"
 							:key="area"
 							:type="area"
 							:title="area"
@@ -29,15 +29,14 @@
 		</section>
 		<section
 			:class="
-				this.isNotLoggedIn ||
-				isLoggedInUser(this.id, this.$store.getters.userId)
+				isNotLoggedIn || isLoggedInUser(id, $store.getters.userId)
 					? 'hide'
 					: 'show'
 			"
 		>
 			<base-card
 				:class="{
-					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
 				}"
 			>
 				<div v-if="isLoading" class="spinner-container">
@@ -46,7 +45,7 @@
 				<header v-else>
 					<h2>Interested? Reach out now!</h2>
 					<base-button
-						v-if="this.$route.name !== 'contact-traveller'"
+						v-if="$route.name !== 'contact-traveller'"
 						link
 						:to="contactLink"
 						>Contact</base-button
@@ -58,13 +57,13 @@
 		<section>
 			<base-card
 				:class="{
-					isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
 				}"
 			>
 				<div class="images">
-					<ul class="images-list" v-show="!!this.selectedTraveller.files">
+					<ul v-show="!!selectedTraveller.files" class="images-list">
 						<base-image
-							v-for="file in this.selectedTraveller.files"
+							v-for="file in selectedTraveller.files"
 							:key="file"
 							:url="file"
 							:title="fullName"
@@ -77,10 +76,15 @@
 </template>
 
 <script>
-import { isLoggedInUser } from '../../utils/globalFunctions'
+import { isLoggedInUser } from '@/utils/globalFunctions'
 
 export default {
-	props: ['id'],
+	props: {
+		id: {
+			type: String,
+			default: null,
+		},
+	},
 	data() {
 		return {
 			isNotLoggedIn: true,
@@ -95,7 +99,9 @@ export default {
 		},
 		fullName() {
 			return (
-				this.selectedTraveller.firstName + ' ' + this.selectedTraveller.lastName
+				this.selectedTraveller.firstName +
+				' ' +
+				this.selectedTraveller.lastName
 			)
 		},
 		contactLink() {

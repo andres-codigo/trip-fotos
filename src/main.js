@@ -3,27 +3,27 @@ import { inject } from '@vercel/analytics'
 import { createApp, defineAsyncComponent } from 'vue'
 import { VueFire } from 'vuefire'
 
-import App from './App.vue'
+import App from '@/App.vue'
 
-import { firebaseApp } from './firebase.js'
+import { firebaseApp } from '@/firebase.js'
 
-import router from './router.js'
-import store from './store/index.js'
+import router from '@/router.js'
+import store from '@/store/index.js'
 
-const loadImage = require('./assets/loading-spinner.svg')
+import loadImage from '@/assets/loading-spinner.svg'
 
 import VueLazyload from 'vue-lazyload'
 
-import ClickOutside from './directives/click-outside-directive.js'
+import ClickOutside from '@/directives/click-outside-directive.js'
 
-import BaseCard from './components/ui/BaseCard.vue'
-import BaseButton from './components/ui/BaseButton.vue'
-import BaseBadge from './components/ui/BaseBadge.vue'
-import BaseImage from './components/ui/BaseImage.vue'
-import BaseSpinner from './components/ui/BaseSpinner.vue'
+import BaseCard from '@/components/ui/BaseCard.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
+import BaseBadge from '@/components/ui/BaseBadge.vue'
+import BaseImage from '@/components/ui/BaseImage.vue'
+import BaseSpinner from '@/components/ui/BaseSpinner.vue'
 
-const BaseDialog = defineAsyncComponent(() =>
-	import('./components/ui/BaseDialog.vue')
+const BaseDialog = defineAsyncComponent(
+	() => import('@/components/ui/BaseDialog.vue')
 )
 
 const app = createApp(App)
@@ -42,12 +42,12 @@ app.use(VueLazyload, {
 
 app.directive('click-outside', ClickOutside)
 
-app.component('base-card', BaseCard)
-app.component('base-button', BaseButton)
-app.component('base-badge', BaseBadge)
-app.component('base-image', BaseImage)
-app.component('base-spinner', BaseSpinner)
-app.component('base-dialog', BaseDialog)
+app.component('BaseCard', BaseCard)
+app.component('BaseButton', BaseButton)
+app.component('BaseBadge', BaseBadge)
+app.component('BaseImage', BaseImage)
+app.component('BaseSpinner', BaseSpinner)
+app.component('BaseDialog', BaseDialog)
 
 app.mount('#app')
 

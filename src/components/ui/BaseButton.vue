@@ -1,10 +1,10 @@
 <template>
 	<button
 		v-if="!link"
+		ref="baseButton"
 		:class="mode"
 		:disabled="disabled"
 		:isError="isError"
-		ref="baseButton"
 	>
 		<slot></slot>
 	</button>

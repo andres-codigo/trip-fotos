@@ -19,7 +19,9 @@ export default {
 	async auth(context, payload) {
 		const mode = payload.mode
 		let url =
-			APIConstants.API_URL + 'signInWithPassword?key=' + APIConstants.API_KEY
+			APIConstants.API_URL +
+			'signInWithPassword?key=' +
+			APIConstants.API_KEY
 
 		if (mode === APIConstants.API_AUTH_SIGNUP_MODE) {
 			url = APIConstants.API_URL + 'signUp?key=' + APIConstants.API_KEY
@@ -70,7 +72,8 @@ export default {
 				responseData.error.message ===
 				APIErrorMessageConstants.LOGIN_TYPE_EMAIL_EXISTS
 			) {
-				errorMessage = APIErrorMessageConstants.LOGIN_MESSAGE_EMAIL_EXISTS
+				errorMessage =
+					APIErrorMessageConstants.LOGIN_MESSAGE_EMAIL_EXISTS
 			} else if (
 				responseData.error.message ===
 				APIErrorMessageConstants.LOGIN_TYPE_OPERATION_NOT_ALLOWED
@@ -81,7 +84,8 @@ export default {
 				responseData.error.message ===
 				APIErrorMessageConstants.LOGIN_TYPE_TOO_MANY_ATTEMPTS
 			) {
-				errorMessage = APIErrorMessageConstants.LOGIN_MESSAGE_TOO_MANY_ATTEMPTS
+				errorMessage =
+					APIErrorMessageConstants.LOGIN_MESSAGE_TOO_MANY_ATTEMPTS
 			}
 			const error = new Error(
 				errorMessage || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE

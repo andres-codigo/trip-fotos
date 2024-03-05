@@ -2,7 +2,7 @@
 	<section class="traveller-list-container">
 		<base-dialog
 			:show="!!error"
-			:isError="!!error"
+			:is-error="!!error"
 			title="An error occurred!"
 			@close="handleError"
 		>
@@ -17,13 +17,14 @@
 					<base-button
 						:mode="
 							(!hasTravellers && !isLoading) ||
-							(filteredTravellers && filteredTravellers.length === 0)
+							(filteredTravellers &&
+								filteredTravellers.length === 0)
 								? 'disabled'
 								: 'outline'
 						"
-						@click="loadTravellers(true)"
 						:disabled="!hasTravellers && !isLoading ? true : false"
 						:class="{ hide: !hasTravellers && !isLoading }"
+						@click="loadTravellers(true)"
 						>Refresh</base-button
 					>
 					<base-button
@@ -39,8 +40,8 @@
 				<ul v-else-if="!isLoading && hasTravellers" class="travellers">
 					<trip-item
 						v-for="traveller in filteredTravellers"
-						:key="traveller.id"
 						:id="traveller.id"
+						:key="traveller.id"
 						:first-name="traveller.firstName"
 						:last-name="traveller.lastName"
 						:description="traveller.description"
@@ -50,15 +51,17 @@
 						:registered="traveller.registered"
 					></trip-item>
 				</ul>
-				<h3 v-if="!hasTravellers && !isLoading">No travellers listed.</h3>
+				<h3 v-if="!hasTravellers && !isLoading">
+					No travellers listed.
+				</h3>
 			</base-card>
 		</section>
 	</section>
 </template>
 
 <script>
-import TripItem from '../../components/trips/TripItem.vue'
-import TripFilter from '../../components/trips/TripFilter.vue'
+import TripItem from '@/components/trips/TripItem.vue'
+import TripFilter from '@/components/trips/TripFilter.vue'
 
 export default {
 	components: {

@@ -1,19 +1,23 @@
 <template>
 	<teleport to="body">
-		<div v-if="show" @click="tryClose" class="backdrop"></div>
+		<div v-if="show" class="backdrop" @click="tryClose"></div>
 		<transition name="dialog">
-			<dialog open v-if="show">
+			<dialog v-if="show" open>
 				<header>
 					<slot name="header">
 						<h2>{{ title }}</h2>
 					</slot>
 				</header>
-				<section :class="sectionClasses ? 'image-section' : 'general-section'">
+				<section
+					:class="
+						sectionClasses ? 'image-section' : 'general-section'
+					"
+				>
 					<slot></slot>
 				</section>
 				<menu v-if="!fixed">
 					<slot name="actions">
-						<base-button :isError="isError" @click="tryClose"
+						<base-button :is-error="isError" @click="tryClose"
 							>Close</base-button
 						>
 					</slot>
@@ -36,6 +40,7 @@ export default {
 		},
 		title: {
 			type: String,
+			default: null,
 			required: false,
 		},
 		sectionClasses: {

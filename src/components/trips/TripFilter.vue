@@ -3,11 +3,11 @@
 		<h2 class="filter-header">Filter by city</h2>
 		<div class="checkbox-container">
 			<span
-				:class="['filter-option', { active: value.isActive }]"
 				v-for="(value, key) in filters"
 				:key="key"
+				:class="['filter-option', { active: value.isActive }]"
 			>
-				<input type="checkbox" :id="key" checked @change="setFilter" />
+				<input :id="key" type="checkbox" checked @change="setFilter" />
 				<label :for="key">{{ key }}</label>
 			</span>
 		</div>

@@ -2,7 +2,7 @@
 	<section class="user-authentication-container">
 		<base-dialog
 			:show="!!error"
-			:isError="!!error"
+			:is-error="!!error"
 			:title="dialogTitle"
 			@close="handleError"
 		>
@@ -12,13 +12,13 @@
 			<base-spinner></base-spinner>
 		</base-dialog>
 		<base-card>
-			<form @submit.prevent="submitForm" class="user-authentication">
+			<form class="user-authentication" @submit.prevent="submitForm">
 				<div :class="['form-control', { invalid: !email.isValid }]">
 					<label for="email">{{ email.label }}</label>
 					<input
-						:type="email.type"
 						id="email"
 						v-model.trim="email.value"
+						:type="email.type"
 						@blur="clearValidity('email')"
 					/>
 					<p v-if="!email.isValid">{{ email.message }}</p>
@@ -26,26 +26,29 @@
 				<div :class="['form-control', { invalid: !password.isValid }]">
 					<label for="password">{{ password.label }}</label>
 					<input
-						:type="password.type"
 						id="password"
 						v-model.trim="password.value"
+						:type="password.type"
 						@blur="clearValidity('password')"
 					/>
 					<p v-if="!password.isValid">{{ password.message }}</p>
 				</div>
 				<base-button>{{ submitButtonCaption }}</base-button>
-				<base-button type="button" mode="flat" @click="switchAuthMode">{{
-					switchModeButtonCaption
-				}}</base-button>
+				<base-button
+					type="button"
+					mode="flat"
+					@click="switchAuthMode"
+					>{{ switchModeButtonCaption }}</base-button
+				>
 			</form>
 		</base-card>
 	</section>
 </template>
 
 <script>
-import { APIConstants } from '../../constants/api'
-import { APIErrorMessageConstants } from '../../constants/api-messages'
-import { GlobalConstants } from '../../constants/global'
+import { APIConstants } from '@/constants/api'
+import { APIErrorMessageConstants } from '@/constants/api-messages'
+import { GlobalConstants } from '@/constants/global'
 
 export default {
 	data() {
@@ -172,11 +175,13 @@ export default {
 					)
 				}
 
-				const redirectUrl = '/' + (this.$route.query.redirect || 'trips')
+				const redirectUrl =
+					'/' + (this.$route.query.redirect || 'trips')
 				this.$router.replace(redirectUrl)
 			} catch (err) {
 				this.error =
-					err.message || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
+					err.message ||
+					APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
 			}
 
 			this.isLoading = false

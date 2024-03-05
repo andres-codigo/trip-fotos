@@ -3,10 +3,10 @@
 		<div :class="['form-control', { invalid: !name.isValid }]">
 			<label for="name">{{ name.label }}</label>
 			<input
-				:type="name.type"
-				:disabled="this.disableField('name', this.$store.getters.userName)"
 				id="name"
 				v-model.trim="name.val"
+				:type="name.type"
+				:disabled="disableField('name', $store.getters.userName)"
 				@blur="clearValidity('name')"
 			/>
 			<p v-if="!name.isValid">Please enter your name.</p>
@@ -14,10 +14,10 @@
 		<div :class="['form-control', { invalid: !email.isValid }]">
 			<label for="email">{{ email.label }}</label>
 			<input
-				:type="email.type"
-				:disabled="this.disableField('email', this.$store.getters.userEmail)"
 				id="email"
 				v-model.trim="email.val"
+				:type="email.type"
+				:disabled="disableField('email', $store.getters.userEmail)"
 				@blur="clearValidity('email')"
 			/>
 			<p v-if="!email.isValid">Please enter a valid email address.</p>
@@ -25,10 +25,10 @@
 		<div :class="['form-control', { invalid: !message.isValid }]">
 			<label for="message">{{ message.label }}</label>
 			<textarea
-				:type="message.type"
-				rows="5"
 				id="message"
 				v-model.trim="message.val"
+				:type="message.type"
+				rows="5"
 				@blur="clearValidity('message')"
 			></textarea>
 			<p v-if="!message.isValid">Message must not be empty.</p>

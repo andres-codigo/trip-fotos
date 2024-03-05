@@ -25,7 +25,8 @@ export default {
 			context.commit('addRequest', newRequest)
 		} else {
 			const error = new Error(
-				responseData.message || APIErrorMessageConstants.CONTACT_TRAVELLER
+				responseData.message ||
+					APIErrorMessageConstants.CONTACT_TRAVELLER
 			)
 			throw error
 		}
@@ -34,7 +35,9 @@ export default {
 		const travellerId = context.rootGetters.userId
 		const token = context.rootGetters.token
 		const response = await fetch(
-			APIConstants.BASE_URL + `/requests/${travellerId}.json?auth=` + token
+			APIConstants.BASE_URL +
+				`/requests/${travellerId}.json?auth=` +
+				token
 		)
 		const responseData = await response.json()
 
