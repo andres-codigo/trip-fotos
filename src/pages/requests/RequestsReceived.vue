@@ -2,7 +2,7 @@
 	<section class="requests-received-container">
 		<base-dialog
 			:show="!!error"
-			:isError="!!error"
+			:is-error="!!error"
 			:title="dialogTitle"
 			@close="handleError"
 		>
@@ -17,8 +17,8 @@
 				<ul v-else-if="hasRequests && !isLoading" class="requests">
 					<request-item
 						v-for="req in receivedRequests"
-						:key="req.id"
 						:id="req.id"
+						:key="req.id"
 						:name="req.userName"
 						:email="req.userEmail"
 						:message="req.message"

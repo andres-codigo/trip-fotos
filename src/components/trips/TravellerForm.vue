@@ -7,13 +7,13 @@
 			>
 				<label :for="key">{{ field.label }}</label>
 				<input
-					:type="field.type"
 					:id="key"
 					v-model.trim="field.val"
+					:type="field.type"
 					@blur="clearValidity(key)"
 				/>
 
-				<p :class="{ invalid: !field.isValid }" v-if="!field.isValid">
+				<p v-if="!field.isValid" :class="{ invalid: !field.isValid }">
 					{{ field.label }} must not be empty.
 				</p>
 			</div>
@@ -23,13 +23,13 @@
 			>
 				<label :for="key">{{ field.label }}</label>
 				<textarea
-					:type="field.type"
 					:id="key"
-					rows="5"
 					v-model.trim="field.val"
+					:type="field.type"
+					rows="5"
 					@blur="clearValidity(key)"
 				></textarea>
-				<p :class="{ invalid: !field.isValid }" v-if="!field.isValid">
+				<p v-if="!field.isValid" :class="{ invalid: !field.isValid }">
 					{{ field.label }} must not be empty.
 				</p>
 			</div>
@@ -39,12 +39,12 @@
 			>
 				<label :for="key">{{ field.label }}</label>
 				<input
-					:type="field.type"
 					:id="key"
 					v-model.number="field.val"
+					:type="field.type"
 					@blur="clearValidity(key)"
 				/>
-				<p :class="{ invalid: !field.isValid }" v-if="!field.isValid">
+				<p v-if="!field.isValid" :class="{ invalid: !field.isValid }">
 					Number of days spent in the city cannot be empty.
 				</p>
 			</div>
@@ -53,21 +53,28 @@
 				:class="['form-control', { invalid: !field.isValid }]"
 			>
 				<h3 class="checkbox-label">{{ field.label }}</h3>
-				<div v-for="(expertiseItem, key) in field.areaTypes" :key="key">
+				<div
+					v-for="(expertiseItem, key2) in field.areaTypes"
+					:key="key2"
+				>
 					<input
-						:type="field.type"
 						:id="expertiseItem.area"
-						:value="expertiseItem.area"
 						v-model="field.val"
+						:type="field.type"
+						:value="expertiseItem.area"
 						@blur="clearValidity('areas')"
 					/>
-					<label :for="expertiseItem.area">{{ expertiseItem.label }}</label>
+					<label :for="expertiseItem.area">{{
+						expertiseItem.label
+					}}</label>
 				</div>
-				<p v-if="!field.isValid">At least one expertise must be selected.</p>
+				<p v-if="!field.isValid">
+					At least one expertise must be selected.
+				</p>
 			</div>
 		</div>
-		<AddFile @updated-files-list="updateFilesList" ref="child" />
-		<p :class="{ 'invalid-form': !formIsValid }" v-if="!formIsValid">
+		<AddFile ref="child" @updated-files-list="updateFilesList" />
+		<p v-if="!formIsValid" :class="{ 'invalid-form': !formIsValid }">
 			Please fix the above errors and submit again.
 		</p>
 		<base-button>Register</base-button>
@@ -140,8 +147,10 @@ export default {
 		clearValidity(input) {
 			if (
 				this.fields[input].val === '' ||
-				(this.fields[input].type === 'number' && !this.fields[input].val) ||
-				(this.fields[input].type === 'number' && this.fields[input].val < 0)
+				(this.fields[input].type === 'number' &&
+					!this.fields[input].val) ||
+				(this.fields[input].type === 'number' &&
+					this.fields[input].val < 0)
 			) {
 				this.fields[input].isValid = false
 			} else {

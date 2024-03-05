@@ -2,7 +2,7 @@
 	<section class="traveller-registration-container">
 		<base-dialog
 			:show="!!error"
-			:isError="!!error"
+			:is-error="!!error"
 			:title="dialogTitle"
 			@close="handleError"
 		>
@@ -32,6 +32,9 @@ import { GlobalConstants } from '@/constants/global'
 import TravellerForm from '@/components/trips/TravellerForm.vue'
 
 export default {
+	components: {
+		TravellerForm,
+	},
 	data() {
 		return {
 			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
@@ -39,9 +42,6 @@ export default {
 			registeringUser: false,
 			error: null,
 		}
-	},
-	components: {
-		TravellerForm,
 	},
 	methods: {
 		async registerTraveller(data) {
@@ -66,7 +66,8 @@ export default {
 					this.$router.replace('/trips')
 				})
 				.catch((error) => {
-					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
+					this.error =
+						error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
 		},
 		handleError() {

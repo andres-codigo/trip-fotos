@@ -1,21 +1,23 @@
 <template>
 	<component :is="tag" class="file-preview">
-		<button @click="$emit('remove', file)" class="close-icon">&times;</button>
+		<button class="close-icon" @click="$emit('remove', file)">
+			&times;
+		</button>
 		<img :src="file.url" :alt="file.file.name" :title="file.file.name" />
 
 		<span
-			class="status-indicator loading-indicator"
 			v-show="file.status == 'loading'"
+			class="status-indicator loading-indicator"
 			>In Progress</span
 		>
 		<span
-			class="status-indicator success-indicator"
 			v-show="file.status == true"
+			class="status-indicator success-indicator"
 			>Uploaded</span
 		>
 		<span
-			class="status-indicator failure-indicator"
 			v-show="file.status == false"
+			class="status-indicator failure-indicator"
 			>Error</span
 		>
 	</component>

@@ -1,4 +1,4 @@
-import { FirebaseConstants } from './constants/firebase'
+import { FirebaseConstants } from '@/constants/firebase'
 
 import { initializeApp } from 'firebase/app'
 

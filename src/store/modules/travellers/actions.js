@@ -11,7 +11,10 @@ export default {
 			const imagePromises = await Promise.all(
 				Array.from(data.files, async (image) => {
 					const storage = getStorage()
-					const storageRef = ref(storage, `/images/${userId}/${image.name}`)
+					const storageRef = ref(
+						storage,
+						`/images/${userId}/${image.name}`
+					)
 
 					const metadata = {
 						customMetadata: {
@@ -19,7 +22,11 @@ export default {
 						},
 					}
 
-					const response = await uploadBytes(storageRef, image.file, metadata)
+					const response = await uploadBytes(
+						storageRef,
+						image.file,
+						metadata
+					)
 					const url = await getDownloadURL(response.ref)
 
 					return url
@@ -39,7 +46,9 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				APIConstants.BASE_URL + `/travellers/${userId}.json?auth=` + token,
+				APIConstants.BASE_URL +
+					`/travellers/${userId}.json?auth=` +
+					token,
 				{
 					method: APIConstants.PUT,
 					body: JSON.stringify(travellerData),
@@ -117,12 +126,15 @@ export default {
 	},
 
 	async updateTravellers(context) {
-		const response = await fetch(APIConstants.BASE_URL + `/travellers.json`, {
-			method: APIConstants.GET,
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
+		const response = await fetch(
+			APIConstants.BASE_URL + `/travellers.json`,
+			{
+				method: APIConstants.GET,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		)
 
 		if (response.ok) {
 			const responseData = await response.json()
@@ -155,7 +167,9 @@ export default {
 				filteredTraveller.unshift(loggedInTraveller)
 				context.commit(
 					'setTravellerName',
-					loggedInTraveller.firstName + ' ' + loggedInTraveller.lastName
+					loggedInTraveller.firstName +
+						' ' +
+						loggedInTraveller.lastName
 				)
 				context.commit('setTravellers', filteredTraveller)
 			} else {
@@ -173,7 +187,9 @@ export default {
 			const token = context.rootGetters.token
 
 			const response = await fetch(
-				APIConstants.BASE_URL + `/travellers/${travellerId}.json?auth=` + token,
+				APIConstants.BASE_URL +
+					`/travellers/${travellerId}.json?auth=` +
+					token,
 				{
 					method: APIConstants.DELETE,
 					headers: {

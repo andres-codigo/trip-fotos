@@ -1,7 +1,7 @@
 <template>
 	<base-dialog
 		:show="!!error"
-		:isError="!!error"
+		:is-error="!!error"
 		:title="dialogTitle"
 		@close="handleError"
 	>
@@ -15,7 +15,7 @@
 		:class="[
 			'traveller',
 			{
-				isLoggedInUser: isLoggedInUser(this.id, this.$store.getters.userId),
+				isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
 			},
 		]"
 	>
@@ -34,7 +34,7 @@
 			></base-badge>
 		</div>
 		<div class="images">
-			<ul class="images-list" v-show="!!files">
+			<ul v-show="!!files" class="images-list">
 				<base-image
 					v-for="file in files"
 					:key="file"
@@ -45,9 +45,7 @@
 		</div>
 		<div class="actions">
 			<base-button
-				v-if="
-					!isLoggedInUser(this.id, this.$store.getters.userId) && isTraveller
-				"
+				v-if="!isLoggedInUser(id, $store.getters.userId) && isTraveller"
 				mode="outline"
 				link
 				:to="travellerContactLink"
@@ -60,10 +58,12 @@
 						extension of sign-up.
 			-->
 			<base-button
-				v-if="fullName !== userName && this.$store.getters.userId === adminId"
-				@click="this.deleteTraveller()"
+				v-if="
+					fullName !== userName && $store.getters.userId === adminId
+				"
 				mode="outline"
 				class="actions delete"
+				@click="deleteTraveller()"
 				>Delete</base-button
 			>
 		</div>
@@ -82,16 +82,40 @@ import {
 } from '@/utils/globalFunctions'
 
 export default {
-	props: [
-		'id',
-		'firstName',
-		'lastName',
-		'description',
-		'days',
-		'areas',
-		'files',
-		'registered',
-	],
+	props: {
+		id: {
+			type: String,
+			default: null,
+		},
+		firstName: {
+			type: String,
+			default: null,
+		},
+		lastName: {
+			type: String,
+			default: null,
+		},
+		description: {
+			type: String,
+			default: null,
+		},
+		days: {
+			type: Number,
+			default: null,
+		},
+		areas: {
+			type: Array,
+			default: null,
+		},
+		files: {
+			type: Array,
+			default: null,
+		},
+		registered: {
+			type: String,
+			default: null,
+		},
+	},
 	data() {
 		return {
 			dialogTitle: GlobalConstants.ERROR_DIALOG_TITLE,
@@ -152,7 +176,8 @@ export default {
 					this.isLoading = false
 				})
 				.catch((error) => {
-					this.error = error.message || StoreMessagesConstants.GENERIC_MESSAGE
+					this.error =
+						error.message || StoreMessagesConstants.GENERIC_MESSAGE
 				})
 		},
 		handleError() {

@@ -2,7 +2,7 @@
 	<base-dialog
 		:show="!!show"
 		:title="title + ' photos'"
-		:sectionClasses="addImageClasses"
+		:section-classes="addImageClasses"
 		@close="toggleDialog"
 	>
 		<img v-lazy="url" />
@@ -14,7 +14,16 @@
 
 <script>
 export default {
-	props: ['title', 'url'],
+	props: {
+		title: {
+			type: String,
+			default: null,
+		},
+		url: {
+			type: String,
+			default: null,
+		},
+	},
 	data() {
 		return {
 			show: false,

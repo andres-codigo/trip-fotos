@@ -1,9 +1,9 @@
 <template>
 	<div class="file-drop">
 		<DropZone
+			v-slot="{ dropZoneActive }"
 			class="drop-area"
 			@files-dropped="addFiles"
-			#default="{ dropZoneActive }"
 		>
 			<label for="file-input">
 				<span v-if="dropZoneActive">
@@ -13,13 +13,19 @@
 				<span v-else>
 					<span>Drag and drop your files here</span>
 					<span>
-						or <strong><em>click here</em></strong> to select your files
+						or <strong><em>click here</em></strong> to select your
+						files
 					</span>
 				</span>
 
-				<input type="file" id="file-input" multiple @change="onInputChange" />
+				<input
+					id="file-input"
+					type="file"
+					multiple
+					@change="onInputChange"
+				/>
 			</label>
-			<ul class="image-list" v-show="files && files.length > 0">
+			<ul v-show="files && files.length > 0" class="image-list">
 				<FilePreview
 					v-for="file of files"
 					:key="file.id"

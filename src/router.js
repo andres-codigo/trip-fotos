@@ -1,21 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import NotFound from './pages/NotFound.vue'
+import NotFound from '@/pages/NotFound.vue'
 
-import store from './store/index.js'
+import store from '@/store/index.js'
 
-const TripsList = () => import('./pages/trips/TripsList.vue')
+const TripsList = () => import('@/pages/trips/TripsList.vue')
 
-const TravellerDetail = () => import('./pages/trips/TravellerDetail.vue')
+const TravellerDetail = () => import('@/pages/trips/TravellerDetail.vue')
 
 const TravellerRegistration = () =>
-	import('./pages/trips/TravellerRegistration.vue')
+	import('@/pages/trips/TravellerRegistration.vue')
 
-const ContactTraveller = () => import('./pages/requests/ContactTraveller.vue')
+const ContactTraveller = () => import('@/pages/requests/ContactTraveller.vue')
 
-const RequestsReceived = () => import('./pages/requests/RequestsReceived.vue')
+const RequestsReceived = () => import('@/pages/requests/RequestsReceived.vue')
 
-const UserAuth = () => import('./pages/auth/UserAuth.vue')
+const UserAuth = () => import('@/pages/auth/UserAuth.vue')
 
 const router = createRouter({
 	history: createWebHistory(),
