@@ -6,8 +6,8 @@ export default {
 	namespaced: true,
 	state() {
 		return {
-			request: {},
-			requests: [],
+			message: {},
+			messages: [],
 			count: 0,
 		}
 	},

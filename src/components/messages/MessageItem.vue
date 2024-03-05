@@ -10,7 +10,7 @@
 	<div v-if="isLoading" class="spinner-container">
 		<base-spinner></base-spinner>
 	</div>
-	<li v-else class="request">
+	<li v-else class="message">
 		<div class="container">
 			<h4>From</h4>
 			<p>{{ name }}</p>
@@ -29,7 +29,7 @@
 			<base-button
 				mode="outline"
 				class="actions delete"
-				@click="deleteRequest()"
+				@click="deleteMessage()"
 				>Delete</base-button
 			>
 		</div>
@@ -73,21 +73,21 @@ export default {
 		},
 	},
 	methods: {
-		async deleteRequest() {
+		async deleteMessage() {
 			const numberOfSeconds = 2000
 			this.isLoading = true
 
-			const deleteRequest = Promise.resolve(
-				this.$store.dispatch('requests/deleteRequest', {
-					requestId: this.id,
+			const deleteMessage = Promise.resolve(
+				this.$store.dispatch('messages/deleteMessage', {
+					messageId: this.id,
 				})
 			)
 
-			const loadRequests = delayLoading(numberOfSeconds).then(
-				this.$store.dispatch('requests/loadRequests')
+			const loadMessages = delayLoading(numberOfSeconds).then(
+				this.$store.dispatch('messages/loadMessages')
 			)
 
-			await Promise.all([deleteRequest, loadRequests])
+			await Promise.all([deleteMessage, loadMessages])
 				.then(() => {
 					this.isLoading = false
 				})
@@ -104,7 +104,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.request {
+.message {
 	border: 1px solid $color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;

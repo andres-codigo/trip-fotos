@@ -12,7 +12,7 @@ export const APIErrorMessageConstants = Object.freeze({
 		'Password sign-in is disabled for this project.',
 	LOGIN_TYPE_TOO_MANY_ATTEMPTS: 'TOO_MANY_ATTEMPTS_TRY_LATER',
 	LOGIN_MESSAGE_TOO_MANY_ATTEMPTS:
-		'We have blocked all requests from this device due to unusual activity. Try again later.',
+		'We have blocked all messages from this device due to unusual activity. Try again later.',
 	FAILED_TO_AUTHENTICATE:
 		'Failed to authenticate. Check your login credentials.',
 
@@ -23,7 +23,7 @@ export const APIErrorMessageConstants = Object.freeze({
 	DELETE_TRAVELLER: 'Failed to delete traveller.',
 	LOAD_TRAVELLERS: 'Failed to load travellers.',
 
-	// REQUESTS
-	FETCH_REQUESTS: 'Failed to fetch requests.',
-	CONTACT_TRAVELLER: 'Failed to send request.',
+	// MESSAGES
+	FETCH_MESSAGES: 'Failed to fetch messages.',
+	CONTACT_TRAVELLER: 'Failed to send message.',
 })
