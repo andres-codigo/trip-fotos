@@ -60,7 +60,10 @@
 					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
 				}"
 			>
-				<div class="images">
+				<div v-if="isLoading" class="spinner-container">
+					<base-spinner></base-spinner>
+				</div>
+				<div v-else class="images">
 					<ul v-show="!!selectedTraveller.files" class="images-list">
 						<base-image
 							v-for="file in selectedTraveller.files"

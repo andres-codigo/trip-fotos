@@ -53,4 +53,10 @@ export default {
 		background-color: $color-fresh-eggplant;
 	}
 }
+
+@media only screen and (max-width: 768px) {
+	.badge {
+		padding: 0.5rem 0.75rem;
+	}
+}
 </style>

@@ -234,11 +234,11 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		&.delete {
-			background-color: $color-white;
-			@include error-text;
+			background-color: $color-mojo;
+			color: $color-white;
 			@include invalid-border;
 			&:hover {
-				background-color: $color-mojo;
+				background-color: $color-mojo-otro;
 				color: $color-white;
 			}
 		}
