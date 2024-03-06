@@ -64,7 +64,7 @@ export default {
 				throw new Error(APIErrorMessageConstants.REGISTER_TRAVELLER)
 			}
 		} catch (error) {
-			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -92,7 +92,7 @@ export default {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER_NAME)
 			}
 		} catch (error) {
-			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -121,7 +121,7 @@ export default {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER)
 			}
 		} catch (error) {
-			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -211,7 +211,7 @@ export default {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 		} catch (error) {
-			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 
@@ -224,7 +224,7 @@ export default {
 			await context.dispatch('updateTravellers')
 			context.commit('setFetchTimestamp')
 		} catch (error) {
-			console.error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
 }

@@ -24,3 +24,9 @@ npm run serve
 ```
 npm run lint
 ```
+
+### Prettier and reformat files
+
+```
+npm run format
+```
