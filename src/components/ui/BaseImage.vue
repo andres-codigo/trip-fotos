@@ -1,11 +1,11 @@
 <template>
 	<base-dialog
 		:show="!!show"
-		:title="title + ' photos'"
+		:title="title + `'s photos`"
 		:section-classes="addImageClasses"
 		@close="toggleDialog"
 	>
-		<img v-lazy="url" />
+		<img :src="url" />
 	</base-dialog>
 	<span class="image-preview" @click="toggleDialog">
 		<img v-lazy="url" />
@@ -46,6 +46,7 @@ export default {
 	width: 28%;
 
 	img {
+		cursor: pointer;
 		display: block;
 		height: 100%;
 		object-fit: scale-down;

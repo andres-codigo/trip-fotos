@@ -68,9 +68,7 @@
 						expertiseItem.label
 					}}</label>
 				</div>
-				<p v-if="!field.isValid">
-					At least one expertise must be selected.
-				</p>
+				<p v-if="!field.isValid">At least one city must be selected.</p>
 			</div>
 		</div>
 		<AddFile ref="child" @updated-files-list="updateFilesList" />
@@ -111,7 +109,7 @@ export default {
 					isValid: true,
 				},
 				days: {
-					label: 'Days in city?',
+					label: 'Number of days spent in the city?',
 					type: 'number',
 					val: null,
 					isValid: true,

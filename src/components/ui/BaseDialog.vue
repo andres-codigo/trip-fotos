@@ -103,6 +103,9 @@ dialog {
 
 	section {
 		&.image-section {
+			align-items: center;
+			display: flex;
+			min-height: 396px;
 			padding: 2.5rem 0 1rem 0;
 		}
 		&.general-section {

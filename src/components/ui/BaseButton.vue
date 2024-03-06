@@ -109,4 +109,11 @@ a {
 		}
 	}
 }
+
+@media only screen and (max-width: 768px) {
+	button,
+	a {
+		padding: 0.5rem 1rem;
+	}
+}
 </style>
