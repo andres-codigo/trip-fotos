@@ -150,6 +150,8 @@ export default {
 .traveller-detail-container {
 	display: inline;
 	padding: 0 20px;
+	position: relative;
+	top: 80px;
 	.hide {
 		display: none;
 	}

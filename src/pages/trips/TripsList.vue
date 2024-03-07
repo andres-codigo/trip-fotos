@@ -160,6 +160,8 @@ export default {
 .traveller-list-container {
 	display: inline;
 	padding: 0 20px;
+	position: relative;
+	top: 80px;
 	.controls {
 		display: flex;
 		justify-content: space-between;
