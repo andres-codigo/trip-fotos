@@ -206,8 +206,10 @@ header {
 	background-color: $color-pigment-indigo;
 	display: flex;
 	height: 5rem;
+	position: fixed;
 	justify-content: center;
 	width: 100%;
+	z-index: 1;
 
 	.navbar {
 		align-items: center;

@@ -75,9 +75,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .messages-received-container {
+	display: inline;
 	padding: 0 20px;
+	position: relative;
+	top: 80px;
 	.messages-header {
 		text-align: center;
 	}

@@ -203,7 +203,10 @@ export default {
 
 <style scoped lang="scss">
 .user-authentication-container {
+	display: inline;
 	padding: 0 20px;
+	position: relative;
+	top: 80px;
 	.user-authentication {
 		margin: 1rem;
 		padding: 1rem;
