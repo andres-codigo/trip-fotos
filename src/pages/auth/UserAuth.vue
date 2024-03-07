@@ -34,12 +34,13 @@
 					<p v-if="!password.isValid">{{ password.message }}</p>
 				</div>
 				<base-button>{{ submitButtonCaption }}</base-button>
-				<base-button
+				<!-- TODO: Switching temporarily removed -->
+				<!-- <base-button
 					type="button"
 					mode="flat"
 					@click="switchAuthMode"
 					>{{ switchModeButtonCaption }}</base-button
-				>
+				> -->
 			</form>
 		</base-card>
 	</section>

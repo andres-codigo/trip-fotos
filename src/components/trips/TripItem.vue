@@ -42,10 +42,7 @@
 					:title="fullName"
 				></base-image>
 				<li v-show="files.length > 5" class="image-counter">
-					<span
-						>Click details button to see all
-						{{ files.length }} photos</span
-					>
+					<span> {{ files.length }} photos</span>
 				</li>
 			</ul>
 		</div>
