@@ -36,11 +36,17 @@
 		<div class="images">
 			<ul v-show="!!files" class="images-list">
 				<base-image
-					v-for="file in files"
+					v-for="file in files.slice(0, 5)"
 					:key="file"
 					:url="file"
 					:title="fullName"
 				></base-image>
+				<li v-show="files.length > 5" class="image-counter">
+					<span
+						>Click details button to see all
+						{{ files.length }} photos</span
+					>
+				</li>
 			</ul>
 		</div>
 		<div class="actions">
@@ -227,11 +233,29 @@ export default {
 			padding: 0;
 
 			@include fadeIn(ease, 2s, 1, forwards);
+
+			.image-counter {
+				@include background-opacity($color-ripe-eggplant, 0.75);
+				color: $color-white;
+				margin: 1rem 2.5%;
+				overflow: hidden;
+				position: relative;
+				width: 28%;
+				span {
+					justify-content: center;
+					align-items: center;
+					display: flex;
+					height: 100%;
+					text-align: center;
+					padding: 20px;
+				}
+			}
 		}
 	}
 
 	.actions {
 		display: flex;
+		margin-right: 11px;
 		justify-content: flex-end;
 		&.delete {
 			background-color: $color-mojo;
@@ -245,12 +269,19 @@ export default {
 	}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 480px) {
 	.traveller {
 		.images {
 			.images-list {
 				margin-bottom: 15px;
+				.image-counter {
+					margin: 0.5rem 2.5%;
+					width: 45%;
+				}
 			}
+		}
+		.actions {
+			margin-right: 0;
 		}
 	}
 }

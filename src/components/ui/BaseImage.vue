@@ -7,9 +7,9 @@
 	>
 		<img :src="url" />
 	</base-dialog>
-	<span class="image-preview" @click="toggleDialog">
+	<li class="image-preview" @click="toggleDialog">
 		<img v-lazy="url" />
-	</span>
+	</li>
 </template>
 
 <script>
@@ -59,12 +59,12 @@ export default {
 		.images {
 			.images-list {
 				padding: 15px;
+				.image-preview {
+					margin: 0.5rem 2.5%;
+					width: 45%;
+				}
 			}
 		}
-	}
-	.image-preview {
-		margin: 0.5rem 2.5%;
-		width: 45%;
 	}
 }
 
