@@ -15,6 +15,7 @@
 			<base-card>
 				<div class="controls">
 					<base-button
+						v-if="!isLoading && hasTravellers"
 						:mode="
 							(!hasTravellers && !isLoading) ||
 							(filteredTravellers &&
@@ -22,7 +23,7 @@
 								? 'disabled'
 								: 'outline'
 						"
-						:disabled="!hasTravellers && !isLoading ? true : false"
+						:disabled="!isLoading && !hasTravellers ? true : false"
 						:class="{ hide: !hasTravellers && !isLoading }"
 						@click="loadTravellers(true)"
 						>Refresh</base-button
@@ -51,9 +52,12 @@
 						:registered="traveller.registered"
 					></trip-item>
 				</ul>
-				<h3 v-if="!hasTravellers && !isLoading">
-					No travellers listed.
-				</h3>
+				<div
+					v-if="!isLoading && !hasTravellers"
+					class="no-travellers-container"
+				>
+					<h3>No travellers listed.</h3>
+				</div>
 			</base-card>
 		</section>
 	</section>
@@ -167,8 +171,16 @@ export default {
 		text-align: center;
 	}
 
-	.spinner-container {
+	.spinner-container,
+	.no-travellers-container {
 		margin: 5rem 0;
+		min-height: 60px;
+	}
+
+	.no-travellers-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.travellers {
