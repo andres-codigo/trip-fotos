@@ -42,7 +42,11 @@
 					:title="fullName"
 				></base-image>
 				<li v-show="files.length > 5" class="image-counter">
-					<span> {{ files.length }} photos</span>
+					<router-link :to="travellerDetailsLink"
+						><span>
+							See all {{ files.length }} photos</span
+						></router-link
+					>
 				</li>
 			</ul>
 		</div>
@@ -238,13 +242,16 @@ export default {
 				overflow: hidden;
 				position: relative;
 				width: 28%;
-				span {
-					justify-content: center;
-					align-items: center;
-					display: flex;
-					height: 100%;
-					text-align: center;
-					padding: 20px;
+				a {
+					span {
+						align-items: center;
+						color: $color-white;
+						display: flex;
+						height: 100%;
+						justify-content: center;
+						padding: 20px;
+						text-align: center;
+					}
 				}
 			}
 		}

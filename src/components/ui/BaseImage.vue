@@ -8,7 +8,9 @@
 		<img :src="url" />
 	</base-dialog>
 	<li class="image-preview" @click="toggleDialog">
-		<img v-lazy="url" />
+		<!-- TODO: temporary removal of v-lazy load component as need to refine its usage -->
+		<!-- <img v-lazy="url" /> -->
+		<img :src="url" />
 	</li>
 </template>
 
