@@ -15,7 +15,6 @@
 			<base-card>
 				<div class="controls">
 					<base-button
-						v-if="!isLoading && hasTravellers"
 						:mode="
 							(!hasTravellers && !isLoading) ||
 							(filteredTravellers &&

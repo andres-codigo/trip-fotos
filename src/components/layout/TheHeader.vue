@@ -145,8 +145,10 @@ export default {
 			this.travellerName = ''
 			this.totalMessages = null
 			this.toggleHamburgerMenuActiveClass()
-			await this.$store.dispatch('logout')
-			await this.$router.replace('/trips')
+
+			await this.$store.dispatch('logout').then(() => {
+				this.$router.go('/')
+			})
 		},
 	},
 }

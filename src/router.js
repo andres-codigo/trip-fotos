@@ -20,17 +20,23 @@ const NotFound = () => import('@/pages/NotFound.vue')
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
-		{ path: '/', redirect: '/trips' },
-		{ path: '/trips', component: TripsList },
+		{ path: '/', redirect: '/trips', meta: { requiresAuth: true } },
+		{
+			path: '/trips',
+			component: TripsList,
+			meta: { requiresAuth: true },
+		},
 		{
 			path: '/trips/:id',
 			component: TravellerDetail,
 			props: true,
+			meta: { requiresAuth: true },
 			children: [
 				{
 					path: 'contact',
 					name: 'contact-traveller',
 					component: ContactTraveller,
+					meta: { requiresAuth: true },
 				}, // /trips/c1/contact
 			],
 		},
