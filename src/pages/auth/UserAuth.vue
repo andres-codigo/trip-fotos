@@ -35,12 +35,12 @@
 				</div>
 				<base-button>{{ submitButtonCaption }}</base-button>
 				<!-- TODO: Switching temporarily removed -->
-				<base-button
+				<!-- <base-button
 					type="button"
 					mode="flat"
 					@click="switchAuthMode"
 					>{{ switchModeButtonCaption }}</base-button
-				>
+				> -->
 			</form>
 		</base-card>
 	</section>
