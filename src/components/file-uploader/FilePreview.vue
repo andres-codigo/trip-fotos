@@ -38,6 +38,7 @@ defineEmits(['remove'])
 	margin: 1rem 2.5%;
 	overflow: hidden;
 	position: relative;
+	min-width: 100px;
 	width: 20%;
 
 	img {
@@ -71,9 +72,10 @@ defineEmits(['remove'])
 	}
 
 	.status-indicator {
-		bottom: 0.25rem;
-		font-size: calc(0.75 * var(--size));
-		padding: 0 10px;
+		bottom: 0.5rem;
+		font-size: calc(0.7 * var(--size));
+		padding: 3px 10px;
+		position: sticky;
 	}
 
 	.loading-indicator {
@@ -103,6 +105,12 @@ defineEmits(['remove'])
 
 	100% {
 		background: $color-white;
+	}
+}
+
+@media only screen and (max-width: 440px) {
+	.file-preview {
+		width: 45%;
 	}
 }
 </style>

@@ -34,7 +34,7 @@
 			></base-badge>
 		</div>
 		<div class="images">
-			<ul v-show="!!files" class="images-list">
+			<ul v-if="!!files" class="images-list">
 				<base-image
 					v-for="file in files.slice(0, 5)"
 					:key="file"

@@ -62,7 +62,7 @@ export default {
 		async loadMessages() {
 			this.isLoading = true
 			try {
-				await this.$store.dispatch('travellers/updateTravellers')
+				await this.$store.dispatch('messages/loadMessages')
 			} catch (error) {
 				this.error = error.message || 'Something failed!'
 			}
@@ -77,7 +77,7 @@ export default {
 
 <style scoped lang="scss">
 .messages-received-container {
-	display: inline;
+	display: inline-block;
 	padding: 0 20px;
 	position: relative;
 	top: 80px;

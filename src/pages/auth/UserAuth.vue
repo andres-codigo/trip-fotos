@@ -35,12 +35,12 @@
 				</div>
 				<base-button>{{ submitButtonCaption }}</base-button>
 				<!-- TODO: Switching temporarily removed -->
-				<!-- <base-button
+				<base-button
 					type="button"
 					mode="flat"
 					@click="switchAuthMode"
 					>{{ switchModeButtonCaption }}</base-button
-				> -->
+				>
 			</form>
 		</base-card>
 	</section>
@@ -121,7 +121,9 @@ export default {
 				this.password.isValid = false
 				this.formIsValid = false
 				this.password.message =
-					'Must be 8 characters! ' + difference + ' characters left'
+					'Your password must be minimum 8 characters long! ' +
+					difference +
+					' characters left'
 			} else {
 				this.password.isValid = true
 				this.formIsValid = true

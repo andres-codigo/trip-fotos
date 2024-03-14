@@ -86,7 +86,7 @@ export default {
 	components: {
 		AddFile,
 	},
-	emits: ['register-traveller'],
+	emits: ['register-traveller', 'has-attachments'],
 	data() {
 		return {
 			fields: {
