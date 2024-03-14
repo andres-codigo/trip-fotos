@@ -10,6 +10,7 @@ export default {
 
 			const imagePromises = await Promise.all(
 				Array.from(data.files, async (image) => {
+					image.status = 'loading'
 					const storage = getStorage()
 					const storageRef = ref(
 						storage,
@@ -29,6 +30,9 @@ export default {
 					)
 					const url = await getDownloadURL(response.ref)
 
+					if (response.ref) {
+						image.status = true
+					}
 					return url
 				})
 			)

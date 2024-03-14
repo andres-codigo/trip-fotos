@@ -54,7 +54,7 @@
 				<router-view></router-view>
 			</base-card>
 		</section>
-		<section>
+		<section v-if="!!selectedTraveller.files">
 			<base-card
 				:class="{
 					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
@@ -126,7 +126,6 @@ export default {
 		if (this.isLoggedIn) {
 			this.isNotLoggedIn = false
 		}
-
 		this.loadTraveller()
 	},
 	methods: {
@@ -148,7 +147,7 @@ export default {
 
 <style scoped lang="scss">
 .traveller-detail-container {
-	display: inline;
+	display: inline-block;
 	padding: 0 20px;
 	position: relative;
 	top: 80px;

@@ -45,8 +45,10 @@ export default {
 	},
 	methods: {
 		async registerTraveller(data) {
-			this.registeringUser = true
-			this.isLoading = true
+			if (Array.isArray(data.files) && data.files.length === 0) {
+				this.registeringUser = true
+				this.isLoading = true
+			}
 
 			const registerTraveller = Promise.resolve(
 				this.$store.dispatch('travellers/registerTraveller', data)
@@ -79,6 +81,9 @@ export default {
 
 <style scoped lang="scss">
 .traveller-registration-container {
+	display: inline-block;
 	padding: 0 20px;
+	position: relative;
+	top: 80px;
 }
 </style>

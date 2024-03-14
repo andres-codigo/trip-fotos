@@ -128,7 +128,9 @@ export default {
 		},
 	},
 	created() {
-		this.loadTravellers()
+		if (Array.isArray(this.travellers) && this.travellers.length === 0) {
+			this.loadTravellers()
+		}
 	},
 	methods: {
 		setFilters(updatedFilters) {
@@ -157,7 +159,7 @@ export default {
 
 <style scoped lang="scss">
 .traveller-list-container {
-	display: inline;
+	display: inline-block;
 	padding: 0 20px;
 	position: relative;
 	top: 80px;
