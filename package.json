@@ -4,9 +4,10 @@
 	"private": true,
 	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Find a coach' project.",
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite serve",
 		"build": "vite build",
 		"serve": "vite preview",
+		"cy:open": "cypress open",
 		"lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
 		"format": "prettier .  --write"
 	},
@@ -24,8 +25,10 @@
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^5.0.4",
+		"cypress": "^13.14.2",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-cypress": "^3.5.0",
 		"eslint-plugin-vue": "^8.7.1",
 		"prettier": "3.2.5",
 		"sass": "^1.70.0",
