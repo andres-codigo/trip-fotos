@@ -32,7 +32,7 @@
 						</li>
 					</ul>
 				</li>
-				<li
+				<!-- <li
 					v-if="!isLoggedIn"
 					class="nav-item"
 					@click.prevent="toggleHamburgerMenuActiveClass()"
@@ -43,8 +43,8 @@
 						data-cy="nav-login-link"
 						>Login</router-link
 					>
-				</li>
-				<li v-else class="nav-item">
+				</li> -->
+				<li v-if="isLoggedIn" class="nav-item">
 					<base-button @click="logout"
 						>Logout {{ travellerName }}</base-button
 					>
