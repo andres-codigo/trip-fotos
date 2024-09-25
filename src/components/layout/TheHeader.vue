@@ -37,7 +37,12 @@
 					class="nav-item"
 					@click.prevent="toggleHamburgerMenuActiveClass()"
 				>
-					<router-link to="/auth" class="nav-link">Login</router-link>
+					<router-link
+						to="/auth"
+						class="nav-link"
+						data-cy="nav-login-link"
+						>Login</router-link
+					>
 				</li>
 				<li v-else class="nav-item">
 					<base-button @click="logout"
