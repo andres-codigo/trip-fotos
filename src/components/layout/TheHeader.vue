@@ -22,7 +22,10 @@
 								>
 							</router-link>
 						</li>
-						<li @click.prevent="toggleHamburgerMenuActiveClass()">
+						<li
+							v-if="isLoggedIn"
+							@click.prevent="toggleHamburgerMenuActiveClass()"
+						>
 							<router-link to="/trips" class="nav-link"
 								>All Travellers</router-link
 							>
