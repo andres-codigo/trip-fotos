@@ -12,7 +12,11 @@
 			<base-spinner></base-spinner>
 		</base-dialog>
 		<base-card>
-			<form class="user-authentication" @submit.prevent="submitForm">
+			<form
+				class="user-authentication"
+				data-cy="user-authentication"
+				@submit.prevent="submitForm"
+			>
 				<div
 					:class="['form-control', { invalid: !email.isValid }]"
 					data-cy="user-auth-email"
