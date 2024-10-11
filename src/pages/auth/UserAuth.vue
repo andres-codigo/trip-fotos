@@ -135,7 +135,7 @@ export default {
 				this.password.message =
 					'Your password must be minimum 8 characters long! ' +
 					difference +
-					' characters left'
+					' characters left.'
 			} else {
 				this.password.isValid = true
 				this.formIsValid = true
