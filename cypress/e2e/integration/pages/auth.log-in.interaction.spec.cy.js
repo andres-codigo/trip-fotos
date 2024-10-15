@@ -138,4 +138,31 @@ describe('Trip Fotos user auth page > not logged in', () => {
 		invalidInputTest('@userAuthEmail', emailInputErrorMessage)
 		invalidInputTest('@userAuthPassword', passwordInputErrorMessage)
 	})
+
+	it.skip('displays the home page when valid email and password details are entered and login button clicked', () => {
+		// TODO: PRIOR TO RUNNING TEST
+		const email = '' // ADD REGISTERED TRAVELLER'S EMAIL ADDRESS FROM FIREBASE > AUTHENTICATION > USERS LIST
+		const password = '' // ADD PASSWORD ASSOCIATED WITH TRAVELLER
+
+		cy.get('@userAuthenticationContainer')
+			// Enter email address
+			.get('@userAuthEmail')
+			.find('input')
+			.focus()
+			.type(email)
+			.should('have.value', email)
+
+			// Enter password
+			.get('@userAuthPassword')
+			.find('input')
+			.focus()
+			.type(password)
+			.should('have.value', password)
+
+			// Click Login button
+			.get('@userAuthLoginButton')
+			.click()
+
+		cy.url().should('eq', 'http://localhost:3000/trips')
+	})
 })
