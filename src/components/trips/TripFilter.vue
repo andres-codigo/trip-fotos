@@ -29,6 +29,9 @@ export default {
 				sydney: {
 					isActive: true,
 				},
+				canberra: {
+					isActive: true,
+				},
 			},
 		}
 	},

@@ -132,6 +132,10 @@ export default {
 							area: 'sydney',
 							label: 'Sydney, Australia',
 						},
+						3: {
+							area: 'canberra',
+							label: 'Canberra, Australia',
+						},
 					},
 				},
 			},
