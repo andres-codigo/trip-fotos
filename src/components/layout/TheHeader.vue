@@ -1,7 +1,7 @@
 <template>
-	<header class="header">
+	<header class="header" data-cy="nav-header">
 		<nav class="navbar">
-			<h1 class="nav-header" data-cy="nav-header">
+			<h1 class="nav-header">
 				<router-link to="/">Trip Fotos</router-link>
 			</h1>
 			<ul v-show="open" v-click-outside="closeDropdown" class="nav-menu">
