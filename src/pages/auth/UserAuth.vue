@@ -12,8 +12,15 @@
 			<base-spinner></base-spinner>
 		</base-dialog>
 		<base-card>
-			<form class="user-authentication" @submit.prevent="submitForm">
-				<div :class="['form-control', { invalid: !email.isValid }]">
+			<form
+				class="user-authentication"
+				data-cy="user-authentication"
+				@submit.prevent="submitForm"
+			>
+				<div
+					:class="['form-control', { invalid: !email.isValid }]"
+					data-cy="user-auth-email"
+				>
 					<label for="email">{{ email.label }}</label>
 					<input
 						id="email"
@@ -23,7 +30,10 @@
 					/>
 					<p v-if="!email.isValid">{{ email.message }}</p>
 				</div>
-				<div :class="['form-control', { invalid: !password.isValid }]">
+				<div
+					:class="['form-control', { invalid: !password.isValid }]"
+					data-cy="user-auth-password"
+				>
 					<label for="password">{{ password.label }}</label>
 					<input
 						id="password"
@@ -33,7 +43,9 @@
 					/>
 					<p v-if="!password.isValid">{{ password.message }}</p>
 				</div>
-				<base-button>{{ submitButtonCaption }}</base-button>
+				<base-button data-cy="user-auth-login-button">{{
+					submitButtonCaption
+				}}</base-button>
 				<!-- TODO: Switching temporarily removed -->
 				<!-- <base-button
 					type="button"
@@ -123,7 +135,7 @@ export default {
 				this.password.message =
 					'Your password must be minimum 8 characters long! ' +
 					difference +
-					' characters left'
+					' characters left.'
 			} else {
 				this.password.isValid = true
 				this.formIsValid = true

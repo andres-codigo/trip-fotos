@@ -1,7 +1,7 @@
 <template>
-	<header class="header">
+	<header class="header" data-cy="nav-header">
 		<nav class="navbar">
-			<h1 class="nav-logo">
+			<h1 class="nav-header">
 				<router-link to="/">Trip Fotos</router-link>
 			</h1>
 			<ul v-show="open" v-click-outside="closeDropdown" class="nav-menu">
@@ -22,21 +22,29 @@
 								>
 							</router-link>
 						</li>
-						<li @click.prevent="toggleHamburgerMenuActiveClass()">
+						<li
+							v-if="isLoggedIn"
+							@click.prevent="toggleHamburgerMenuActiveClass()"
+						>
 							<router-link to="/trips" class="nav-link"
 								>All Travellers</router-link
 							>
 						</li>
 					</ul>
 				</li>
-				<li
+				<!-- <li
 					v-if="!isLoggedIn"
 					class="nav-item"
 					@click.prevent="toggleHamburgerMenuActiveClass()"
 				>
-					<router-link to="/auth" class="nav-link">Login</router-link>
-				</li>
-				<li v-else class="nav-item">
+					<router-link
+						to="/auth"
+						class="nav-link"
+						data-cy="nav-login-link"
+						>Login</router-link
+					>
+				</li> -->
+				<li v-if="isLoggedIn" class="nav-item">
 					<base-button @click="logout"
 						>Logout {{ travellerName }}</base-button
 					>

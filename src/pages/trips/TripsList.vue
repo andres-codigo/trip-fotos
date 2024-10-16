@@ -85,6 +85,9 @@ export default {
 				sydney: {
 					isActive: true,
 				},
+				canberra: {
+					isActive: true,
+				},
 			},
 		}
 	},
@@ -117,6 +120,12 @@ export default {
 				if (
 					this.activeFilters.sydney.isActive &&
 					traveller.areas.includes('sydney')
+				) {
+					return true
+				}
+				if (
+					this.activeFilters.canberra.isActive &&
+					traveller.areas.includes('canberra')
 				) {
 					return true
 				}
