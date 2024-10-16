@@ -4,8 +4,10 @@
 
 -   [About This Project](#about-this-project)
 -   [Stack](#stack)
+-   [Installation](#installation)
 -   [Setup](#setup)
 -   [Development](#development)
+-   [Testing](#testing)
 -   [Build](#build)
 -   [Deployment](#deployment)
 -   [Features](#features)
@@ -24,9 +26,35 @@ Tailored to be developed using Visual Studio Code.
 -   Vue 3 as Front-End Library.
 -   Vue Router for routing.
 -   Vuex for State Management.
+-   Cypress for front end testing
 -   Firebase Realtime Database for storing Travellers and Messages.
 -   Firebase Authentication for storing Sign-in credentials.
 -   Firebase Cloud Storage for storing uploaded traveller images.
+
+## Installation
+
+To get started with the project, follow these steps:
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+
+### Clone the repository
+
+```bash
+git clone https://github.com/andres-codigo/trip-fotos
+cd trip-fotos
+```
+
+### Install dependencies
+
+After cloning the repository, install the dependencies by running:
+
+```bash
+npm install
+```
+
+This will install all the required packages defined in the package.json file.
 
 ## Setup
 
@@ -88,6 +116,12 @@ npm run lint
 
 ```
 npm run format
+```
+
+## Testing
+
+```
+npx cypress open
 ```
 
 ## Build
