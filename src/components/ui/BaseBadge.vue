@@ -37,7 +37,8 @@ export default {
 
 	&.tokyo,
 	&.prague,
-	&.sydney {
+	&.sydney,
+	&.canberra {
 		color: $color-white;
 	}
 
@@ -51,6 +52,9 @@ export default {
 
 	&.sydney {
 		background-color: $color-fresh-eggplant;
+	}
+	&.canberra {
+		background-color: $color-mine-shaft;
 	}
 }
 
