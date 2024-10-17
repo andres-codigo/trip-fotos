@@ -169,6 +169,7 @@ export default {
 			const deleteTraveller = Promise.resolve(
 				this.$store.dispatch('travellers/deleteTraveller', {
 					travellerId: this.id,
+					files: this.files,
 				})
 			)
 

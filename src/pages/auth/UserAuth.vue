@@ -13,6 +13,7 @@
 		</base-dialog>
 		<base-card>
 			<form
+				autocomplete="on"
 				class="user-authentication"
 				data-cy="user-authentication"
 				@submit.prevent="submitForm"

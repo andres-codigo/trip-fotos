@@ -1,4 +1,10 @@
-import { getStorage, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import {
+	getStorage,
+	getDownloadURL,
+	ref,
+	uploadBytes,
+	deleteObject,
+} from 'firebase/storage'
 
 import { APIConstants } from '../../../constants/api'
 import { APIErrorMessageConstants } from '../../../constants/api-messages'
@@ -68,7 +74,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.REGISTER_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 
@@ -96,7 +103,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER_NAME)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 
@@ -125,7 +133,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 
@@ -203,22 +212,67 @@ export default {
 			)
 
 			if (response.ok) {
-				const responseData = await response.json()
+				if (data.files && data.files.length > 0) {
+					// Delete images in Firebase Storage user as uploaded
+					await Promise.all(
+						Array.from(data.files, async (image) => {
+							const storage = getStorage()
+							const desertRef = ref(storage, image)
+
+							// Delete the file
+							deleteObject(desertRef).catch((error) => {
+								throw new Error(
+									APIErrorMessageConstants.CATCH_MESSAGE,
+									error
+								)
+							})
+						})
+					)
+				}
 
 				context.commit('deleteTraveller', {
-					...responseData,
 					id: travellerId,
 				})
+
+				await context.dispatch('deleteTravellerMessages', travellerId)
 
 				await context.dispatch('updateTravellers')
 			} else {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
+	async deleteTravellerMessages(context, travellerId) {
+		try {
+			const token = context.rootGetters.token
 
+			const response = await fetch(
+				APIConstants.BASE_URL +
+					`/messages/${travellerId}.json?auth=` +
+					token,
+				{
+					method: APIConstants.DELETE,
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+
+			if (response.ok) {
+				context.commit('deleteTravellerMessages', {
+					id: travellerId,
+				})
+			} else {
+				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
+			}
+		} catch (error) {
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
+		}
+	},
 	async loadTravellers(context, payload) {
 		try {
 			if (!payload.forceRefresh && !context.getters.shouldUpdate) {
@@ -228,7 +282,8 @@ export default {
 			await context.dispatch('updateTravellers')
 			context.commit('setFetchTimestamp')
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 }

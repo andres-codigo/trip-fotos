@@ -96,7 +96,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 }
