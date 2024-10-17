@@ -8,6 +8,9 @@ export default {
 	deleteTraveller(state, payload) {
 		state.traveller = payload
 	},
+	deleteTravellerMessages: (state, payload) => {
+		state.messages = payload
+	},
 	setTravellerName(state, payload) {
 		state.travellerName = payload
 	},

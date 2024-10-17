@@ -231,6 +231,8 @@ export default {
 					id: travellerId,
 				})
 
+				await context.dispatch('deleteTravellerMessages', travellerId)
+
 				await context.dispatch('updateTravellers')
 			} else {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
@@ -239,7 +241,33 @@ export default {
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
 		}
 	},
+	async deleteTravellerMessages(context, travellerId) {
+		try {
+			const token = context.rootGetters.token
 
+			const response = await fetch(
+				APIConstants.BASE_URL +
+					`/messages/${travellerId}.json?auth=` +
+					token,
+				{
+					method: APIConstants.DELETE,
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+
+			if (response.ok) {
+				context.commit('deleteTravellerMessages', {
+					id: travellerId,
+				})
+			} else {
+				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
+			}
+		} catch (error) {
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+		}
+	},
 	async loadTravellers(context, payload) {
 		try {
 			if (!payload.forceRefresh && !context.getters.shouldUpdate) {
