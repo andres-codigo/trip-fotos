@@ -74,7 +74,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.REGISTER_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 
@@ -102,7 +103,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER_NAME)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 
@@ -131,7 +133,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 
@@ -238,7 +241,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 	async deleteTravellerMessages(context, travellerId) {
@@ -265,7 +269,8 @@ export default {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 	async loadTravellers(context, payload) {
@@ -277,7 +282,8 @@ export default {
 			await context.dispatch('updateTravellers')
 			context.commit('setFetchTimestamp')
 		} catch (error) {
-			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE, error)
+			// console.error(error)
+			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
 	},
 }
