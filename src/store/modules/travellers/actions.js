@@ -1,4 +1,10 @@
-import { getStorage, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import {
+	getStorage,
+	getDownloadURL,
+	ref,
+	uploadBytes,
+	deleteObject,
+} from 'firebase/storage'
 
 import { APIConstants } from '../../../constants/api'
 import { APIErrorMessageConstants } from '../../../constants/api-messages'
@@ -203,10 +209,25 @@ export default {
 			)
 
 			if (response.ok) {
-				const responseData = await response.json()
+				if (data.files && data.files.length > 0) {
+					// Delete images in Firebase Storage user as uploaded
+					await Promise.all(
+						Array.from(data.files, async (image) => {
+							const storage = getStorage()
+							const desertRef = ref(storage, image)
+
+							// Delete the file
+							deleteObject(desertRef).catch((error) => {
+								throw new Error(
+									APIErrorMessageConstants.CATCH_MESSAGE,
+									error
+								)
+							})
+						})
+					)
+				}
 
 				context.commit('deleteTraveller', {
-					...responseData,
 					id: travellerId,
 				})
 
