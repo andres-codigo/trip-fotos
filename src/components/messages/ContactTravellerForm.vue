@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="submitForm">
+	<form autocomplete="on" @submit.prevent="submitForm">
 		<div :class="['form-control', { invalid: !name.isValid }]">
 			<label for="name">{{ name.label }}</label>
 			<input

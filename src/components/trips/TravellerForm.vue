@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="submitForm">
+	<form autocomplete="on" @submit.prevent="submitForm">
 		<div v-for="(field, key) in fields" :key="key">
 			<div
 				v-if="field.type === 'text'"
