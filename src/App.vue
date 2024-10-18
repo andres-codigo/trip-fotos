@@ -23,7 +23,9 @@ export default {
 	watch: {
 		didAutoLogout(curValue, oldValue) {
 			if (curValue && curValue !== oldValue) {
-				this.$router.replace('/trips')
+				// When user logs out or Local Storage tokens expire
+				// user is redirected to login page
+				this.$router.replace('/auth')
 			}
 		},
 	},
