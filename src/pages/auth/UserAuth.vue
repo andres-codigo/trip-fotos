@@ -217,6 +217,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/mixins/mixins';
+@use '../../styles/setup/mixins/form/valid/valid';
+@use '../../styles/setup/mixins/form/invalid/invalid';
+
 .user-authentication-container {
 	display: inline-block;
 	padding: 0 20px;
@@ -229,15 +233,15 @@ export default {
 		.form-control {
 			margin: 0.5rem 0;
 
-			@include input;
+			@include valid.input;
 
 			&.invalid {
 				p {
-					@include error-message;
+					@include invalid.error-message;
 				}
 
 				input {
-					@include invalid-border;
+					@include invalid.invalid-border;
 				}
 			}
 		}

@@ -56,12 +56,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/variables';
+
 button,
 a {
-	background-color: $color-ripe-plum;
-	border: 1px solid $color-ripe-plum;
+	background-color: variables.$color-ripe-plum;
+	border: 1px solid variables.$color-ripe-plum;
 	border-radius: 30px;
-	color: $color-white;
+	color: variables.$color-white;
 	cursor: pointer;
 	display: inline-block;
 	font: inherit;
@@ -71,41 +73,41 @@ a {
 
 	&:hover,
 	&:active {
-		background-color: $color-ripe-eggplant;
-		border-color: $color-ripe-eggplant;
+		background-color: variables.$color-ripe-eggplant;
+		border-color: variables.$color-ripe-eggplant;
 	}
 
 	&.flat {
 		background-color: transparent;
-		color: $color-ripe-plum;
+		color: variables.$color-ripe-plum;
 		border: none;
 
 		&:hover,
 		&:active {
-			background-color: $color-blue-chalk;
+			background-color: variables.$color-blue-chalk;
 		}
 	}
 
 	&.outline,
 	&.disabled {
-		border-color: $color-ripe-eggplant;
-		color: $color-ripe-eggplant;
+		border-color: variables.$color-ripe-eggplant;
+		color: variables.$color-ripe-eggplant;
 	}
 	&.outline {
 		background-color: transparent;
 
 		&:hover,
 		&:active {
-			background-color: $color-blue-chalk;
+			background-color: variables.$color-blue-chalk;
 		}
 	}
 	&.disabled {
-		background-color: $color-silver;
+		background-color: variables.$color-silver;
 		cursor: default;
 
 		&:hover,
 		&:active {
-			background-color: $color-silver;
+			background-color: variables.$color-silver;
 		}
 	}
 }

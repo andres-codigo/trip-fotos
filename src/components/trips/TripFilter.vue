@@ -66,6 +66,8 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped lang="scss">
+@use '../../styles/setup/mixins/mixins';
+
 .filter-header {
 	margin: 0.5rem 0;
 }
@@ -87,7 +89,7 @@ export default {
 			text-transform: capitalize;
 			width: 4rem;
 
-			@include user-select(none);
+			@include mixins.user-select(none);
 		}
 
 		&.active label {

@@ -209,35 +209,38 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/mixins/form/valid/valid';
+@use '../../styles/setup/mixins/form/invalid/invalid';
+
 form {
 	.form-control {
 		margin: 0.5rem 0;
 
-		@include input-textarea;
+		@include valid.input-textarea;
 
 		.checkbox-label {
 			font-size: 1rem;
 			margin: 0.5rem 0;
 		}
 
-		@include checkbox;
+		@include valid.checkbox;
 
 		&.invalid {
 			p {
-				@include error-message;
+				@include invalid.error-message;
 			}
 
 			input,
 			textarea {
-				@include invalid-border;
+				@include invalid.invalid-border;
 			}
 
-			@include invalid-checkbox;
+			@include invalid.invalid-checkbox;
 		}
 	}
 
 	.invalid-form {
-		@include error-message;
+		@include invalid.error-message;
 	}
 }
 </style>

@@ -33,6 +33,8 @@ defineEmits(['remove'])
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/variables';
+
 .file-preview {
 	aspect-ratio: 1/1;
 	margin: 1rem 2.5%;
@@ -63,8 +65,8 @@ defineEmits(['remove'])
 	}
 
 	.close-icon {
-		background: $color-el-salva;
-		color: $color-white;
+		background: variables.$color-el-salva;
+		color: variables.$color-white;
 		cursor: pointer;
 		font-size: var(--size);
 		top: 0.25rem;
@@ -80,31 +82,31 @@ defineEmits(['remove'])
 
 	.loading-indicator {
 		animation: pulse 1.5s linear 0s infinite;
-		color: $color-black;
+		color: variables.$color-black;
 	}
 
 	.success-indicator {
-		background: $color-mantis;
-		color: $color-japanese-laurel;
+		background: variables.$color-mantis;
+		color: variables.$color-japanese-laurel;
 	}
 
 	.failure-indicator {
-		background: $color-el-salva;
-		color: $color-white;
+		background: variables.$color-el-salva;
+		color: variables.$color-white;
 	}
 }
 
 @keyframes pulse {
 	0% {
-		background: $color-white;
+		background: variables.$color-white;
 	}
 
 	50% {
-		background: $color-alto;
+		background: variables.$color-alto;
 	}
 
 	100% {
-		background: $color-white;
+		background: variables.$color-white;
 	}
 }
 
