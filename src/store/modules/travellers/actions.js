@@ -73,7 +73,8 @@ export default {
 			} else {
 				throw new Error(APIErrorMessageConstants.REGISTER_TRAVELLER)
 			}
-		} catch (error) {
+		} catch {
+			// catch (error)
 			// console.error(error)
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
@@ -102,7 +103,8 @@ export default {
 			} else {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER_NAME)
 			}
-		} catch (error) {
+		} catch {
+			// catch (error)
 			// console.error(error)
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
@@ -132,7 +134,8 @@ export default {
 			} else {
 				throw new Error(APIErrorMessageConstants.LOAD_TRAVELLER)
 			}
-		} catch (error) {
+		} catch {
+			// catch (error)
 			// console.error(error)
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
@@ -240,7 +243,8 @@ export default {
 			} else {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
-		} catch (error) {
+		} catch {
+			// catch (error)
 			// console.error(error)
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
@@ -268,7 +272,8 @@ export default {
 			} else {
 				throw new Error(APIErrorMessageConstants.DELETE_TRAVELLER)
 			}
-		} catch (error) {
+		} catch {
+			// catch (error)
 			// console.error(error)
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
@@ -281,7 +286,8 @@ export default {
 
 			await context.dispatch('updateTravellers')
 			context.commit('setFetchTimestamp')
-		} catch (error) {
+		} catch {
+			// catch (error)
 			// console.error(error)
 			throw new Error(APIErrorMessageConstants.CATCH_MESSAGE)
 		}
