@@ -25,36 +25,39 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/variables';
+@use '../../styles/setup/mixins/mixins';
+
 .badge {
-	background-color: $color-silver;
+	background-color: variables.$color-silver;
 	border-radius: 30px;
-	color: $color-mine-shaft;
+	color: variables.$color-mine-shaft;
 	display: inline-block;
 	margin-bottom: 0.5rem;
 	margin-right: 0.5rem;
 	padding: 0.5rem 1.5rem;
-	@include user-select(none);
+	@include mixins.user-select(none);
 
 	&.tokyo,
 	&.prague,
 	&.sydney,
 	&.canberra {
-		color: $color-white;
+		color: variables.$color-white;
 	}
 
 	&.tokyo {
-		background-color: $color-pigment-indigo;
+		background-color: variables.$color-pigment-indigo;
 	}
 
 	&.prague {
-		background-color: $color-purple;
+		background-color: variables.$color-purple;
 	}
 
 	&.sydney {
-		background-color: $color-fresh-eggplant;
+		background-color: variables.$color-fresh-eggplant;
 	}
 	&.canberra {
-		background-color: $color-mine-shaft;
+		background-color: variables.$color-mine-shaft;
 	}
 }
 

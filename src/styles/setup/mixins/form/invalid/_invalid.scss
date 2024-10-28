@@ -1,5 +1,7 @@
+@use '../../../variables';
+
 @mixin error-text() {
-	color: $color-mojo;
+	color: variables.$color-mojo;
 }
 
 @mixin error-message() {
@@ -8,14 +10,14 @@
 }
 
 @mixin invalid-border() {
-	border: 1px solid $color-mojo;
+	border: 1px solid variables.$color-mojo;
 }
 
 @mixin invalid-checkbox() {
 	input[type='checkbox'] {
 		& + label {
 			&::before {
-				box-shadow: inset 0 0 0 1px $color-mojo;
+				box-shadow: inset 0 0 0 1px variables.$color-mojo;
 			}
 		}
 	}

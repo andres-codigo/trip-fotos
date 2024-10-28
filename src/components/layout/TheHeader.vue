@@ -211,9 +211,12 @@ const closeDropdown = (event) => {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/variables';
+@use '../../styles/setup/mixins/mixins';
+
 header {
 	align-items: center;
-	background-color: $color-pigment-indigo;
+	background-color: variables.$color-pigment-indigo;
 	display: flex;
 	height: 5rem;
 	position: fixed;
@@ -232,7 +235,7 @@ header {
 			margin: 0;
 
 			a {
-				color: $color-white;
+				color: variables.$color-white;
 				margin: 0;
 				text-decoration: none;
 			}
@@ -262,7 +265,7 @@ header {
 				}
 				a {
 					border: 1px solid transparent;
-					color: $color-white;
+					color: variables.$color-white;
 					display: inline-block;
 					padding: 0.75rem 1.5rem;
 					position: relative;
@@ -272,7 +275,7 @@ header {
 						--size: 1.4rem;
 						--font-size: 0.75rem;
 						appearance: none;
-						border: 1px solid $color-pigment-indigo;
+						border: 1px solid variables.$color-pigment-indigo;
 						color: inherit;
 						cursor: pointer;
 						height: var(--size);
@@ -282,7 +285,7 @@ header {
 						top: 0rem;
 						width: var(--size);
 
-						@include fadeIn(ease, 2s, 1, forwards);
+						@include mixins.fadeIn(ease, 2s, 1, forwards);
 
 						.counter {
 							display: inline-block;
@@ -294,25 +297,26 @@ header {
 					}
 
 					&:hover {
-						color: $color-lavender-magenta;
+						color: variables.$color-lavender-magenta;
 						.messages-counter-container {
-							border: 1px solid $color-pigment-indigo;
+							border: 1px solid variables.$color-pigment-indigo;
 						}
 					}
 
 					&.router-link-active {
-						border: 1px solid $color-white;
-						color: $color-white;
+						border: 1px solid variables.$color-white;
+						color: variables.$color-white;
 
 						.messages-counter-container {
-							border: 1px solid $color-pigment-indigo;
+							border: 1px solid variables.$color-pigment-indigo;
 						}
 						&:hover {
-							border: 1px solid $color-lavender-magenta;
-							color: $color-lavender-magenta;
+							border: 1px solid variables.$color-lavender-magenta;
+							color: variables.$color-lavender-magenta;
 
 							.messages-counter-container {
-								border: 1px solid $color-pigment-indigo;
+								border: 1px solid
+									variables.$color-pigment-indigo;
 							}
 						}
 					}
@@ -325,7 +329,7 @@ header {
 		}
 
 		.bar {
-			background-color: $color-white;
+			background-color: variables.$color-white;
 			display: block;
 			height: 3px;
 			margin: 5px auto;
@@ -344,7 +348,7 @@ header {
 				left: -100%;
 				top: 4.9rem;
 				flex-direction: column;
-				background-color: $color-pigment-indigo;
+				background-color: variables.$color-pigment-indigo;
 				width: 100%;
 				text-align: center;
 				box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
@@ -363,7 +367,7 @@ header {
 									padding: 1.25rem 0;
 									width: 100%;
 									&.router-link-active {
-										background-color: $color-ripe-eggplant;
+										background-color: variables.$color-ripe-eggplant;
 										border: none;
 										width: 100%;
 										&:hover {
@@ -384,7 +388,7 @@ header {
 								border: none;
 								border-radius: var(--size);
 
-								@include fadeIn(ease, 2s, 1, forwards);
+								@include mixins.fadeIn(ease, 2s, 1, forwards);
 
 								.counter {
 									bottom: 1px;
@@ -398,13 +402,13 @@ header {
 
 							&:active,
 							&:hover {
-								color: $color-lavender-magenta;
+								color: variables.$color-lavender-magenta;
 								.messages-counter-container {
 									border: none;
 								}
 							}
 							&.router-link-active {
-								background-color: $color-ripe-eggplant;
+								background-color: variables.$color-ripe-eggplant;
 								border: none;
 								width: 100%;
 								&:hover {
@@ -413,15 +417,15 @@ header {
 							}
 						}
 						button {
-							background-color: $color-pigment-indigo;
-							border: 1px solid $color-pigment-indigo;
+							background-color: variables.$color-pigment-indigo;
+							border: 1px solid variables.$color-pigment-indigo;
 							border-radius: 0;
 							margin: 0;
 							padding: 1.25rem 0;
 							width: inherit;
 							&:active,
 							&:hover {
-								color: $color-lavender-magenta;
+								color: variables.$color-lavender-magenta;
 							}
 						}
 					}

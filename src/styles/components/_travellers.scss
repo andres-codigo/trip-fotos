@@ -1,5 +1,7 @@
+@use '../setup/variables';
+
 .isLoggedInUser {
-	background-color: $color-blue-chalk;
+	background-color: variables.$color-blue-chalk;
 	h3,
 	h4 {
 		font-weight: 100;

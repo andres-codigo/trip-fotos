@@ -196,17 +196,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/variables';
+@use '../../styles/setup/mixins/mixins';
+@use '../../styles/setup/mixins/form/invalid/invalid';
+
 .spinner-container {
 	margin: 0.5rem 0;
 }
 
 .spinner-container-images {
 	height: 146.797px;
-	@include fadeIn(ease, 2s, 1, forwards);
+	@include mixins.fadeIn(ease, 2s, 1, forwards);
 }
 
 .traveller {
-	border: 1px solid $color-tundora;
+	border: 1px solid variables.$color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
 	padding: 1rem;
@@ -234,11 +238,14 @@ export default {
 			list-style: none;
 			padding: 0;
 
-			@include fadeIn(ease, 2s, 1, forwards);
+			@include mixins.fadeIn(ease, 2s, 1, forwards);
 
 			.image-counter {
-				@include background-opacity($color-ripe-eggplant, 0.75);
-				color: $color-white;
+				@include mixins.background-opacity(
+					variables.$color-ripe-eggplant,
+					0.75
+				);
+				color: variables.$color-white;
 				margin: 1rem 2.5%;
 				overflow: hidden;
 				position: relative;
@@ -246,7 +253,7 @@ export default {
 				a {
 					span {
 						align-items: center;
-						color: $color-white;
+						color: variables.$color-white;
 						display: flex;
 						height: 100%;
 						justify-content: center;
@@ -263,12 +270,12 @@ export default {
 		margin-right: 11px;
 		justify-content: flex-end;
 		&.delete {
-			background-color: $color-mojo;
-			color: $color-white;
-			@include invalid-border;
+			background-color: variables.$color-mojo;
+			color: variables.$color-white;
+			@include invalid.invalid-border;
 			&:hover {
-				background-color: $color-mojo-otro;
-				color: $color-white;
+				background-color: variables.$color-mojo-otro;
+				color: variables.$color-white;
 			}
 		}
 	}

@@ -151,20 +151,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/mixins/form/valid/valid';
+@use '../../styles/setup/mixins/form/invalid/invalid';
+
 form {
 	.form-control {
 		margin: 0.5rem 0;
 
-		@include input-textarea;
+		@include valid.input-textarea;
 
 		&.invalid {
 			p {
-				@include error-message;
+				@include invalid.error-message;
 			}
 
 			input,
 			textarea {
-				@include invalid-border;
+				@include invalid.invalid-border;
 			}
 		}
 	}

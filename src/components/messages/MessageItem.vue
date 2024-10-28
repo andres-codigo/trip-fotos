@@ -104,8 +104,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/variables';
+@use '../../styles/setup/mixins/form/valid/valid';
+@use '../../styles/setup/mixins/form/invalid/invalid';
+
 .message {
-	border: 1px solid $color-tundora;
+	border: 1px solid variables.$color-tundora;
 	border-radius: 12px;
 	margin: 1rem 0;
 	padding: 1rem;
@@ -120,13 +124,13 @@ export default {
 		p {
 			margin: 0 0 0.25rem 0;
 			a {
-				color: $color-pigment-indigo;
+				color: variables.$color-pigment-indigo;
 				text-decoration: none;
 				font-weight: bold;
 
 				&:hover,
 				&:active {
-					color: $color-fresh-eggplant;
+					color: variables.$color-fresh-eggplant;
 				}
 			}
 		}
@@ -136,12 +140,12 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		&.delete {
-			background-color: $color-white;
-			@include error-text;
-			@include invalid-border;
+			background-color: variables.$color-white;
+			@include invalid.error-text;
+			@include invalid.invalid-border;
 			&:hover {
-				background-color: $color-mojo;
-				color: $color-white;
+				background-color: variables.$color-mojo;
+				color: variables.$color-white;
 			}
 		}
 	}

@@ -1,3 +1,6 @@
+@use '../../../variables';
+@use '../../mixins';
+
 @mixin label() {
 	label {
 		display: block;
@@ -7,15 +10,15 @@
 }
 
 @mixin default-styles() {
-	border: 1px solid $color-silver;
+	border: 1px solid variables.$color-silver;
 	display: block;
 	font: inherit;
 	padding: 0.15rem;
 	width: 100%;
 
 	&:focus {
-		border-color: $color-pigment-indigo;
-		background-color: $color-selago;
+		border-color: variables.$color-pigment-indigo;
+		background-color: variables.$color-selago;
 		outline: none;
 	}
 }
@@ -55,13 +58,13 @@
 			line-height: 20px;
 			padding-left: 20px + 10;
 			position: relative;
-			@include user-select(none);
+			@include mixins.user-select(none);
 
 			// Checkbox
 			&::before {
 				background: transparent;
 				border-radius: 4px;
-				box-shadow: inset 0 0 0 1px $color-alto;
+				box-shadow: inset 0 0 0 1px variables.$color-alto;
 				content: '';
 				display: block;
 				height: 20px;
@@ -91,16 +94,16 @@
 
 			// Hover
 			&:hover {
-				color: $color-mine-shaft;
+				color: variables.$color-mine-shaft;
 			}
 		}
 
 		&:focus {
 			& + label {
-				color: $color-mine-shaft;
+				color: variables.$color-mine-shaft;
 				&::before {
-					background-color: $color-selago;
-					box-shadow: inset 0 0 0 1px $color-pigment-indigo;
+					background-color: variables.$color-selago;
+					box-shadow: inset 0 0 0 1px variables.$color-pigment-indigo;
 					outline: none;
 					transition: 200ms ease-in-out all;
 				}
@@ -111,11 +114,11 @@
 		&:checked {
 			& + label {
 				&::before {
-					background: $color-ripe-plum;
+					background: variables.$color-ripe-plum;
 					box-shadow: none;
 				}
 				&::after {
-					border-color: $color-white;
+					border-color: variables.$color-white;
 				}
 			}
 		}

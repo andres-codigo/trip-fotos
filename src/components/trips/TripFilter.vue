@@ -2,10 +2,17 @@
 	<base-card>
 		<h2 class="filter-header">Filter by city</h2>
 		<div class="checkbox-container">
+			<multiselect
+				v-model="options"
+				:multiple="true"
+				:close-on-select="false"
+				:spellcheck="true"
+				:options="options"
+			></multiselect>
 			<span
-				v-for="(value, key) in filters"
+				v-for="(v, key) in filters"
 				:key="key"
-				:class="['filter-option', { active: value.isActive }]"
+				:class="['filter-option', { active: v.isActive }]"
 			>
 				<input :id="key" type="checkbox" checked @change="setFilter" />
 				<label :for="key">{{ key }}</label>
@@ -15,10 +22,14 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
+
 export default {
+	components: { Multiselect },
 	emits: ['change-filter'],
 	data() {
 		return {
+			value: null,
 			filters: {
 				tokyo: {
 					isActive: true,
@@ -33,6 +44,7 @@ export default {
 					isActive: true,
 				},
 			},
+			options: ['tokyo', 'prague', 'sydney', 'canberra'],
 		}
 	},
 	methods: {
@@ -51,8 +63,11 @@ export default {
 	},
 }
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped lang="scss">
+@use '../../styles/setup/mixins/mixins';
+
 .filter-header {
 	margin: 0.5rem 0;
 }
@@ -74,7 +89,7 @@ export default {
 			text-transform: capitalize;
 			width: 4rem;
 
-			@include user-select(none);
+			@include mixins.user-select(none);
 		}
 
 		&.active label {

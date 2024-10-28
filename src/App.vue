@@ -40,5 +40,5 @@ import { SpeedInsights } from '@vercel/speed-insights/vue'
 </script>
 
 <style lang="scss">
-@import './styles/setup/typography.scss';
+@use './styles/setup/typography.scss';
 </style>

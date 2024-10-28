@@ -146,6 +146,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/setup/mixins/mixins';
+
 .traveller-detail-container {
 	display: inline-block;
 	padding: 0 20px;
@@ -160,7 +162,7 @@ export default {
 
 	.spinner-container-images {
 		height: 146.797px;
-		@include fadeIn(ease, 2s, 1, forwards);
+		@include mixins.fadeIn(ease, 2s, 1, forwards);
 	}
 
 	.images {
@@ -170,7 +172,7 @@ export default {
 			list-style: none;
 			padding: 0;
 
-			@include fadeIn(ease, 2s, 1, forwards);
+			@include mixins.fadeIn(ease, 2s, 1, forwards);
 		}
 	}
 }
