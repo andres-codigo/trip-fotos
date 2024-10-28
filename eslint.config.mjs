@@ -23,12 +23,22 @@ export default [
 		'eslint:recommended',
 		'prettier'
 	),
+	...compat.env({
+		es2020: true,
+		node: true,
+	}),
 	{
-		plugins: {
-			pluginCypress,
-		},
-
+		files: [
+			'src/**/*.js',
+			'src/**/**/*.js',
+			'src/**/**/**/*.js',
+			'src/**/*.vue',
+			'src/**/**/*.vue',
+		],
+		ignores: ['*.config.js'],
 		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: 'module',
 			globals: {
 				...globals.browser,
 				...globals.node,
@@ -36,13 +46,27 @@ export default [
 				defineEmits: 'readonly',
 			},
 		},
-		files: ['src/**/*.js'],
-		ignores: ['cypress.config.js'],
 		rules: {
 			'no-console': 'off',
 			'no-debugger': 'off',
 			'vue/multi-word-component-names': 'off',
-			// Cypress ESLint Plugin
+		},
+	},
+	// Cypress ESLint Plugin
+	{
+		plugins: {
+			pluginCypress,
+		},
+		files: ['cypress/**/**/**/*.spec.cy.js'],
+		ignores: ['cypress.config.js'],
+		languageOptions: {
+			sourceType: 'commonjs',
+			globals: {
+				...globals.node,
+				...globals.amd,
+			},
+		},
+		rules: {
 			// https://github.com/cypress-io/eslint-plugin-cypress
 			'cypress/no-assigning-return-values': 'error',
 			'cypress/no-unnecessary-waiting': 'error',
