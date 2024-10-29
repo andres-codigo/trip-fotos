@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Find a coach' project.",
+	"type": "module",
 	"scripts": {
 		"dev": "vite serve",
 		"build": "vite build",
@@ -39,6 +40,7 @@
 		"sass": "^1.80.4",
 		"sass-loader": "^16.0.2",
 		"vite": "^5.4.9",
-		"vite-plugin-eslint": "^1.8.1"
+		"vite-plugin-eslint": "^1.8.1",
+		"vue-eslint-parser": "^9.4.3"
 	}
 }

@@ -1,17 +1,19 @@
+import eslintJs from '@eslint/js'
 import globals from 'globals'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
 import { includeIgnoreFile } from '@eslint/compat'
+import vueParser from 'vue-eslint-parser'
+import pluginVue from 'eslint-plugin-vue'
 import pluginCypress from 'eslint-plugin-cypress/flat'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const compat = new FlatCompat({
 	baseDirectory: __dirname,
-	recommendedConfig: js.configs.recommended,
-	allConfig: js.configs.all,
+	recommendedConfig: eslintJs.configs.recommended,
+	allConfig: eslintJs.configs.all,
 })
 const gitignorePath = path.resolve(__dirname, '.gitignore')
 
@@ -28,14 +30,12 @@ export default [
 		node: true,
 	}),
 	{
-		files: [
-			'src/**/*.js',
-			'src/**/**/*.js',
-			'src/**/**/**/*.js',
-			'src/**/*.vue',
-			'src/**/**/*.vue',
-		],
-		ignores: ['*.config.js'],
+		//---- GLOBAL IGNORES
+		ignores: ['**/dist/', '*.config.js'],
+	},
+	// general
+	{
+		files: ['**/*.{js,ts,jsx,tsx,vue}'],
 		languageOptions: {
 			ecmaVersion: 2022,
 			sourceType: 'module',
@@ -52,12 +52,30 @@ export default [
 			'vue/multi-word-component-names': 'off',
 		},
 	},
-	// Cypress ESLint Plugin
+	// vue defaults
+	...pluginVue.configs['flat/essential'],
+	// vue
+	{
+		files: ['**/*.vue'],
+		languageOptions: {
+			parser: vueParser,
+			parserOptions: {
+				sourceType: 'module',
+				ecmaVersion: 2022,
+				ecmaFeatures: {
+					globalReturn: false,
+					impliedStrict: false,
+					jsx: false,
+				},
+			},
+		},
+	},
+	// cypress
 	{
 		plugins: {
 			pluginCypress,
 		},
-		files: ['cypress/**/**/**/*.spec.cy.js'],
+		files: ['**/*.spec.cy.js'],
 		ignores: ['cypress.config.js'],
 		languageOptions: {
 			sourceType: 'commonjs',
