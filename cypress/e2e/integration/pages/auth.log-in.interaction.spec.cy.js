@@ -8,7 +8,7 @@ describe('Trip Fotos user auth page > not logged in', () => {
 
 		// Aliases
 		cy.get('[data-cy="user-authentication"]').as(
-			'userAuthenticationContainer'
+			'userAuthenticationContainer',
 		)
 		cy.get('[data-cy="user-auth-email"]').as('userAuthEmail')
 		cy.get('[data-cy="user-auth-password"]').as('userAuthPassword')
@@ -106,7 +106,7 @@ describe('Trip Fotos user auth page > not logged in', () => {
 		// Initial error message indicating required and remaining characters
 		cy.get(errorMessageSelector).should(
 			'contain.text',
-			`Your password must be minimum ${minLength} characters long! ${minLength} characters left.`
+			`Your password must be minimum ${minLength} characters long! ${minLength} characters left.`,
 		)
 
 		// Type characters to the input
@@ -121,7 +121,7 @@ describe('Trip Fotos user auth page > not logged in', () => {
 			if (remainingChars > 0 && remainingChars < minLength) {
 				cy.get(errorMessageSelector).should(
 					'contain.text',
-					`Your password must be minimum ${minLength} characters long! ${remainingChars} characters left.`
+					`Your password must be minimum ${minLength} characters long! ${remainingChars} characters left.`,
 				)
 			} else {
 				// Check error message removed once minimum password character length is met

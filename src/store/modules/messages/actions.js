@@ -13,7 +13,7 @@ export default {
 			{
 				method: 'POST',
 				body: JSON.stringify(newMessage),
-			}
+			},
 		)
 
 		const responseData = await response.json()
@@ -26,7 +26,7 @@ export default {
 		} else {
 			const error = new Error(
 				responseData.message ||
-					APIErrorMessageConstants.CONTACT_TRAVELLER
+					APIErrorMessageConstants.CONTACT_TRAVELLER,
 			)
 			throw error
 		}
@@ -37,7 +37,7 @@ export default {
 		const response = await fetch(
 			APIConstants.BASE_URL +
 				`/messages/${travellerId}.json?auth=` +
-				token
+				token,
 		)
 		const responseData = await response.json()
 
@@ -59,7 +59,7 @@ export default {
 			context.commit('setMessagesCount', messages.length)
 		} else {
 			const error = new Error(
-				responseData.message || APIErrorMessageConstants.FETCH_MESSAGES
+				responseData.message || APIErrorMessageConstants.FETCH_MESSAGES,
 			)
 			throw error
 		}
@@ -80,7 +80,7 @@ export default {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			)
 
 			if (response.ok) {

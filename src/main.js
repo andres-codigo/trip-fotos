@@ -23,7 +23,7 @@ import BaseImage from '@/components/ui/BaseImage.vue'
 import BaseSpinner from '@/components/ui/BaseSpinner.vue'
 
 const BaseDialog = defineAsyncComponent(
-	() => import('@/components/ui/BaseDialog.vue')
+	() => import('@/components/ui/BaseDialog.vue'),
 )
 
 const app = createApp(App)

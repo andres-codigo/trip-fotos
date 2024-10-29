@@ -3,8 +3,7 @@
 		:show="!!error"
 		:is-error="!!error"
 		:title="dialogTitle"
-		@close="handleError"
-	>
+		@close="handleError">
 		<p>{{ error }}</p>
 	</base-dialog>
 	<div v-if="isLoading" class="spinner-container">
@@ -80,11 +79,11 @@ export default {
 			const deleteMessage = Promise.resolve(
 				this.$store.dispatch('messages/deleteMessage', {
 					messageId: this.id,
-				})
+				}),
 			)
 
 			const loadMessages = delayLoading(numberOfSeconds).then(
-				this.$store.dispatch('messages/loadMessages')
+				this.$store.dispatch('messages/loadMessages'),
 			)
 
 			await Promise.all([deleteMessage, loadMessages])

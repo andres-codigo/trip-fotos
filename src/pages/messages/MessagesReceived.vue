@@ -4,8 +4,7 @@
 			:show="!!error"
 			:is-error="!!error"
 			:title="dialogTitle"
-			@close="handleError"
-		>
+			@close="handleError">
 			<p>{{ error }}</p>
 		</base-dialog>
 		<section>
@@ -21,8 +20,7 @@
 						:key="req.id"
 						:name="req.userName"
 						:email="req.userEmail"
-						:message="req.message"
-					></message-item>
+						:message="req.message"></message-item>
 				</ul>
 				<h3 v-else class="no-messages">
 					You haven't messages any messages yet!

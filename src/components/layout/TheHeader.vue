@@ -9,8 +9,7 @@
 					<ul>
 						<li
 							v-if="isLoggedIn && isTraveller"
-							@click.prevent="toggleHamburgerMenuActiveClass()"
-						>
+							@click.prevent="toggleHamburgerMenuActiveClass()">
 							<router-link to="/messages" class="nav-link"
 								>Messages
 								<span
@@ -24,8 +23,7 @@
 						</li>
 						<li
 							v-if="isLoggedIn"
-							@click.prevent="toggleHamburgerMenuActiveClass()"
-						>
+							@click.prevent="toggleHamburgerMenuActiveClass()">
 							<router-link to="/trips" class="nav-link"
 								>All Travellers</router-link
 							>
@@ -140,7 +138,7 @@ export default {
 					() => localStorage.getItem('userName'),
 					(newValue) => {
 						this.travellerName = newValue
-					}
+					},
 				)
 			}
 		},
