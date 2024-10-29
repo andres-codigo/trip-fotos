@@ -9,7 +9,7 @@
 		"build": "vite build",
 		"serve": "vite preview",
 		"cy:open": "cypress open",
-		"lint": "eslint",
+		"lint": "eslint src",
 		"format": "prettier .  --write"
 	},
 	"dependencies": {
