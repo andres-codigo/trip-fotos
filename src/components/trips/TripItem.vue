@@ -3,8 +3,7 @@
 		:show="!!error"
 		:is-error="!!error"
 		:title="dialogTitle"
-		@close="handleError"
-	>
+		@close="handleError">
 		<p>{{ error }}</p>
 	</base-dialog>
 	<div v-if="isLoading" class="spinner-container">
@@ -17,8 +16,7 @@
 			{
 				isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
 			},
-		]"
-	>
+		]">
 		<h3 class="name">{{ fullName }}</h3>
 		<p class="registered">
 			{{ registeredDate }}
@@ -30,8 +28,7 @@
 				v-for="area in areas"
 				:key="area"
 				:type="area"
-				:title="area"
-			></base-badge>
+				:title="area"></base-badge>
 		</div>
 		<div class="images">
 			<ul v-if="!!files" class="images-list">
@@ -39,8 +36,7 @@
 					v-for="file in files.slice(0, 5)"
 					:key="file"
 					:url="file"
-					:title="fullName"
-				></base-image>
+					:title="fullName"></base-image>
 				<li v-show="files.length > 5" class="image-counter">
 					<router-link :to="travellerDetailsLink"
 						><span>
@@ -170,13 +166,13 @@ export default {
 				this.$store.dispatch('travellers/deleteTraveller', {
 					travellerId: this.id,
 					files: this.files,
-				})
+				}),
 			)
 
 			const loadTravellers = delayLoading(numberOfSeconds).then(
 				this.$store.dispatch('travellers/loadTravellers', {
 					forceRefresh: true,
-				})
+				}),
 			)
 
 			await Promise.all([deleteTraveller, loadTravellers])

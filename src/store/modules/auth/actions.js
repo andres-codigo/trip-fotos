@@ -88,7 +88,7 @@ export default {
 					APIErrorMessageConstants.LOGIN_MESSAGE_TOO_MANY_ATTEMPTS
 			}
 			const error = new Error(
-				errorMessage || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE
+				errorMessage || APIErrorMessageConstants.FAILED_TO_AUTHENTICATE,
 			)
 			throw error
 		}

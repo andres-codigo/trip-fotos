@@ -4,8 +4,7 @@
 			:show="!!error"
 			:is-error="!!error"
 			:title="dialogTitle"
-			@close="handleError"
-		>
+			@close="handleError">
 			<p>{{ error }}</p>
 		</base-dialog>
 		<base-dialog :show="isLoading" title="Authenticating..." fixed>
@@ -16,32 +15,27 @@
 				autocomplete="on"
 				class="user-authentication"
 				data-cy="user-authentication"
-				@submit.prevent="submitForm"
-			>
+				@submit.prevent="submitForm">
 				<div
 					:class="['form-control', { invalid: !email.isValid }]"
-					data-cy="user-auth-email"
-				>
+					data-cy="user-auth-email">
 					<label for="email">{{ email.label }}</label>
 					<input
 						id="email"
 						v-model.trim="email.value"
 						:type="email.type"
-						@blur="clearValidity('email')"
-					/>
+						@blur="clearValidity('email')" />
 					<p v-if="!email.isValid">{{ email.message }}</p>
 				</div>
 				<div
 					:class="['form-control', { invalid: !password.isValid }]"
-					data-cy="user-auth-password"
-				>
+					data-cy="user-auth-password">
 					<label for="password">{{ password.label }}</label>
 					<input
 						id="password"
 						v-model.trim="password.value"
 						:type="password.type"
-						@blur="clearValidity('password')"
-					/>
+						@blur="clearValidity('password')" />
 					<p v-if="!password.isValid">{{ password.message }}</p>
 				</div>
 				<base-button data-cy="user-auth-login-button">{{
@@ -178,7 +172,7 @@ export default {
 				if (this.mode === APIConstants.API_AUTH_LOGIN_MODE) {
 					await this.$store.dispatch(
 						APIConstants.API_AUTH_LOGIN_MODE,
-						actionPayload
+						actionPayload,
 					)
 
 					await this.$store.dispatch('travellers/loadTravellers', {
@@ -187,7 +181,7 @@ export default {
 				} else {
 					await this.$store.dispatch(
 						APIConstants.API_AUTH_SIGNUP_MODE,
-						actionPayload
+						actionPayload,
 					)
 				}
 

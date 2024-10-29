@@ -4,8 +4,7 @@
 			:show="!!error"
 			:is-error="!!error"
 			title="An error occurred!"
-			@close="handleError"
-		>
+			@close="handleError">
 			<p>{{ error }}</p>
 		</base-dialog>
 		<section>
@@ -48,13 +47,11 @@
 						:days="traveller.daysInCity"
 						:areas="traveller.areas"
 						:files="traveller.files"
-						:registered="traveller.registered"
-					></trip-item>
+						:registered="traveller.registered"></trip-item>
 				</ul>
 				<div
 					v-if="!isLoading && !hasTravellers"
-					class="no-travellers-container"
-				>
+					class="no-travellers-container">
 					<h3>No travellers listed.</h3>
 				</div>
 			</base-card>

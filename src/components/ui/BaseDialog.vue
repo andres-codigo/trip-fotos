@@ -11,8 +11,7 @@
 				<section
 					:class="
 						sectionClasses ? 'image-section' : 'general-section'
-					"
-				>
+					">
 					<slot></slot>
 				</section>
 				<menu v-if="!fixed">

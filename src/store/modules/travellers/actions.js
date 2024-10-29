@@ -20,7 +20,7 @@ export default {
 					const storage = getStorage()
 					const storageRef = ref(
 						storage,
-						`/images/${userId}/${image.name}`
+						`/images/${userId}/${image.name}`,
 					)
 
 					const metadata = {
@@ -32,7 +32,7 @@ export default {
 					const response = await uploadBytes(
 						storageRef,
 						image.file,
-						metadata
+						metadata,
 					)
 					const url = await getDownloadURL(response.ref)
 
@@ -40,7 +40,7 @@ export default {
 						image.status = true
 					}
 					return url
-				})
+				}),
 			)
 
 			const travellerData = {
@@ -62,7 +62,7 @@ export default {
 				{
 					method: APIConstants.PUT,
 					body: JSON.stringify(travellerData),
-				}
+				},
 			)
 
 			if (response.ok) {
@@ -92,7 +92,7 @@ export default {
 						idToken: context.rootGetters.token,
 						displayName: travellerName,
 					}),
-				}
+				},
 			)
 
 			if (response.ok) {
@@ -121,7 +121,7 @@ export default {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			)
 
 			if (response.ok) {
@@ -149,7 +149,7 @@ export default {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-			}
+			},
 		)
 
 		if (response.ok) {
@@ -172,11 +172,11 @@ export default {
 			}
 
 			const loggedInTraveller = travellers.find(
-				(traveller) => traveller.id === localStorage.userId
+				(traveller) => traveller.id === localStorage.userId,
 			)
 
 			const filteredTraveller = travellers.filter(
-				(traveller) => traveller.id !== localStorage.userId
+				(traveller) => traveller.id !== localStorage.userId,
 			)
 
 			if (loggedInTraveller !== undefined) {
@@ -185,7 +185,7 @@ export default {
 					'setTravellerName',
 					loggedInTraveller.firstName +
 						' ' +
-						loggedInTraveller.lastName
+						loggedInTraveller.lastName,
 				)
 				context.commit('setTravellers', filteredTraveller)
 			} else {
@@ -211,7 +211,7 @@ export default {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			)
 
 			if (response.ok) {
@@ -226,10 +226,10 @@ export default {
 							deleteObject(desertRef).catch((error) => {
 								throw new Error(
 									APIErrorMessageConstants.CATCH_MESSAGE,
-									error
+									error,
 								)
 							})
-						})
+						}),
 					)
 				}
 
@@ -262,7 +262,7 @@ export default {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			)
 
 			if (response.ok) {

@@ -4,8 +4,7 @@
 		ref="baseButton"
 		:class="mode"
 		:disabled="disabled"
-		:isError="isError"
-	>
+		:isError="isError">
 		<slot></slot>
 	</button>
 	<router-link v-else :to="to" :class="mode">

@@ -3,8 +3,7 @@
 		<DropZone
 			v-slot="{ dropZoneActive }"
 			class="drop-area"
-			@files-dropped="addFiles"
-		>
+			@files-dropped="addFiles">
 			<label for="file-input">
 				<span v-if="dropZoneActive">
 					<span>Drop your files here</span>
@@ -22,8 +21,7 @@
 					id="file-input"
 					type="file"
 					multiple
-					@change="onInputChange"
-				/>
+					@change="onInputChange" />
 			</label>
 			<ul v-show="files && files.length > 0" class="image-list">
 				<FilePreview
@@ -31,8 +29,7 @@
 					:key="file.id"
 					:file="file"
 					tag="li"
-					@remove="removeFile"
-				/>
+					@remove="removeFile" />
 			</ul>
 		</DropZone>
 	</div>

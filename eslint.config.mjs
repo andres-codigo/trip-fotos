@@ -23,7 +23,7 @@ export default [
 	...compat.extends(
 		'plugin:vue/vue3-recommended',
 		'eslint:recommended',
-		'prettier'
+		'prettier',
 	),
 	...compat.env({
 		es2020: true,

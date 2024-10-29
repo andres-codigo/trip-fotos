@@ -4,8 +4,7 @@
 			:show="!!error"
 			:is-error="!!error"
 			:title="dialogTitle"
-			@close="handleError"
-		>
+			@close="handleError">
 			<p>{{ error }}</p>
 		</base-dialog>
 		<base-card>
@@ -18,8 +17,7 @@
 			<div v-else>
 				<h2>Register as a traveller now!</h2>
 				<traveller-form
-					@register-traveller="registerTraveller"
-				></traveller-form>
+					@register-traveller="registerTraveller"></traveller-form>
 			</div>
 		</base-card>
 	</section>
@@ -51,11 +49,11 @@ export default {
 			}
 
 			const registerTraveller = Promise.resolve(
-				this.$store.dispatch('travellers/registerTraveller', data)
+				this.$store.dispatch('travellers/registerTraveller', data),
 			)
 
 			const setTravellerName = Promise.resolve(
-				this.$store.dispatch('travellers/travellerName', data)
+				this.$store.dispatch('travellers/travellerName', data),
 			)
 
 			await Promise.all([registerTraveller, setTravellerName])

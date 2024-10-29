@@ -3,15 +3,13 @@
 		<div v-for="(field, key) in fields" :key="key">
 			<div
 				v-if="field.type === 'text'"
-				:class="['form-control', { invalid: !field.isValid }]"
-			>
+				:class="['form-control', { invalid: !field.isValid }]">
 				<label :for="key">{{ field.label }}</label>
 				<input
 					:id="key"
 					v-model.trim="field.val"
 					:type="field.type"
-					@blur="clearValidity(key)"
-				/>
+					@blur="clearValidity(key)" />
 
 				<p v-if="!field.isValid" :class="{ invalid: !field.isValid }">
 					{{ field.label }} must not be empty.
@@ -19,51 +17,44 @@
 			</div>
 			<div
 				v-else-if="field.type === 'textarea'"
-				:class="['form-control', { invalid: !field.isValid }]"
-			>
+				:class="['form-control', { invalid: !field.isValid }]">
 				<label :for="key">{{ field.label }}</label>
 				<textarea
 					:id="key"
 					v-model.trim="field.val"
 					:type="field.type"
 					rows="5"
-					@blur="clearValidity(key)"
-				></textarea>
+					@blur="clearValidity(key)"></textarea>
 				<p v-if="!field.isValid" :class="{ invalid: !field.isValid }">
 					{{ field.label }} must not be empty.
 				</p>
 			</div>
 			<div
 				v-else-if="field.type === 'number'"
-				:class="['form-control', { invalid: !field.isValid }]"
-			>
+				:class="['form-control', { invalid: !field.isValid }]">
 				<label :for="key">{{ field.label }}</label>
 				<input
 					:id="key"
 					v-model.number="field.val"
 					:type="field.type"
-					@blur="clearValidity(key)"
-				/>
+					@blur="clearValidity(key)" />
 				<p v-if="!field.isValid" :class="{ invalid: !field.isValid }">
 					Number of days spent in the city cannot be empty.
 				</p>
 			</div>
 			<div
 				v-else-if="field.type === 'checkbox'"
-				:class="['form-control', { invalid: !field.isValid }]"
-			>
+				:class="['form-control', { invalid: !field.isValid }]">
 				<h3 class="checkbox-label">{{ field.label }}</h3>
 				<div
 					v-for="(expertiseItem, key2) in field.areaTypes"
-					:key="key2"
-				>
+					:key="key2">
 					<input
 						:id="expertiseItem.area"
 						v-model="field.val"
 						:type="field.type"
 						:value="expertiseItem.area"
-						@blur="clearValidity('areas')"
-					/>
+						@blur="clearValidity('areas')" />
 					<label :for="expertiseItem.area">{{
 						expertiseItem.label
 					}}</label>

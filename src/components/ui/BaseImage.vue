@@ -3,8 +3,7 @@
 		:show="!!show"
 		:title="title + `'s photos`"
 		:section-classes="addImageClasses"
-		@close="toggleDialog"
-	>
+		@close="toggleDialog">
 		<img :src="url" />
 	</base-dialog>
 	<li class="image-preview" @click="toggleDialog">

@@ -4,8 +4,7 @@
 			<base-card
 				:class="{
 					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
-				}"
-			>
+				}">
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
@@ -21,8 +20,7 @@
 							v-for="area in selectedTraveller.areas"
 							:key="area"
 							:type="area"
-							:title="area"
-						></base-badge>
+							:title="area"></base-badge>
 					</div>
 				</div>
 			</base-card>
@@ -32,13 +30,11 @@
 				isNotLoggedIn || isLoggedInUser(id, $store.getters.userId)
 					? 'hide'
 					: 'show'
-			"
-		>
+			">
 			<base-card
 				:class="{
 					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
-				}"
-			>
+				}">
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
@@ -58,8 +54,7 @@
 			<base-card
 				:class="{
 					isLoggedInUser: isLoggedInUser(id, $store.getters.userId),
-				}"
-			>
+				}">
 				<div v-if="isLoading" class="spinner-container">
 					<base-spinner></base-spinner>
 				</div>
@@ -69,8 +64,7 @@
 							v-for="file in selectedTraveller.files"
 							:key="file"
 							:url="file"
-							:title="fullName"
-						></base-image>
+							:title="fullName"></base-image>
 					</ul>
 				</div>
 			</base-card>
