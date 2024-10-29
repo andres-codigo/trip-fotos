@@ -3,12 +3,13 @@
 	"version": "0.1.0",
 	"private": true,
 	"description": "Extension of Udemy's Vue - The Complete Guide (incl. Router & Composition API) 'Find a coach' project.",
+	"type": "module",
 	"scripts": {
 		"dev": "vite serve",
 		"build": "vite build",
 		"serve": "vite preview",
 		"cy:open": "cypress open",
-		"lint": "eslint",
+		"lint": "eslint src",
 		"format": "prettier .  --write"
 	},
 	"dependencies": {
@@ -17,7 +18,6 @@
 		"eslint": "^9.13.0",
 		"firebase": "^10.13.1",
 		"moment": "^2.30.1",
-		"undici": "^6.19.2",
 		"vue": "^3.4.21",
 		"vue-lazyload": "^3.0.0",
 		"vue-multiselect": "^3.1.0",
@@ -39,6 +39,7 @@
 		"sass": "^1.80.4",
 		"sass-loader": "^16.0.2",
 		"vite": "^5.4.9",
-		"vite-plugin-eslint": "^1.8.1"
+		"vite-plugin-eslint": "^1.8.1",
+		"vue-eslint-parser": "^9.4.3"
 	}
 }
