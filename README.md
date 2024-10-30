@@ -118,7 +118,7 @@ npm run lint
 npm run format
 ```
 
-## Testing
+## Cypress Testing
 
 ```
 npx cypress open
