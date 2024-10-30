@@ -106,7 +106,7 @@ VITE_ADMIN_ID=''
 npm run dev
 ```
 
-### Lints and fixes files test suite for the project
+### ESLints and fixes files test suite for the project
 
 ```
 npm run lint
