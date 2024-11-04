@@ -1,14 +1,32 @@
 describe('Trip Fotos user auth page > not logged in', () => {
+	const urls = {
+		cyAuth: Cypress.env('auth_url'),
+		trips: 'http://localhost:3000/trips',
+	}
+
+	const selectors = {
+		navHeader: '[data-cy="nav-header"]',
+		authEmail: '[data-cy="user-auth-email"]',
+		authPassword: '[data-cy="user-auth-password"]',
+		loginButton: '[data-cy="user-auth-login-button"]',
+	}
+
+	const labels = {
+		email: 'E-Mail',
+		password: 'Password',
+		login: 'Login',
+	}
+
 	beforeEach(() => {
-		cy.visit(Cypress.env('auth_url'))
+		cy.visit(urls.cyAuth)
 	})
 
 	it('Render banner', () => {
-		cy.get('[data-cy="nav-header"]').as('navHeader')
+		cy.get(selectors.navHeader).as('navHeader')
 
 		cy.get('@navHeader')
 			.should('have.class', 'header')
-			.find('.nav-header > a')
+			.find('a')
 			.then(($navHeader) => {
 				expect($navHeader.text()).to.equal('Trip Fotos')
 			})
@@ -18,22 +36,22 @@ describe('Trip Fotos user auth page > not logged in', () => {
 		cy.get('.user-authentication').as('userAuthentication')
 
 		cy.get('@userAuthentication')
-			.get('[data-cy="user-auth-email"]')
+			.find(selectors.authEmail)
 			.should('have.class', 'form-control')
 			.find('label')
 			.invoke('text')
-			.should('equal', 'E-Mail')
+			.should('equal', labels.email)
 
 		cy.get('@userAuthentication')
-			.get('[data-cy="user-auth-password"]')
+			.find(selectors.authPassword)
 			.should('have.class', 'form-control')
 			.find('label')
 			.invoke('text')
-			.should('equal', 'Password')
+			.should('equal', labels.password)
 
 		cy.get('@userAuthentication')
-			.get('[data-cy="user-auth-login-button"]')
+			.find(selectors.loginButton)
 			.invoke('text')
-			.should('equal', 'Login')
+			.should('equal', labels.login)
 	})
 })
