@@ -25,7 +25,9 @@
 						v-model.trim="email.value"
 						:type="email.type"
 						@blur="clearValidity('email')" />
-					<p v-if="!email.isValid">{{ email.message }}</p>
+					<p v-if="!email.isValid" data-cy="user-auth-email-error">
+						{{ email.message }}
+					</p>
 				</div>
 				<div
 					:class="['form-control', { invalid: !password.isValid }]"
@@ -36,7 +38,11 @@
 						v-model.trim="password.value"
 						:type="password.type"
 						@blur="clearValidity('password')" />
-					<p v-if="!password.isValid">{{ password.message }}</p>
+					<p
+						v-if="!password.isValid"
+						data-cy="user-auth-password-error">
+						{{ password.message }}
+					</p>
 				</div>
 				<base-button data-cy="user-auth-login-button">{{
 					submitButtonCaption
@@ -128,7 +134,7 @@ export default {
 				this.password.isValid = false
 				this.formIsValid = false
 				this.password.message =
-					'Your password must be minimum 8 characters long! ' +
+					'Your password must be a minimum of 8 characters long! ' +
 					difference +
 					' characters left.'
 			} else {
