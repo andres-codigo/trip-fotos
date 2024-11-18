@@ -2,12 +2,12 @@
 	<base-card>
 		<h2 class="filter-header">Filter by city</h2>
 		<div class="checkbox-container">
-			<multiselect
+			<!-- <multiselect
 				v-model="options"
 				:multiple="true"
 				:close-on-select="false"
 				:spellcheck="true"
-				:options="options"></multiselect>
+				:options="options"></multiselect> -->
 			<span
 				v-for="(v, key) in filters"
 				:key="key"
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
+// import Multiselect from 'vue-multiselect'
 
 export default {
-	components: { Multiselect },
+	// components: { Multiselect },
 	emits: ['change-filter'],
 	data() {
 		return {
@@ -61,7 +61,7 @@ export default {
 	},
 }
 </script>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<!-- <style src="vue-multiselect/dist/vue-multiselect.min.css"></style> -->
 
 <style scoped lang="scss">
 @use '../../styles/setup/mixins/mixins';
